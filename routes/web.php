@@ -21,4 +21,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('produk', ProdukController::class); // <-- Tambahkan route resource di sini agar dia ikut middleware auth
 });
 
+Route::get('/users', function () {
+    $users = User::all();
+    return $users;
+});
+
 require __DIR__.'/auth.php';
