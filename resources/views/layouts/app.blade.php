@@ -46,14 +46,15 @@
 
             <!-- Navigasi -->
             <nav class="mt-4 space-y-2">
-                <a href="#" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
+               <a href="{{ route('home') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
                     <i class="bi bi-house-door text-xl"></i>
                     <span class="sidebar-text">Beranda</span>
                 </a>
-                <a href="#" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
-                    <i class="bi bi-box-seam text-xl"></i>
-                    <span class="sidebar-text">Produk</span>
-                </a>
+                <a href="{{ route('keranjang') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
+    <i class="bi bi-cart3 text-xl"></i>
+    <span class="sidebar-text">Keranjang</span>
+</a>
+
                 <a href="#" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
                     <i class="bi bi-person text-xl"></i>
                     <span class="sidebar-text">Profil</span>
@@ -62,9 +63,10 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 overflow-auto p-6 bg-gray-50">
-            @yield('content')
-        </main>
+        <main id="mainContent" class="flex-1 overflow-auto p-6 bg-gray-50 transition-all duration-300 ease-in-out">
+    @yield('content')
+</main>
+
     </div>
 
     <!-- Script Toggle -->
@@ -88,6 +90,7 @@
                 span.classList.toggle('hidden');
             });
         });
+        
     </script>
 </body>
 

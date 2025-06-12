@@ -60,7 +60,7 @@
           <h3 class="text-sm font-medium">{{ $item['nama'] }}</h3>
           <p class="text-sm text-gray-700">Rp {{ number_format($item['harga'], 0, ',', '.') }}</p>
         </div>
-        <button class="bg-[#5E472C] text-white text-xs px-3 py-1 rounded-full hover:bg-[#463522]">Cekout</button>
+        <button class="bg-[#5E472C] text-white text-xs px-3 py-1 rounded-full hover:bg-[#463522]">Checkout</button>
       </div>
       <img src="{{ $item['img'] }}" alt="{{ $item['nama'] }}" class="rounded-lg object-cover h-32 w-full">
     </div>
