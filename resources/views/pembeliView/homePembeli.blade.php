@@ -1,0 +1,74 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="px-4 py-2 bg-white min-h-screen">
+  <!-- Search & Filter -->
+  <div class="flex justify-between items-center mt-4 mb-2">
+    <div class="flex items-center w-full max-w-md bg-gray-100 rounded-full px-4 py-2">
+      <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/>
+      </svg>
+      <input type="text" placeholder="Search" class="bg-transparent w-full px-2 focus:outline-none" />
+    </div>
+    <div class="ml-4 relative">
+      <button class="flex items-center gap-1 bg-white border border-gray-300 rounded-full px-4 py-2 text-sm">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M3 4a1 1 0 000 2h1.382l.723 1.447A1 1 0 006 8h8a1 1 0 00.895-.553L16.618 6H18a1 1 0 100-2H3zM5 10a1 1 0 000 2h10a1 1 0 100-2H5zM7 14a1 1 0 000 2h6a1 1 0 100-2H7z" />
+        </svg>
+        Filter
+      </button>
+    </div>
+  </div>
+
+  <!-- Carousel -->
+  <div class="w-full overflow-hidden rounded-3xl mb-4">
+    <div class="flex gap-2 transition-transform duration-300 ease-in-out" id="carousel">
+      <img src="/images/tenun.png" alt="" class="w-full h-56 object-cover rounded-3xl">
+      <img src="/images/nene.png" alt="" class="w-full h-56 object-cover rounded-3xl">
+    </div>
+  </div>
+
+  <!-- Kategori -->
+<!-- Kategori -->
+<h2 class="text-lg font-semibold text-brown-700 mb-2">Kategori</h2>
+<div class="flex space-x-4 overflow-x-auto pb-2">
+  @foreach (['Batik', 'Tenun', 'Bambu', 'Rotan'] as $kategori)
+    <button class="bg-[#5E472C] text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-[#3e2f1d] transition">
+      {{ $kategori }}
+    </button>
+  @endforeach
+</div>
+
+
+
+  <!-- Produk -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-6">
+    @php
+      $produk = [
+        ['nama' => 'Batik Tenun', 'harga' => 299000, 'img' => '/images/produk1.jpg'],
+        ['nama' => 'Tas Rotan', 'harga' => 205000, 'img' => '/images/produk2.jpg'],
+        ['nama' => 'Ukiran Jepara', 'harga' => 835000, 'img' => '/images/produk3.jpg'],
+        ['nama' => 'Mangkok Batok', 'harga' => 15000, 'img' => '/images/produk4.jpg'],
+        ['nama' => 'Gelas Bambu', 'harga' => 20000, 'img' => '/images/produk5.jpg'],
+        ['nama' => 'Kipas Anyaman Bambu', 'harga' => 10000, 'img' => '/images/produk6.jpg'],
+      ];
+    @endphp
+    @foreach($produk as $item)
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-2 flex flex-col">
+      <div class="flex justify-between items-center mb-2">
+        <div>
+          <h3 class="text-sm font-medium">{{ $item['nama'] }}</h3>
+          <p class="text-sm text-gray-700">Rp {{ number_format($item['harga'], 0, ',', '.') }}</p>
+        </div>
+        <button class="bg-[#5E472C] text-white text-xs px-3 py-1 rounded-full hover:bg-[#463522]">Cekout</button>
+      </div>
+      <img src="{{ $item['img'] }}" alt="{{ $item['nama'] }}" class="rounded-lg object-cover h-32 w-full">
+    </div>
+    @endforeach
+  </div>
+</div>
+
+<script>
+  // Simple carousel handler (manual or auto scroll could be added here)
+</script>
+@endsection
