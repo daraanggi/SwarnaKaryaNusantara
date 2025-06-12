@@ -30,9 +30,9 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="phone" class="block mb-1">Nomor Telepon :</label>
-                            <input id="phone" name="phone" type="text" value="{{ old('phone') }}" required class="w-full px-4 py-3 rounded-full text-black focus:outline-none" />
-                            <x-input-error :messages="$errors->get('phone')" class="mt-2 text-sm text-red-200" />
+                            <label for="no_telepon" class="block mb-1">Nomor Telepon :</label>
+                            <input id="no_telepon" name="no_telepon" type="text" value="{{ old('no_telepon') }}" required class="w-full px-4 py-3 rounded-full text-black focus:outline-none" />
+                            <x-input-error :messages="$errors->get('no_telepon')" class="mt-2 text-sm text-red-200" />
                         </div>
 
                         <div class="mb-4">

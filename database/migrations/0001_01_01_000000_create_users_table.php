@@ -9,14 +9,11 @@ return new class extends Migration{
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('name');
             $table->string('email')->unique();
             $table->integer('no_telepon');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['user', 'pengrajin'])->default('user'); // tambahan: untuk membedakan tipe user
-            $table->string('alamat')->nullable();                        // tambahan: alamat user
-            $table->string('no_hp')->nullable();                         // tambahan: nomor HP
             $table->rememberToken();
             $table->timestamps();
         });}
