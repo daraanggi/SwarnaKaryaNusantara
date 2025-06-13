@@ -47,3 +47,16 @@ Route::get('/keranjang', function () {
 Route::get('/detailBarang', function () {
     return view('pembeliView.detailBarang');
 })->name('detailBarang');
+
+
+Route::get('/manageProduct', [ProdukController::class, 'manageProduct'])->name('manageProduct');
+
+Route::get('/transactionDetail', function () {
+    return view('penjualView.transactionDetail');
+})->name('transactionDetail');
+
+Route::get('/penjual/create', [ProdukController::class, 'create'])->name('penjual.create');
+Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.stok');
+Route::get('/penjual/delete', [ProdukController::class, 'delete'])->name('penjual.delete');
+
+Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
