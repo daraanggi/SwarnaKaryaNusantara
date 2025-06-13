@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::get('/cek', function () {
+    return view('/pembeliView/pesanan');
+});
 
 Route::get('/homepage', function () {
     return view('page.homepage');
@@ -31,3 +34,16 @@ Route::get('/users', function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+
+Route::get('/homePage', function () {
+    return view('pembeliView.homePembeli');
+})->name('home');
+Route::get('/keranjang', function () {
+    return view('pembeliView.keranjang');
+})->name('keranjang');
+
+Route::get('/detailBarang', function () {
+    return view('pembeliView.detailBarang');
+})->name('detailBarang');
