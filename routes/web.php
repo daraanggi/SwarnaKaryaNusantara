@@ -8,7 +8,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 Route::get('/cek', function () {
-    return view('/pembeliView/pesanan');
+    return view('/pembeliView/checkout');
+});
+Route::get('/detail', function () {//ini buat cek detail barang view
+    return view('/pembeliView/detailBarang');
 });
 
 Route::get('/homepage', function () {
@@ -46,4 +49,14 @@ Route::get('/keranjang', function () {
 
 Route::get('/detailBarang', function () {
     return view('pembeliView.detailBarang');
-})->name('detailBarang');
+})->name('detailBarang');//kalau mau untuk pakai detail barang tinggal di pakai ini aja, panggil name ini gampang cuy
+
+
+
+Route::get('/editAlamat', function () {
+    return view('pembeliView.editAlamat');
+})->name('editAlamat');
+
+Route::get('/checkout', function () {
+    return view('pembeliView.checkout');
+})->name('checkout');
