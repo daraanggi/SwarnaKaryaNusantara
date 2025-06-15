@@ -8,7 +8,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 Route::get('/cek', function () {
-    return view('/pembeliView/checkout');
+    return view('/pembeliView/editProfile');
 });
 Route::get('/detail', function () {//ini buat cek detail barang view
     return view('/pembeliView/detailBarang');
@@ -46,6 +46,9 @@ Route::get('/homePage', function () {
 Route::get('/keranjang', function () {
     return view('pembeliView.keranjang');
 })->name('keranjang');
+Route::get('/editProfile', function () {
+    return view('pembeliView.editProfile');
+})->name('editProfile');
 
 Route::get('/detailBarang', function () {
     return view('pembeliView.detailBarang');
