@@ -54,8 +54,6 @@ Route::get('/detailBarang', function () {
     return view('pembeliView.detailBarang');
 })->name('detailBarang');//kalau mau untuk pakai detail barang tinggal di pakai ini aja, panggil name ini gampang cuy
 
-
-
 Route::get('/editAlamat', function () {
     return view('pembeliView.editAlamat');
 })->name('editAlamat');
@@ -63,8 +61,6 @@ Route::get('/editAlamat', function () {
 Route::get('/checkout', function () {
     return view('pembeliView.checkout');
 })->name('checkout');
-
-})->name('detailBarang');
 
 
 Route::get('/manageProduct', [ProdukController::class, 'manageProduct'])->name('manageProduct');
