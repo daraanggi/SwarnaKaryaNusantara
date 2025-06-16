@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
     Route::resource('produk', ProdukController::class); // <-- Tambahkan route resource di sini agar dia ikut middleware auth
 });
 
@@ -65,9 +65,28 @@ Route::get('/checkout', function () {
 
 Route::get('/manageProduct', [ProdukController::class, 'manageProduct'])->name('manageProduct');
 
+//penjualhomepage
+Route::get('/homePagePenjual', function () {
+    return view('penjualView.homePagePenjual');
+})->name('homePagePenjual');
+
+//penjualtransaksidetail
 Route::get('/transactionDetail', function () {
     return view('penjualView.transactionDetail');
 })->name('transactionDetail');
+
+//penjualorderdetail
+Route::get('/orderDetail/{invoice}', function ($invoice) {
+    $data = [
+        'invoice' => $invoice,
+        'produk'  => 'Tas Rotan',
+        'status'  => 'Pesanan Dalam Pengantaran',
+        'waktu'   => '17 Agustus 2024 15:04',
+        'jumlah'  => 2,
+        'total'   => 'Rp. 411.000',
+    ];
+    return view('penjualView.orderDetail', compact('data'));
+})->name('orderDetail');
 
 Route::get('/penjual/create', [ProdukController::class, 'create'])->name('penjual.create');
 Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.stok');
