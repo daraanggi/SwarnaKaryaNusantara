@@ -62,6 +62,13 @@ Route::get('/checkout', function () {
     return view('pembeliView.checkout');
 })->name('checkout');
 
+Route::get('/produk/detail', function () {
+    return view('page.detailBarang');
+})->name('barang.detail');
+
+Route::get('/homepage', function () {
+    return view('page.homepage');
+})->name('homepage');
 
 Route::get('/manageProduct', [ProdukController::class, 'manageProduct'])->name('manageProduct');
 
