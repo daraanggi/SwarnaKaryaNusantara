@@ -63,3 +63,19 @@ Route::get('/editAlamat', function () {
 Route::get('/checkout', function () {
     return view('pembeliView.checkout');
 })->name('checkout');
+
+})->name('detailBarang');
+
+
+Route::get('/manageProduct', [ProdukController::class, 'manageProduct'])->name('manageProduct');
+
+Route::get('/transactionDetail', function () {
+    return view('penjualView.transactionDetail');
+})->name('transactionDetail');
+
+Route::get('/penjual/create', [ProdukController::class, 'create'])->name('penjual.create');
+Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.stok');
+Route::get('/penjual/delete', [ProdukController::class, 'delete'])->name('penjual.delete');
+
+Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
+
