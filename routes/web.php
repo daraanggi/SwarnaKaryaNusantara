@@ -63,6 +63,10 @@ Route::get('/checkout', function () {
     return view('pembeliView.checkout');
 })->name('checkout');
 
+Route::get('/profilePembeli', function () {
+    return view('pembeliView.profilePembeli');
+})->name('profilePembeli');
+
 Route::get('/produk/detail', function () {
     return view('page.detailBarang');
 })->name('barang.detail');
