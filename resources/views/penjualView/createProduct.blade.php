@@ -45,10 +45,6 @@
                 <label for="gambar" class="block font-medium mb-1">Lampirkan Gambar:</label>
                 <input type="file" name="gambar" id="gambar" accept="image/*" class="text-black">
             </div>
-            <div>
-                <label for="video" class="block font-medium mb-1">Lampirkan Video (opsional):</label>
-                <input type="file" name="video" id="video" accept="video/*" class="text-black">
-            </div>
         </div>
 
         <!-- Tombol -->
