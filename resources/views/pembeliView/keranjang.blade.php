@@ -18,10 +18,10 @@
 <div class="ml-64 px-4 py-4 space-y-4 pt-20 pb-36 transition-all duration-300" id="cart">
     @php
         $items = [
-            ['id' => 1, 'name' => 'Kipas Anyaman Bambu', 'price' => 10000, 'qty' => 5, 'img' => 'nene.png'],
-            ['id' => 2, 'name' => 'Ukiran Jepara', 'price' => 835000, 'qty' => 1, 'img' => 'gelas.png'],
+            ['id' => 1, 'name' => 'Kipas Anyaman Bambu', 'price' => 10000, 'qty' => 1, 'img' => 'kipas.png'],
+            ['id' => 2, 'name' => 'Ukiran Jepara', 'price' => 835000, 'qty' => 1, 'img' => 'patung.png'],
             ['id' => 3, 'name' => 'Tas Rotan', 'price' => 205000, 'qty' => 1, 'img' => 'tas.png'],
-            ['id' => 4, 'name' => 'Batik Tenun', 'price' => 299000, 'qty' => 1, 'img' => 'tenun.png'],
+            ['id' => 4, 'name' => 'Batik Tenun', 'price' => 299000, 'qty' => 1, 'img' => 'kain.png'],
         ];
     @endphp
 
