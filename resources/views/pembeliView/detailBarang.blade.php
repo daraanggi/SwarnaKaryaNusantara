@@ -3,10 +3,20 @@
 @section('title', 'Detail Produk')
 
 @section('content')
+@php
+    $nama = request('nama', 'Nama Produk');
+    $harga = request('harga', 0);
+    $img = request('img', '/images/default.png');
+@endphp
+
 <!-- Header -->
 <div id="headerKeranjang" class="fixed top-0 right-0 z-50 flex justify-between items-center px-4 py-3 bg-[#69553E] text-white font-bold text-lg transition-all duration-300" style="margin-left: 16rem; width: calc(100% - 16rem);">
     <div class="flex items-center space-x-2">
-        <svg class="w-6 h-6 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"></svg>
+        <a href="{{ url()->previous() }}" class="rotate-180">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+        </a>
         <span>Detail Barang</span>
     </div>
     <img src="/images/logo.png" class="w-10 h-10 rounded-full bg-white object-contain" />
@@ -15,21 +25,21 @@
 <!-- Konten Utama -->
 <div id="mainContentWrapper" class="transition-all duration-300" style="margin-left: 16rem;">
     <div class="px-8 pt-20 pb-20">
-        <div class="bg-white shadow rounded-xl flex gap-8 p-6">
+        <div class="bg-white shadow rounded-xl flex flex-col md:flex-row gap-8 p-6">
             <!-- Gambar Produk -->
             <div class="flex-1">
-                <img src="/images/nene.png" class="rounded-xl object-cover w-full max-h-[500px]" alt="Batik Tenun">
+                <img src="{{ $img }}" class="rounded-xl object-cover w-full max-h-[500px]" alt="{{ $nama }}">
                 <p class="text-sm text-gray-500 font-semibold mt-2">10RB+ Terjual</p>
             </div>
 
             <!-- Detail Produk -->
             <div class="flex-1 space-y-4">
-                <h1 class="text-2xl font-bold text-gray-900">Batik Tenun</h1>
+                <h1 class="text-2xl font-bold text-gray-900">{{ $nama }}</h1>
                 <p class="text-sm text-gray-700">
-                    Nikmati keindahan budaya dalam setiap helai kain tenun kami yang elegan, berkualitas,
+                    Nikmati keindahan budaya dalam setiap helai kerajinan kami yang elegan, berkualitas,
                     dan dibuat dengan penuh cinta oleh tangan-tangan terampil nusantara.
                 </p>
-                <p class="text-xl font-bold text-[#6B4F3B]">Rp 299.000</p>
+                <p class="text-xl font-bold text-[#6B4F3B]">Rp {{ number_format($harga, 0, ',', '.') }}</p>
 
                 <div class="space-y-1">
                     <p class="font-semibold text-lg">Pengiriman</p>
