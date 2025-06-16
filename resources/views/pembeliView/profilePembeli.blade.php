@@ -23,7 +23,7 @@
         <!-- Nama dan Edit -->
         <div class="text-center mt-4">
             <h2 class="text-xl font-bold">Stella Natalia</h2>
-            <a href="{{ url('/profilePembeli/edit') }}" class="text-sm underline text-gray-200 hover:text-white">Edit</a>
+            <a href="{{ route('editProfile') }}" class="text-sm underline text-gray-200 hover:text-white">Edit</a>
         </div>
 
         <!-- Edit Form -->

@@ -55,7 +55,7 @@
     <span class="sidebar-text">Keranjang</span>
 </a>
 
-                <a href="{{ route('editProfile') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
+                <a href="{{ route('profilePembeli') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
                     <i class="bi bi-person text-xl"></i>
                     <span class="sidebar-text">Profil</span>
                 </a>
