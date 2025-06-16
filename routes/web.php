@@ -8,7 +8,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 Route::get('/cek', function () {
-    return view('/pembeliView/pesanan');
+    return view('/pembeliView/editProfile');
+});
+Route::get('/detail', function () {//ini buat cek detail barang view
+    return view('/pembeliView/detailBarang');
 });
 
 Route::get('/homepage', function () {
@@ -43,9 +46,24 @@ Route::get('/homePage', function () {
 Route::get('/keranjang', function () {
     return view('pembeliView.keranjang');
 })->name('keranjang');
+Route::get('/editProfile', function () {
+    return view('pembeliView.editProfile');
+})->name('editProfile');
 
 Route::get('/detailBarang', function () {
     return view('pembeliView.detailBarang');
+})->name('detailBarang');//kalau mau untuk pakai detail barang tinggal di pakai ini aja, panggil name ini gampang cuy
+
+
+
+Route::get('/editAlamat', function () {
+    return view('pembeliView.editAlamat');
+})->name('editAlamat');
+
+Route::get('/checkout', function () {
+    return view('pembeliView.checkout');
+})->name('checkout');
+
 })->name('detailBarang');
 
 
@@ -60,3 +78,4 @@ Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.st
 Route::get('/penjual/delete', [ProdukController::class, 'delete'])->name('penjual.delete');
 
 Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
+
