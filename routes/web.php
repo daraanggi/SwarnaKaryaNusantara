@@ -63,6 +63,11 @@ Route::get('/checkout', function () {
     return view('pembeliView.checkout');
 })->name('checkout');
 
+Route::get('/profilePembeli', function () {
+    return view('pembeliView.profilePembeli');
+})->name('profilePembeli');
+
+
 
 Route::get('/manageProduct', [ProdukController::class, 'manageProduct'])->name('manageProduct');
 
