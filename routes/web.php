@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProdukController;  // <-- Tambahkan ini
+//use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -106,6 +107,9 @@ Route::get('/orderDetail/{invoice}', function ($invoice) {
     ];
     return view('penjualView.orderDetail', compact('data'));
 })->name('orderDetail');
+
+//Route::get('/orderDetail/{invoice}', [OrderController::class, 'showDetail'])->name('orderDetail');
+
 
 Route::get('/penjual/create', [ProdukController::class, 'create'])->name('penjual.create');
 Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.stok');
