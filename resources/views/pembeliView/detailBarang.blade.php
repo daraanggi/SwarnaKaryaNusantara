@@ -50,7 +50,7 @@
                     <span class="font-medium text-lg">Jumlah</span>
                     <div class="flex border rounded">
                         <button id="minus" class="bg-[#6B4F3B] text-white w-8 h-8">−</button>
-                        <input type="text" id="jumlah" value="1" readonly class="w-10 text-center border-x bg-white">
+                        <input type="text" id="jumlah" name="jumlah" value="1" readonly class="w-10 text-center border-x bg-white">
                         <button id="plus" class="bg-[#6B4F3B] text-white w-8 h-8">+</button>
                     </div>
                 </div>
@@ -60,50 +60,37 @@
                         Masukan Keranjang
                         <i class="bi bi-cart-plus"></i>
                     </button>
-                    <button class="px-4 py-2 bg-[#6B4F3B] text-white font-semibold rounded shadow">
-                        Beli Sekarang
-                    </button>
+
+                    <!-- FORM BELI SEKARANG -->
+                    <form method="GET" action="{{ route('checkout') }}">
+                        <input type="hidden" name="img" value="{{ $img }}">
+                        <input type="hidden" name="nama" value="{{ $nama }}">
+                        <input type="hidden" name="harga" value="{{ $harga }}">
+                        <input type="hidden" name="jumlah" id="jumlahHidden" value="1">
+                        <button type="submit" class="px-4 py-2 bg-[#6B4F3B] text-white font-semibold rounded shadow">
+                            Beli Sekarang
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Script -->
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const qtyInput = document.getElementById('jumlah');
-        document.getElementById('plus').onclick = () => qtyInput.value = parseInt(qtyInput.value) + 1;
-        document.getElementById('minus').onclick = () => {
-            if (parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value) - 1;
+        const qtyHidden = document.getElementById('jumlahHidden');
+        document.getElementById('plus').onclick = () => {
+            qtyInput.value = parseInt(qtyInput.value) + 1;
+            qtyHidden.value = qtyInput.value;
         };
-
-        const toggleBtn = document.getElementById('toggleSidebar');
-        const header = document.getElementById('headerKeranjang');
-        const mainWrapper = document.getElementById('mainContentWrapper');
-
-        function updateLayout() {
-            const collapsed = document.body.classList.contains('sidebar-collapsed');
-
-            if (collapsed) {
-                header.style.marginLeft = '4rem';
-                header.style.width = 'calc(100% - 4rem)';
-                mainWrapper.style.marginLeft = '4rem';
-            } else {
-                header.style.marginLeft = '16rem';
-                header.style.width = 'calc(100% - 16rem)';
-                mainWrapper.style.marginLeft = '16rem';
+        document.getElementById('minus').onclick = () => {
+            if (parseInt(qtyInput.value) > 1) {
+                qtyInput.value = parseInt(qtyInput.value) - 1;
+                qtyHidden.value = qtyInput.value;
             }
-        }
-
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
-                document.body.classList.toggle('sidebar-collapsed');
-                setTimeout(updateLayout, 50);
-            });
-        }
-
-        updateLayout(); // initial setup
+        };
     });
 </script>
 @endsection
