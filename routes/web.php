@@ -30,15 +30,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('produk', ProdukController::class); // <-- Tambahkan route resource di sini agar dia ikut middleware auth
-});
 
-Route::get('/users', function () {
-    $users = User::all();
-    return $users;
-});
+    Route::get('/dashboard-pembeli', function () {
+        return view('pembeliView.homePembeli');
+    })->name('pembeli.dashboard');
 
+    Route::get('/dashboard-penjual', function () {
+        return view('penjualView.homePagePenjual');
+    })->name('penjual.dashboard');
+});
 require __DIR__.'/auth.php';
 
+
+// Route::get('/users', function () {
+//     $users = User::all();
+//     return $users;
+// });
 
 
 Route::get('/homePage', function () {
