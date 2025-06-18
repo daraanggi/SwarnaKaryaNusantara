@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\ProdukController;  // <-- Tambahkan ini
 //use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Produk;
@@ -40,7 +39,6 @@ Route::middleware('auth')->group(function () {
     // Route::get('/dashboard-penjual', function () {
     //     return view('penjualView.homePagePenjual');
     // })->name('penjual.dashboard');
-});
 require __DIR__.'/auth.php';
 
 
