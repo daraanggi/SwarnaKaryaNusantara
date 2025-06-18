@@ -130,3 +130,8 @@ Route::get('/ulasanPembeli', function () {
     return view('pembeliView.ulasanPembeli');
 
 })->name('ulasanPembeli');
+
+Route::get('/editProfilePenjual', function () {
+    return view('penjualView.editProfilePenjual');
+});
+
