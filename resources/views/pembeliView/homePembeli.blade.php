@@ -44,7 +44,8 @@
      Harga Tertinggi
   </a>
 </li>
-
+          <li><button class="block w-full text-left px-4 py-2 hover:bg-gray-100">Harga Terendah</button></li>
+          <li><button class="block w-full text-left px-4 py-2 hover:bg-gray-100">Harga Tertinggi</button></li>
         </ul>
       </div>
     </div>

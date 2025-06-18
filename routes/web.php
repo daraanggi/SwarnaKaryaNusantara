@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\ProdukController;  // <-- Tambahkan ini
+//use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Produk;
 
@@ -29,11 +31,28 @@ Route::middleware('auth')->group(function () {
     Route::resource('produk', ProdukController::class);
 });
 
-Route::get('/users', function () {
-    $users = User::all();
-    return $users;
-});
+    Route::resource('produk', ProdukController::class); // <-- Tambahkan route resource di sini agar dia ikut middleware auth
 
+    Route::get('/dashboard-pembeli', function () {
+        return view('pembeliView.homePembeli');
+    })->name('pembeli.dashboard');
+
+    Route::get('/dashboard-penjual', function () {
+        return view('penjualView.homePagePenjual');
+    })->name('penjual.dashboard');
+});
+require __DIR__.'/auth.php';
+
+
+// Route::get('/users', function () {
+//     $users = User::all();
+//     return $users;
+// });
+
+
+Route::get('/homePage', function () {
+    return view('pembeliView.homePembeli');
+})->name('home');
 Route::get('/keranjang', function () {
     return view('pembeliView.keranjang');
 })->name('keranjang');
@@ -82,9 +101,25 @@ Route::get('/orderDetail/{invoice}', function ($invoice) {
     return view('penjualView.orderDetail', compact('data'));
 })->name('orderDetail');
 
+//Route::get('/orderDetail/{invoice}', [OrderController::class, 'showDetail'])->name('orderDetail');
+
+
 Route::get('/penjual/create', [ProdukController::class, 'create'])->name('penjual.create');
 Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.stok');
 Route::get('/penjual/delete', [ProdukController::class, 'delete'])->name('penjual.delete');
 Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
 
 require __DIR__.'/auth.php';
+// Route untuk halaman pesanan
+Route::get('/pesananPembeli', function () {
+
+    return view('pembeliView.pesananPembeli');
+
+})->name('pesananPembeli');
+
+// Route untuk halaman ulasan
+Route::get('/ulasanPembeli', function () {
+
+    return view('pembeliView.ulasanPembeli');
+
+})->name('ulasanPembeli');
