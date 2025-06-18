@@ -33,19 +33,17 @@
       <div id="filterDropdown" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
         <ul class="text-sm text-gray-700">
           <li>
-  <a href="{{ route('home', ['search' => request('search'), 'sort' => 'asc']) }}"
-     class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-     Harga Terendah
-  </a>
-</li>
-<li>
-  <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc']) }}"
-     class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-     Harga Tertinggi
-  </a>
-</li>
-          <li><button class="block w-full text-left px-4 py-2 hover:bg-gray-100">Harga Terendah</button></li>
-          <li><button class="block w-full text-left px-4 py-2 hover:bg-gray-100">Harga Tertinggi</button></li>
+          <a href="{{ route('home', ['search' => request('search'), 'sort' => 'asc']) }}"
+            class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+            Harga Terendah
+          </a>
+        </li>
+      <li>
+        <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc']) }}"
+        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+        Harga Tertinggi
+      </a>
+      </li>
         </ul>
       </div>
     </div>
