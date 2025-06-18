@@ -22,7 +22,7 @@
 
                     {{-- Form tambah stok --}}
                     <td class="border px-4 py-2">
-                        <form method="POST" action="{{ route('produk.tambahStok', $item->id) }}">
+                        <form method="POST" action="{{ route('produk.tambahStok', ['id' => $item->id_produk]) }}">
                             @csrf
                             <input type="number" name="jumlah" min="1" class="w-20 px-2 py-1 rounded text-black" required>
                             <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded">+</button>
@@ -31,7 +31,7 @@
 
                     {{-- Hapus produk --}}
                     <td class="border px-4 py-2">
-                        <form action="{{ route('produk.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin hapus produk?')">
+                        <form action="{{ route('produk.destroy', $item->id_produk) }}" method="POST" onsubmit="return confirm('Yakin hapus produk?')">
                             @csrf
                             @method('DELETE')
                             <button class="bg-red-500 text-white px-3 py-1 rounded">Hapus</button>

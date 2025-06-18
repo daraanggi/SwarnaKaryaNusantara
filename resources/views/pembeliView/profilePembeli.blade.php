@@ -22,14 +22,14 @@
 
         <!-- Nama dan Edit -->
         <div class="text-center mt-4">
-            <h2 class="text-xl font-bold">Stella Natalia</h2>
+            <h2 class="text-xl font-bold">{{ auth()->user()->name }}</h2>
             <a href="{{ route('editProfile') }}" class="text-sm underline text-gray-200 hover:text-white">Edit</a>      
         </div>
 
         <!-- Edit Form -->
         <form id="editForm" class="mt-4 hidden text-black" onsubmit="event.preventDefault(); alert('Profil diubah!')">
-            <input type="text" placeholder="Nama baru" class="w-full rounded p-2 mb-2">
-            <input type="email" placeholder="Email baru" class="w-full rounded p-2 mb-2">
+            <input type="text" name="name" value="{{ auth()->user()->name }}" class="w-full rounded p-2 mb-2">
+            <input type="email" name="email" value="{{ auth()->user()->email }}" class="w-full rounded p-2 mb-2">
             <button class="bg-[#B08B5E] hover:bg-[#a67c52] text-white py-2 px-4 rounded w-full">Simpan</button>
         </form>
 
