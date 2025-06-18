@@ -3,24 +3,25 @@
 @section('title', 'Edit Profil')
 
 @section('content')
-<div id="headerProfil" class="fixed top-0 right-0 z-50 flex justify-between items-center px-4 py-3 bg-[#69553E] text-white font-bold text-base sm:text-lg transition-all duration-300 w-full">
+<!-- <div id="headerProfil" class="fixed top-0 right-0 z-50 flex justify-between items-center px-4 py-3 bg-[#69553E] text-white font-bold text-base sm:text-lg transition-all duration-300 w-full">
     <div class="flex items-center space-x-2">
         <svg class="w-5 h-5 sm:w-6 sm:h-6 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         </svg>
         <span>Edit Profil</span>
     </div>
     <img src="/images/logo.png" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white object-contain" />
-</div>
+</div> -->
 
-<div id="mainContentWrapper" class="transition-all duration-300 w-full pt-20">
-<div class="border rounded-lg p-4 sm:p-6 bg-white space-y-4 max-w-sm mx-auto">
+<div id="mainContentWrapper" class="flex items-center justify-center min-h-screen w-full overflow-hidden">
+    <div class="border rounded-lg p-4 sm:p-6 bg-white space-y-4 w-full max-w-md">
 
-    <div class="flex justify-center">
-        <div class="relative inline-block">
-            <img src="/images/avatar.png" alt="User Avatar"
-                class="w-20 h-20 rounded-full border-2 border-[#69553E] object-cover">
+    <!-- Avatar -->
+        <div class="flex justify-center">
+            <div class="relative">
+                <img src="/images/avatar.png" alt="User Avatar"
+                    class="w-24 h-24 rounded-full border-4 border-[#69553E] object-cover shadow">
+            </div>
         </div>
-    </div>
 
     <h2 class="text-base sm:text-lg font-semibold text-[#69553E] text-left">Informasi Pengguna</h2>
 
@@ -123,9 +124,9 @@
             } else {
                 sidebar?.classList.remove('w-16');
                 sidebar?.classList.add('w-64');
-                header.style.marginLeft = '16rem';
-                header.style.width = 'calc(100% - 16rem)';
-                mainWrapper.style.marginLeft = '16rem';
+                header.style.marginLeft = 'rem';
+                header.style.width = 'calc(100% - 4rem)';
+                mainWrapper.style.marginLeft = '4rem';
             }
         }
 

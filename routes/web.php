@@ -1,4 +1,4 @@
-<?php
+<?phphttps://github.com/daraanggi/SwarnaKaryaNusantara/pull/31/conflict?name=routes%252Fweb.php&ancestor_oid=53d5c3dee84c7ab9dd3227a556bae29917155090&base_oid=e759f8ff48245a7f9e3c2d9e16c480ad2e368b17&head_oid=8cca861fd516be110319aac47d793e4a4e685778
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProdukController;
@@ -127,3 +127,6 @@ Route::get('/ulasanPembeli', function () {
     return view('pembeliView.ulasanPembeli');
 })->name('ulasanPembeli');
 
+Route::get('/editProfilePenjual', function () {
+    return view('penjualView.editProfilePenjual');
+});

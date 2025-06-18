@@ -49,6 +49,12 @@
                     <i class="bi bi-receipt text-xl"></i>
                     <span class="sidebar-text">Transaction Detail</span>
                 </a>
+
+                <!-- Menu Profile -->
+                <a href="{{ url('/editProfilePenjual') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
+                    <i class="bi bi-person-circle text-xl"></i>
+                    <span class="sidebar-text">Profile</span>
+                </a>
             </nav>
         </aside>
 
