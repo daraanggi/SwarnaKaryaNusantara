@@ -12,7 +12,7 @@
 
                 <!-- Kolom Kanan (Form) -->
                 <div class="w-full lg:w-1/2 p-10 bg-[#7B5E3C] text-white">
-                    <h2 class="text-3xl font-bold text-center mb-8">MASUK AKUN PELANGGAN</h2>
+                    <h2 class="text-3xl font-bold text-center mb-8">MASUK AKUN</h2>
 
                     <!-- Session Status -->
                     <x-auth-session-status class="mb-4 text-yellow-300" :status="session('status')" />
@@ -63,18 +63,12 @@
                             </label>
                         </div>
 
-                        <!-- Link lupa password + tombol masuk di bawah form -->
+                        <!-- Baris untuk tombol Masuk dan link Daftar -->
                         <div class="flex justify-between items-center mt-6">
-                            <div class="text-sm">
-                                @if (Route::has('password.request'))
-                                    <a
-                                        class="underline text-yellow-300 hover:text-yellow-400 focus:outline-none"
-                                        href="{{ route('password.request') }}"
-                                    >
-                                        {{ __('Lupa password?') }}
-                                    </a>
-                                @endif
-                            </div>
+                            <p class="text-white mt-0">
+                                Belum punya akun?
+                                <a href="{{ route('register') }}" class="text-yellow-300 hover:underline">Daftar</a>
+                            </p>
 
                             <button
                                 type="submit"
@@ -83,12 +77,6 @@
                                 Masuk
                             </button>
                         </div>
-
-                        <!-- Bagian Belum punya akun -->
-                        <p class="text-white mt-0">
-                            Belum punya akun?
-                            <a href="{{ route('register') }}" class="text-yellow-300 hover:underline">Daftar</a>
-                        </p>
                     </form>
                 </div>
 
