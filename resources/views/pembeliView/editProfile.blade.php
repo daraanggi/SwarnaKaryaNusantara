@@ -28,26 +28,26 @@
     <form id="formProfil" class="space-y-4">
         <div>
             <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-            <input id="name" name="name" type="text" value="Dara Anggi Puspa"
-                class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
+            <input id="name" name="name" type="text" value="{{ auth()->user()->name }}"
+            class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
         </div>
 
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input id="email" name="email" type="email" value="dara@example.com"
-                class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
+            <input id="email" name="email" type="email" value="{{ auth()->user()->email }}"
+            class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
         </div>
 
         <div>
             <label for="no_telepon" class="block text-sm font-medium text-gray-700">No. Telepon</label>
-            <input id="no_telepon" name="no_telepon" type="text" value="+62 85634879124"
-                class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
+            <input id="no_telepon" name="no_telepon" type="text" value="{{ auth()->user()->no_telepon }}"
+            class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
         </div>
 
         <div>
             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
             <input id="password" name="password" type="password" value="******"
-                class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
+            class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
         </div>
 
         <div class="flex justify-end gap-2 pt-4">
