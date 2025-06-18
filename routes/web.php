@@ -20,9 +20,9 @@ Route::get('/homepage', function () {
     return view('page.homepage');
 })->middleware(['auth', 'verified'])->name('page.homepage');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -32,13 +32,13 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('produk', ProdukController::class); // <-- Tambahkan route resource di sini agar dia ikut middleware auth
 
-    Route::get('/dashboard-pembeli', function () {
-        return view('pembeliView.homePembeli');
-    })->name('pembeli.dashboard');
+    // Route::get('/dashboard-pembeli', function () {
+    //     return view('pembeliView.homePembeli');
+    // })->name('pembeli.dashboard');
 
-    Route::get('/dashboard-penjual', function () {
-        return view('penjualView.homePagePenjual');
-    })->name('penjual.dashboard');
+    // Route::get('/dashboard-penjual', function () {
+    //     return view('penjualView.homePagePenjual');
+    // })->name('penjual.dashboard');
 });
 require __DIR__.'/auth.php';
 
@@ -52,9 +52,11 @@ require __DIR__.'/auth.php';
 Route::get('/homePage', function () {
     return view('pembeliView.homePembeli');
 })->name('home');
+
 Route::get('/keranjang', function () {
     return view('pembeliView.keranjang');
 })->name('keranjang');
+
 Route::get('/editProfile', function () {
     return view('pembeliView.editProfile');
 })->name('editProfile');
@@ -79,9 +81,9 @@ Route::get('/produk/detail', function () {
     return view('page.detailBarang');
 })->name('barang.detail');
 
-Route::get('/homepage', function () {
-    return view('page.homepage');
-})->name('homepage');
+// Route::get('/homepage', function () {
+//     return view('page.homepage');
+// })->name('homepage');
 
 Route::get('/manageProduct', [ProdukController::class, 'manageProduct'])->name('manageProduct');
 
@@ -119,14 +121,10 @@ Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])
 
 // Route untuk halaman pesanan
 Route::get('/pesananPembeli', function () {
-
     return view('pembeliView.pesananPembeli');
-
 })->name('pesananPembeli');
 
 // Route untuk halaman ulasan
 Route::get('/ulasanPembeli', function () {
-
     return view('pembeliView.ulasanPembeli');
-
 })->name('ulasanPembeli');
