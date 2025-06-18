@@ -23,7 +23,7 @@
         <!-- Nama dan Edit -->
         <div class="text-center mt-4">
             <h2 class="text-xl font-bold">Stella Natalia</h2>
-            <a href="{{ route('editProfile') }}" class="text-sm underline text-gray-200 hover:text-white">Edit</a>
+            <a href="{{ route('editProfile') }}" class="text-sm underline text-gray-200 hover:text-white">Edit</a>      
         </div>
 
         <!-- Edit Form -->
@@ -42,7 +42,7 @@
         <!-- Fitur Pesanan & Ulasan -->
         <div class="flex justify-around mt-6 text-white">
             <!-- Fitur Pesanan -->
-            <a href="{{ url('/profilePembeli/pesanan') }}" class="text-center hover:text-gray-300">
+             <a href="{{ route('pesananPembeli') }}" class="text-center hover:text-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M20 6H4V4h16v2zM4 8h16v12H4V8zm4 2h8v2H8v-2z"/>
                 </svg>
@@ -50,7 +50,7 @@
             </a>
 
             <!-- Fitur Ulasan -->
-            <a href="{{ url('/profilePembeli/ulasan') }}" class="text-center hover:text-gray-300">
+             <a href="{{ route('ulasanPembeli') }}" class="text-center hover:text-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M21 11.5a8.38 8.38 0 01-1.9.5 4.19 4.19 0 001.8-2.3 8.38 8.38 0 01-2.6 1 4.19 4.19 0 00-7.1 3.8A11.87 11.87 0 013 6s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.4 4.4 0 00-.1-.9A6.3 6.3 0 0021 11.5z"/>
                 </svg>

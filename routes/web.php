@@ -117,3 +117,16 @@ Route::get('/penjual/delete', [ProdukController::class, 'delete'])->name('penjua
 
 Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
 
+// Route untuk halaman pesanan
+Route::get('/pesananPembeli', function () {
+
+    return view('pembeliView.pesananPembeli');
+
+})->name('pesananPembeli');
+
+// Route untuk halaman ulasan
+Route::get('/ulasanPembeli', function () {
+
+    return view('pembeliView.ulasanPembeli');
+
+})->name('ulasanPembeli');
