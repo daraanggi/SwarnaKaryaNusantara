@@ -28,13 +28,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('produk', ProdukController::class);
 });
 
-// Halaman ulasan
-Route::get('/ulasan', function () {
-    $produk = Produk::first();
-    return view('pembeliView.ulasan', ['produk' => $produk]);
-})->name('ulasan.form');
+// // Halaman ulasan
+// Route::get('/ulasan', function () {
+//     $produk = Produk::first();
+//     return view('pembeliView.ulasan', ['produk' => $produk]);
+// })->name('ulasan.form');
 
 Route::post('/ulasan', [UlasanController::class, 'store'])->name('ulasan.store');
+
+Route::get('/ulasan', [UlasanController::class, 'index'])->name('ulasan.index');
 
 // Halaman pembeli lainnya
 Route::get('/keranjang', function () {

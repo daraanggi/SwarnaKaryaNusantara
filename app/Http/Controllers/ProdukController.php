@@ -21,6 +21,10 @@ class ProdukController extends Controller
         if ($request->has('search') && $request->search != '') {
             $query->where('nama', 'like', '%' . $request->search . '%');
         }
+        // Filter kategori
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
 
         // Filter berdasarkan urutan harga
         if ($request->sort === 'asc') {
@@ -56,7 +60,7 @@ class ProdukController extends Controller
         }
         Produk::create($validated);
 
-        return redirect()->route('manageProduct')->with('success', 'Produk berhasil ditambahkan');
+    return redirect()->route('manageProduct')->with('success', 'Produk berhasil ditambahkan!');
     }
 
     public function tambahStok(Request $request, $id)
