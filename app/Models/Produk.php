@@ -20,5 +20,4 @@ class Produk extends Model
     {
         return $this->hasMany(DetailTransaksi::class, 'id_produk', 'id_produk');
     }
-
 }

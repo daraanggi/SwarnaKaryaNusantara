@@ -1,7 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex justify-center mt-10">
+<!-- Header -->
+<div id="headerProfile" class="fixed top-0 right-0 z-50 flex justify-between items-center px-4 py-3 bg-[#69553E] text-white font-bold text-lg transition-all duration-300 ml-64 w-[calc(100%-16rem)]">
+    <div class="flex items-center space-x-2">
+        <svg class="w-6 h-6 rotate-180" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24">
+        </svg>
+        <span>Profile Saya</span>
+    </div>
+    <img src="/images/logo.png" class="w-10 h-10 rounded-full bg-white object-contain"/>
+</div>
+
+<div class="flex justify-center pt-24">
     <div class="w-full max-w-2xl bg-[#7A5C3C] rounded-lg shadow-md p-6 text-white relative">
         <!-- Icon Lokasi - Buka Form Alamat -->
         <div class="absolute top-4 right-4 cursor-pointer" onclick="toggleAlamatForm()">
@@ -11,7 +22,7 @@
         </div>
 
         <!-- Profile Icon -->
-        <div class="flex justify-center -mt-16">
+        <div class="flex justify-center mt-0">
             <div class="bg-[#7A5C3C] border-4 border-white rounded-full p-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <circle cx="12" cy="7" r="4"/>
@@ -22,14 +33,14 @@
 
         <!-- Nama dan Edit -->
         <div class="text-center mt-4">
-            <h2 class="text-xl font-bold">Stella Natalia</h2>
+            <h2 class="text-xl font-bold">{{ auth()->user()->name }}</h2>
             <a href="{{ route('editProfile') }}" class="text-sm underline text-gray-200 hover:text-white">Edit</a>      
         </div>
 
         <!-- Edit Form -->
         <form id="editForm" class="mt-4 hidden text-black" onsubmit="event.preventDefault(); alert('Profil diubah!')">
-            <input type="text" placeholder="Nama baru" class="w-full rounded p-2 mb-2">
-            <input type="email" placeholder="Email baru" class="w-full rounded p-2 mb-2">
+            <input type="text" name="name" value="{{ auth()->user()->name }}" class="w-full rounded p-2 mb-2">
+            <input type="email" name="email" value="{{ auth()->user()->email }}" class="w-full rounded p-2 mb-2">
             <button class="bg-[#B08B5E] hover:bg-[#a67c52] text-white py-2 px-4 rounded w-full">Simpan</button>
         </form>
 
@@ -94,5 +105,31 @@
     function toggleUlasan() {
         document.getElementById('ulasanContent').classList.toggle('hidden');
     }
+
+   document.addEventListener('DOMContentLoaded', function () {
+        const header = document.getElementById('headerProfile');
+        const toggleBtn = document.getElementById('toggleSidebar');
+
+        function updateLayout() {
+            const collapsed = document.body.classList.contains('sidebar-collapsed');
+            const margin = collapsed ? 'ml-16' : 'ml-64';
+            const width = collapsed ? 'w-[calc(100%-4rem)]' : 'w-[calc(100%-16rem)]';
+
+            if (!header) return;
+
+            header.classList.remove('ml-64', 'ml-16', 'w-[calc(100%-16rem)]', 'w-[calc(100%-4rem)]');
+            header.classList.add(margin, width);
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                document.body.classList.toggle('sidebar-collapsed');
+                setTimeout(updateLayout, 100); // biarkan animasi sidebar jalan dulu
+            });
+        }
+
+        // Jalankan saat pertama load
+        updateLayout();
+    });
 </script>
 @endsection

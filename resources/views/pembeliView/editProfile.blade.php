@@ -3,50 +3,51 @@
 @section('title', 'Edit Profil')
 
 @section('content')
-<div id="headerProfil" class="fixed top-0 right-0 z-50 flex justify-between items-center px-4 py-3 bg-[#69553E] text-white font-bold text-base sm:text-lg transition-all duration-300 w-full">
+<!-- <div id="headerProfil" class="fixed top-0 right-0 z-50 flex justify-between items-center px-4 py-3 bg-[#69553E] text-white font-bold text-base sm:text-lg transition-all duration-300 w-full">
     <div class="flex items-center space-x-2">
         <svg class="w-5 h-5 sm:w-6 sm:h-6 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         </svg>
         <span>Edit Profil</span>
     </div>
     <img src="/images/logo.png" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white object-contain" />
-</div>
+</div> -->
 
-<div id="mainContentWrapper" class="transition-all duration-300 w-full pt-20">
-<div class="border rounded-lg p-4 sm:p-6 bg-white space-y-4 max-w-sm mx-auto">
+<div id="mainContentWrapper" class="flex items-center justify-center min-h-screen w-full overflow-hidden">
+    <div class="border rounded-lg p-4 sm:p-6 bg-white space-y-4 w-full max-w-md">
 
-    <div class="flex justify-center">
-        <div class="relative inline-block">
-            <img src="/images/avatar.png" alt="User Avatar"
-                class="w-20 h-20 rounded-full border-2 border-[#69553E] object-cover">
+    <!-- Avatar -->
+        <div class="flex justify-center">
+            <div class="relative">
+                <img src="/images/avatar.png" alt="User Avatar"
+                    class="w-24 h-24 rounded-full border-4 border-[#69553E] object-cover shadow">
+            </div>
         </div>
-    </div>
 
     <h2 class="text-base sm:text-lg font-semibold text-[#69553E] text-left">Informasi Pengguna</h2>
 
     <form id="formProfil" class="space-y-4">
         <div>
             <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-            <input id="name" name="name" type="text" value="Dara Anggi Puspa"
-                class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
+            <input id="name" name="name" type="text" value="{{ auth()->user()->name }}"
+            class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
         </div>
 
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input id="email" name="email" type="email" value="dara@example.com"
-                class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
+            <input id="email" name="email" type="email" value="{{ auth()->user()->email }}"
+            class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
         </div>
 
         <div>
             <label for="no_telepon" class="block text-sm font-medium text-gray-700">No. Telepon</label>
-            <input id="no_telepon" name="no_telepon" type="text" value="+62 85634879124"
-                class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
+            <input id="no_telepon" name="no_telepon" type="text" value="{{ auth()->user()->no_telepon }}"
+            class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
         </div>
 
         <div>
             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
             <input id="password" name="password" type="password" value="******"
-                class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
+            class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
         </div>
 
         <div class="flex justify-end gap-2 pt-4">
@@ -123,9 +124,9 @@
             } else {
                 sidebar?.classList.remove('w-16');
                 sidebar?.classList.add('w-64');
-                header.style.marginLeft = '16rem';
-                header.style.width = 'calc(100% - 16rem)';
-                mainWrapper.style.marginLeft = '16rem';
+                header.style.marginLeft = 'rem';
+                header.style.width = 'calc(100% - 4rem)';
+                mainWrapper.style.marginLeft = '4rem';
             }
         }
 

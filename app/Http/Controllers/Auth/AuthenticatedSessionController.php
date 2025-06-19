@@ -31,14 +31,14 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
         // Cek role setelah login
-        if ($user->role === 'penjual') {
-            return redirect()->route('penjual.dashboard');
-        } elseif ($user->role === 'pembeli') {
-            return redirect()->route('pembeli.dashboard');
+        if (strtolower($user->role) === 'penjual') {
+            return redirect()->route('homePagePenjual');
+        } elseif (strtolower($user->role) === 'pembeli') {
+            return redirect()->route('home');
         }
 
         // Default fallback (misal)
-        return redirect()->route('dashboard');
+        return redirect()->route('home');
     }
 
 
