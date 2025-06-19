@@ -1,18 +1,25 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProdukController;  // <-- Tambahkan ini
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\OrderController;
+
 use App\Http\Controllers\ProdukController;
 //use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Produk;
+use App\Http\Controllers\UlasanController;
+use App\Http\Controllers\OrderController;
+
 
 Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/cek', function () {
-    return view('/pembeliView/ulasan');
-});
+// Route::get('/cek', function () {
+//     return view('/pembeliView/ulasan');
+// });
 
 Route::get('/detail', function () {
     return view('/pembeliView/detailBarang');
@@ -29,53 +36,50 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('produk', ProdukController::class);
 
+
 });
 
-    Route::resource('produk', ProdukController::class); // <-- Tambahkan route resource di sini agar dia ikut middleware auth
+    // Route untuk halaman ulasan
+    Route::get('/ulasan', function () {
+        // Ganti ini sesuai kebutuhan: misal ambil produk yang terakhir dipesan
+        $produk = Produk::first(); // ini hanya contoh ya
+        return view('pembeliView.ulasan', [
+            'produk' => $produk,
+        ]);
+    })->name('ulasan.form');
 
-    // Route::get('/dashboard-pembeli', function () {
-    //     return view('pembeliView.homePembeli');
-    // })->name('pembeli.dashboard');
 
-    // Route::get('/dashboard-penjual', function () {
-    //     return view('penjualView.homePagePenjual');
-    // })->name('penjual.dashboard');
+    Route::post('/ulasan', [UlasanController::class, 'store'])->name('ulasan.store');
+
+
+    Route::get('/keranjang', function () {
+    return view('pembeliView.keranjang');
+    })->name('keranjang');
+
+    Route::get('/editProfile', function () {
+        return view('pembeliView.editProfile');
+    })->name('editProfile');
+
+    Route::get('/editAlamat', function () {
+        return view('pembeliView.editAlamat');
+    })->name('editAlamat');
+
+    Route::get('/checkout', function () {
+        return view('pembeliView.checkout');
+    })->name('checkout');
+
+    Route::get('/profilePembeli', function () {
+        return view('pembeliView.profilePembeli');
+    })->name('profilePembeli');
+
+    Route::get('/produk/detail', function () {
+        return view('page.detailBarang');
+    })->name('barang.detail');
+});
+
 require __DIR__.'/auth.php';
 
 
-// Route::get('/users', function () {
-//     $users = User::all();
-//     return $users;
-// });
-
-
-// Route::get('/homePage', function () {
-//     return view('pembeliView.homePembeli');
-// })->name('home');
-
-Route::get('/keranjang', function () {
-    return view('pembeliView.keranjang');
-})->name('keranjang');
-
-Route::get('/editProfile', function () {
-    return view('pembeliView.editProfile');
-})->name('editProfile');
-
-Route::get('/editAlamat', function () {
-    return view('pembeliView.editAlamat');
-})->name('editAlamat');
-
-Route::get('/checkout', function () {
-    return view('pembeliView.checkout');
-})->name('checkout');
-
-Route::get('/profilePembeli', function () {
-    return view('pembeliView.profilePembeli');
-})->name('profilePembeli');
-
-Route::get('/produk/detail', function () {
-    return view('page.detailBarang');
-})->name('barang.detail');
 
 Route::get('/checkout', function () {
     return view('pembeliView.checkout');
@@ -85,12 +89,20 @@ Route::get('/checkout', function () {
 // Route::get('/homepage', function () {
 //     return view('page.homepage');
 // })->name('homepage');
+
 Route::get('/homepage', function () {
     return view('page.homepage');
 })->name('homepage');
 
 
 Route::get('/manageProduct', [ProdukController::class, 'manageProduct'])->name('manageProduct');
+
+//penjualhomepage
+Route::get('/homePagePenjual', [ProdukController::class, 'homepagePenjual'])->name('penjual.home');
+
+Route::get('/transactionDetail', [TransaksiController::class, 'showTransactionDetail'])->name('transactionDetail');
+
+Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
 
 Route::get('/homePagePenjual', function () {
     return view('penjualView.homePagePenjual');
@@ -114,7 +126,16 @@ Route::get('/orderDetail/{invoice}', function ($invoice) {
     return view('penjualView.orderDetail', compact('data'));
 })->name('orderDetail');
 
-//Route::get('/orderDetail/{invoice}', [OrderController::class, 'showDetail'])->name('orderDetail');
+Route::get('/orderDetail/{id}', [OrderController::class, 'showDetail'])->name('orderDetail');
+
+//penjualdetailbarang
+//Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('penjual.produk.detail');
+Route::get('/detail-produk/{id}', [ProdukController::class, 'show'])->name('produk.detail');
+
+//Route::get('/penjual/home', [ProdukController::class, 'homepagePenjual'])->name('penjual.home');
+Route::get('/', [ProdukController::class, 'homepagePenjual']);
+
+Route::get('/penjual/produk/{id}', [ProdukController::class, 'show'])->name('penjual.produk.detail');
 
 
 Route::get('/penjual/create', [ProdukController::class, 'create'])->name('penjual.create');
@@ -129,8 +150,8 @@ Route::get('/pesananPembeli', function () {
     return view('pembeliView.pesananPembeli');
 })->name('pesananPembeli');
 
-// Route untuk halaman ulasan
-Route::get('/ulasanPembeli', function () {
-    return view('pembeliView.ulasanPembeli');
-})->name('ulasanPembeli');
+Route::get('/editProfilePenjual', function () {
+    return view('penjualView.editProfilePenjual');
+});
 
+Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');

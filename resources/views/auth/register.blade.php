@@ -12,7 +12,7 @@
 
                 <!-- Kolom Kanan (Form) -->
                 <div class="w-full lg:w-1/2 p-10 bg-[#7B5E3C] text-white">
-                    <h2 class="text-3xl font-bold text-center mb-8">DAFTAR AKUN PELANGGAN</h2>
+                    <h2 class="text-3xl font-bold text-center mb-8">DAFTAR AKUN</h2>
 
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
