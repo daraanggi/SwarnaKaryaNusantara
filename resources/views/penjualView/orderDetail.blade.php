@@ -43,7 +43,8 @@
         </div>
 
         <div class="mt-6 text-right">
-            <a href="{{ route('transaction.detail') }}">
+            <!--<a href="{{ route('orderDetail', ['id' => $transaksi->id_transaksi]) }}">-->
+                <a href="{{ route('showTransactionDetail') }}">
                 <button class="bg-white text-[#705740] px-6 py-2 rounded-full font-semibold">
                     Kembali
                 </button>
