@@ -1,11 +1,14 @@
 <?php
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PembeliProfileController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProdukController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Produk;
 use App\Http\Controllers\UlasanController;
+use App\Http\Controllers\PenjualProfileController;
+
+
 
 // Route utama login
 Route::get('/', function () {
@@ -22,9 +25,6 @@ Route::get('/homePage', [ProdukController::class, 'index'])->name('home');
 
 // Group middleware auth
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('produk', ProdukController::class);
 });
 
@@ -107,15 +107,24 @@ Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produ
 
 require __DIR__.'/auth.php';
 
-// Halaman pesanan pembeli
-Route::get('/pesananPembeli', function () {
-    return view('pembeliView.pesananPembeli');
-})->name('pesananPembeli');
+// // Halaman pesanan pembeli
+// Route::get('/pesananPembeli', function () {
+//     return view('pembeliView.pesananPembeli');
+// })->name('pesananPembeli');
+
+Route::get('/pesananPembeli', [PesananController::class, 'index'])->name('pesananPembeli');
 
 // Edit profile penjual
 Route::get('/editProfilePenjual', function () {
     return view('penjualView.editProfilePenjual');
-});
+    })->name('editProfilePenjual');
 
 // Checkout store
 Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
+
+
+// Untuk pembeli
+Route::patch('/pembeli/profile', [PembeliProfileController::class, 'update'])->name('pembeli.profile.update');
+
+// Untuk penjual
+Route::patch('/penjual/profile', [PenjualProfileController::class, 'update'])->name('penjual.profile.update');
