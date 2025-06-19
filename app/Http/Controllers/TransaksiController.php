@@ -34,6 +34,8 @@ class TransaksiController extends Controller
             'subtotal' => $request->harga * $request->jumlah,
         ]);
 
+        session(['id_produk_terakhir' => $request->id_produk]);
+
         return redirect()->route('checkout', [
             'id_produk' => $request->id_produk,
             'jumlah' => $request->jumlah,
@@ -42,6 +44,7 @@ class TransaksiController extends Controller
             'img' => Produk::find($request->id_produk)->gambar ?? '/images/default.png'
         ])->with('success', 'Transaksi berhasil dibuat.');
     }
+
 
     // Tampilkan semua transaksi ke halaman transactionDetail
     public function showTransactionDetail()

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,13 +12,22 @@ return new class extends Migration
     {
         Schema::create('ulasan', function (Blueprint $table) {
             $table->id('id_ulasan');
-            $table->foreignId('id_produk')->constrained('produk')->onDelete('cascade');
-            $table->foreignId('id_user')->constrained('pembeli')->onDelete('cascade');
+            $table->unsignedBigInteger('id_produk');
+            $table->unsignedBigInteger('id_user');
             $table->tinyInteger('rating'); // Skala 1–5
             $table->text('komentar')->nullable();
             $table->date('tanggal_ulasan');
             $table->timestamps();
 
+            // Foreign key
+            $table->foreign('id_produk')->references('id_produk')->on('produk')->onDelete('cascade');
+
+            // GANTI sesuai tabel user-mu:
+            // Jika pakai tabel `users` (default Laravel):
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+
+            // Jika kamu pakai tabel `pembeli`, ganti baris atas dengan ini:
+            // $table->foreign('id_user')->references('id')->on('pembeli')->onDelete('cascade');
         });
     }
 
