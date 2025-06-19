@@ -8,13 +8,20 @@ class DetailTransaksi extends Model
 {
     protected $table = 'detail_transaksi';
 
-    public function produk()
-    {
-        return $this->belongsTo(Produk::class, 'id_produk', 'id_produk');
-    }
+    protected $fillable = [
+        'id_transaksi',
+        'id_produk',
+        'jumlah',
+        'subtotal', // ✅ ganti dari 'harga' ke 'subtotal'
+    ];
 
     public function transaksi()
     {
-        return $this->belongsTo(Transaksi::class, 'id_transaksi', 'id_transaksi');
+        return $this->belongsTo(Transaksi::class, 'id_transaksi');
+    }
+
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'id_produk');
     }
 }
