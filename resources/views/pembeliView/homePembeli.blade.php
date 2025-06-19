@@ -76,13 +76,12 @@
             <h3 class="text-sm font-medium">{{ $item->nama }}</h3>
             <p class="text-sm text-gray-700">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
 
-
           </div>
           <a href="{{ route('barang.detail', ['id' => $item->id_produk]) }}">
             <button class="bg-[#5E472C] text-white text-xs px-3 py-1 rounded-full hover:bg-[#463522]">Checkout</button>
           </a>
         </div>
-        <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" class="rounded-lg object-cover h-32 w-full">
+        <img src="{{ asset('images/' . $item->foto) }}" alt="{{ $item->nama }}" class="rounded-lg object-cover h-32 w-full">
       </div>
     @endforeach
   </div>

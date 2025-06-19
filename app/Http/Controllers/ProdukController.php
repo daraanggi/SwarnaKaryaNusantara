@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Produk;
+use Illuminate\Support\Facades\DB;
 
 class ProdukController extends Controller
 {
@@ -102,11 +102,12 @@ class ProdukController extends Controller
     {
         //
     }
-
     public function destroy($id)
-    {
-        $produk = Produk::findOrFail($id);
-        $produk->delete();
-        return redirect()->route('manageProduct')->with('success', 'Produk berhasil dihapus.');
-    }
+{
+    $produk = Produk::where('id_produk', $id)->firstOrFail();
+    $produk->delete();
+
+    return redirect()->route('manageProduct')->with('success', 'Produk berhasil dihapus.');
+}
+
 }

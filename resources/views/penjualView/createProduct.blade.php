@@ -15,9 +15,15 @@
             </div>
 
             <!-- Kategori -->
-            <div>
-                <label for="kategori" class="block font-medium mb-1">Kategori:</label>
-                <input type="text" name="kategori" id="kategori" class="w-full rounded px-3 py-2 text-black">
+             <div class="mb-4">
+                <label for="kategori" class="block text-white font-medium mb-1">Kategori</label>
+                <select name="kategori" id="kategori" class="w-full px-3 py-2 rounded text-black" required>
+                    <option value="">-- Pilih Kategori --</option>
+                    <option value="Batik">Batik</option>
+                    <option value="Tenun">Tenun</option>
+                    <option value="Bambu">Bambu</option>
+                    <option value="Rotan">Rotan</option>
+                </select>
             </div>
 
             <!-- Harga Produk -->

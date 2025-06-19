@@ -35,6 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('produk', ProdukController::class);
+
+
+});
+
     // Route untuk halaman ulasan
     Route::get('/ulasan', function () {
         // Ganti ini sesuai kebutuhan: misal ambil produk yang terakhir dipesan
@@ -43,6 +47,7 @@ Route::middleware('auth')->group(function () {
             'produk' => $produk,
         ]);
     })->name('ulasan.form');
+
 
     Route::post('/ulasan', [UlasanController::class, 'store'])->name('ulasan.store');
 
@@ -74,6 +79,16 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+
+
+Route::get('/checkout', function () {
+    return view('pembeliView.checkout');
+})->name('checkout');
+
+
+// Route::get('/homepage', function () {
+//     return view('page.homepage');
+// })->name('homepage');
 
 Route::get('/homepage', function () {
     return view('page.homepage');
@@ -127,6 +142,7 @@ Route::get('/penjual/create', [ProdukController::class, 'create'])->name('penjua
 Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.stok');
 Route::get('/penjual/delete', [ProdukController::class, 'delete'])->name('penjual.delete');
 Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
+Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 
 require __DIR__.'/auth.php';
 // Route untuk halaman pesanan

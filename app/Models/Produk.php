@@ -6,6 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Produk extends Model
 {
+
+    protected $table = 'produk';
+    protected $primaryKey = 'id_produk'; // ← WAJIB kalau bukan 'id'
+    public $incrementing = true;         // true jika auto increment
+    protected $keyType = 'int';          // atau 'string' kalau pakai UUID
+    protected $fillable = [
+        'nama',
+        'stok',
+        'harga',
+        'deskripsi',
+        'foto',
+        // tambahkan kolom lain yang boleh mass assignment
+    ];
+
     protected $table = 'produk';            // Nama tabel
     protected $primaryKey = 'id_produk';    // Nama kolom primary key kamu
     public $incrementing = true;            // Kalau id_produk-nya auto increment
