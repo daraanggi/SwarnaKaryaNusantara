@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('detail_transaksi', function (Blueprint $table) {
             $table->id('id_detail');
-            $table->foreignId('id_transaksi')->constrained('transaksi')->onDelete('cascade');
-            $table->foreignId('id_produk')->constrained('produk')->onDelete('cascade');
+
+            // Foreign key ke transaksi (custom PK)
+            $table->unsignedBigInteger('id_transaksi');
+            $table->foreign('id_transaksi')->references('id_transaksi')->on('transaksi')->onDelete('cascade');
+
+            // Foreign key ke produk (pakai id_produk)
+            $table->foreignId('id_produk')->constrained('produk', 'id_produk')->onDelete('cascade');
+
             $table->integer('jumlah');
             $table->decimal('subtotal', 10, 2);
             $table->timestamps();

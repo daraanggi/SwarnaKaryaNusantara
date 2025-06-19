@@ -25,21 +25,20 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
         $user = Auth::user();
 
-        // Cek role setelah login
         if (strtolower($user->role) === 'penjual') {
             return redirect()->route('homePagePenjual');
         } elseif (strtolower($user->role) === 'pembeli') {
             return redirect()->route('home');
         }
 
-        // Default fallback (misal)
+        // Default fallback
         return redirect()->route('home');
     }
+
 
 
     /**

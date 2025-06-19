@@ -1,12 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Produk;
+use Illuminate\Support\Facades\DB;
 
 class ProdukController extends Controller
 {
+    public function homepagePenjual()
+    {
+        $produk = Produk::all(); // atau sesuaikan jika nama modessl kamu bukan 'Produk'
+        return view('penjualView.homePagePenjual', compact('produk'));
+    }
+
     public function index(Request $request)
     {
         $query = Produk::query();
@@ -27,12 +33,13 @@ class ProdukController extends Controller
 
         return view('pembeliView.homePembeli', compact('produk'));
     }
-
+    
     public function create()
     {
         return view('penjualView.createProduct');
+    
     }
-
+    
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -41,13 +48,12 @@ class ProdukController extends Controller
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|max:2048',
+            'foto' => 'nullable|image|max:2048',
         ]);
 
-        if ($request->hasFile('gambar')) {
-            $validated['gambar'] = $request->file('gambar')->store('produk/gambar', 'public');
+        if ($request->hasFile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('produk/foto', 'public');
         }
-
         Produk::create($validated);
 
         return redirect()->route('manageProduct')->with('success', 'Produk berhasil ditambahkan');
@@ -72,12 +78,21 @@ class ProdukController extends Controller
         return view('penjualView.manageProduct', compact('produk'));
     }
 
-    public function show($id)
+    // Untuk penjual
+    public function showPenjual($id)
     {
+        $produk = Produk::findOrFail($id);
+        return view('penjualView.detailProduct', compact('produk'));
+    }
+
+    // Untuk pembeli
+    public function showPembeli($id)
+    {   
         $produk = Produk::where('id_produk', $id)->firstOrFail();
         return view('pembeliView.detailBarang', compact('produk'));
     }
 
+    
     public function edit(Produk $produk)
     {
         //
@@ -87,11 +102,12 @@ class ProdukController extends Controller
     {
         //
     }
-
     public function destroy($id)
-    {
-        $produk = Produk::findOrFail($id);
-        $produk->delete();
-        return redirect()->route('manageProduct')->with('success', 'Produk berhasil dihapus.');
-    }
+{
+    $produk = Produk::where('id_produk', $id)->firstOrFail();
+    $produk->delete();
+
+    return redirect()->route('manageProduct')->with('success', 'Produk berhasil dihapus.');
+}
+
 }

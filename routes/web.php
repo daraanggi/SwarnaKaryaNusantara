@@ -28,13 +28,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('produk', ProdukController::class);
 });
 
-// Halaman ulasan
-Route::get('/ulasan', function () {
-    $produk = Produk::first();
-    return view('pembeliView.ulasan', ['produk' => $produk]);
-})->name('ulasan.form');
+// // Halaman ulasan
+// Route::get('/ulasan', function () {
+//     $produk = Produk::first();
+//     return view('pembeliView.ulasan', ['produk' => $produk]);
+// })->name('ulasan.form');
 
 Route::post('/ulasan', [UlasanController::class, 'store'])->name('ulasan.store');
+
+Route::get('/ulasan', [UlasanController::class, 'index'])->name('ulasan.index');
 
 // Halaman pembeli lainnya
 Route::get('/keranjang', function () {
@@ -85,6 +87,7 @@ Route::get('/homePagePenjual', [ProdukController::class, 'homePagePenjual'])->na
 // Transaksi
 Route::get('/transactionDetail', [TransaksiController::class, 'showTransactionDetail'])->name('showTransactionDetail');
 Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transactionDetail');
+Route::post('/checkout/store', [TransaksiController::class, 'store'])->name('transaksi.store');
 
 // Detail produk
 Route::get('/detail-produk/{id}', [ProdukController::class, 'showPembeli'])->name('barang.detail');
@@ -105,10 +108,9 @@ Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produ
 require __DIR__.'/auth.php';
 
 // Halaman pesanan pembeli
-use App\Http\Controllers\PesananController;
-
-Route::post('/pesanan', [PesananController::class, 'store'])->name('pesanan.store');
-Route::resource('pesanan', PesananController::class);
+Route::get('/pesananPembeli', function () {
+    return view('pembeliView.pesananPembeli');
+})->name('pesananPembeli');
 
 // Edit profile penjual
 Route::get('/editProfilePenjual', function () {
@@ -117,10 +119,3 @@ Route::get('/editProfilePenjual', function () {
 
 // Checkout store
 Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
-
-Route::get('/ulasanPembeli', function () {
-    return view('pembeliView.ulasanPembeli');
-})->name('ulasanPembeli');
-
-//Transaksi store
-Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');

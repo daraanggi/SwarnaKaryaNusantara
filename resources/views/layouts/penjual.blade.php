@@ -45,7 +45,7 @@
                     <i class="bi bi-box-seam text-xl"></i>
                     <span class="sidebar-text">Manage Product</span>
                 </a>
-                <a href="{{ route('transactionDetail') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
+               <a href="{{ route('showTransactionDetail') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
                     <i class="bi bi-receipt text-xl"></i>
                     <span class="sidebar-text">Transaction Detail</span>
                 </a>
