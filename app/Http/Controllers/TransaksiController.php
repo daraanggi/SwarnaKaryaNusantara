@@ -44,8 +44,6 @@ class TransaksiController extends Controller
             'img' => Produk::find($request->id_produk)->gambar ?? '/images/default.png'
         ])->with('success', 'Transaksi berhasil dibuat.');
     }
-
-
     // Tampilkan semua transaksi ke halaman transactionDetail
     public function showTransactionDetail()
     {

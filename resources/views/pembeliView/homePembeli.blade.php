@@ -5,20 +5,19 @@
   <!-- Search & Filter -->
   <div class="flex justify-between items-center mt-4 mb-2">
 
-<!-- Search -->
-<form method="GET" action="{{ route('home') }}" class="flex items-center w-full max-w-md bg-gray-100 rounded-full px-4 py-2">
-  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/>
-  </svg>
-  <input 
-    type="text" 
-    name="search" 
-    value="{{ request('search') }}" 
-    placeholder="Search" 
-    class="bg-transparent w-full px-2 focus:outline-none" 
-  />
-</form>
-
+    <!-- Search -->
+    <form method="GET" action="{{ route('home') }}" class="flex items-center w-full max-w-md bg-gray-100 rounded-full px-4 py-2">
+      <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/>
+      </svg>
+      <input 
+        type="text" 
+        name="search" 
+        value="{{ request('search') }}" 
+        placeholder="Search" 
+        class="bg-transparent w-full px-2 focus:outline-none" 
+      />
+    </form>
 
     <!-- Filter -->
     <div class="ml-4 relative">
@@ -33,17 +32,17 @@
       <div id="filterDropdown" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
         <ul class="text-sm text-gray-700">
           <li>
-          <a href="{{ route('home', ['search' => request('search'), 'sort' => 'asc']) }}"
-            class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-            Harga Terendah
-          </a>
-        </li>
-      <li>
-        <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc']) }}"
-        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-        Harga Tertinggi
-      </a>
-      </li>
+            <a href="{{ route('home', ['search' => request('search'), 'sort' => 'asc']) }}"
+               class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+              Harga Terendah
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc']) }}"
+               class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+              Harga Tertinggi
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -60,10 +59,17 @@
   <!-- Kategori -->
   <h2 class="text-lg font-semibold text-brown-700 mb-2">Kategori</h2>
   <div class="flex space-x-4 overflow-x-auto pb-2">
+    <a 
+      href="{{ route('home') }}" 
+      class="bg-gray-300 text-black rounded-full px-5 py-2 text-sm font-medium hover:bg-gray-400 transition">
+      Semua
+    </a>
     @foreach (['Batik', 'Tenun', 'Bambu', 'Rotan'] as $kategori)
-      <button class="bg-[#5E472C] text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-[#3e2f1d] transition">
+      <a 
+        href="{{ route('home', ['kategori' => $kategori]) }}" 
+        class="bg-[#5E472C] text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-[#3e2f1d] transition">
         {{ $kategori }}
-      </button>
+      </a>
     @endforeach
   </div>
 
@@ -97,7 +103,6 @@
     @endforeach
   </div>
 </div>
-
 
 <!-- Script -->
 <script>

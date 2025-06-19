@@ -112,10 +112,8 @@
     </div>
 </div>
 @endsection
-
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     @if (session('success'))
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -124,13 +122,12 @@
                     title: 'Pesanan Berhasil!',
                     text: '{{ session('success') }}',
                     confirmButtonColor: '#69553E',
-                    timer: 3000, // 3 detik
+                    timer: 3000,
                     showConfirmButton: false,
                 }).then(() => {
                     window.location.href = "{{ route('home') }}";
                 });
 
-                // Jika popup tertutup otomatis karena timer
                 setTimeout(() => {
                     window.location.href = "{{ route('home') }}";
                 }, 3000);
@@ -138,4 +135,5 @@
         </script>
     @endif
 @endsection
+
 
