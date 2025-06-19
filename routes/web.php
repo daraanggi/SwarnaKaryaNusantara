@@ -1,6 +1,10 @@
 <?phphttps://github.com/daraanggi/SwarnaKaryaNusantara/pull/31/conflict?name=routes%252Fweb.php&ancestor_oid=53d5c3dee84c7ab9dd3227a556bae29917155090&base_oid=e759f8ff48245a7f9e3c2d9e16c480ad2e368b17&head_oid=8cca861fd516be110319aac47d793e4a4e685778
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProdukController;  // <-- Tambahkan ini
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\OrderController;
+
 use App\Http\Controllers\ProdukController;
 //use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
@@ -86,6 +90,13 @@ Route::get('/homepage', function () {
 
 Route::get('/manageProduct', [ProdukController::class, 'manageProduct'])->name('manageProduct');
 
+//penjualhomepage
+Route::get('/homePagePenjual', [ProdukController::class, 'homepagePenjual'])->name('penjual.home');
+
+Route::get('/transactionDetail', [TransaksiController::class, 'showTransactionDetail'])->name('transactionDetail');
+
+Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
+
 Route::get('/homePagePenjual', function () {
     return view('penjualView.homePagePenjual');
 })->name('homePagePenjual');
@@ -108,7 +119,16 @@ Route::get('/orderDetail/{invoice}', function ($invoice) {
     return view('penjualView.orderDetail', compact('data'));
 })->name('orderDetail');
 
-//Route::get('/orderDetail/{invoice}', [OrderController::class, 'showDetail'])->name('orderDetail');
+Route::get('/orderDetail/{id}', [OrderController::class, 'showDetail'])->name('orderDetail');
+
+//penjualdetailbarang
+//Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('penjual.produk.detail');
+Route::get('/detail-produk/{id}', [ProdukController::class, 'show'])->name('produk.detail');
+
+//Route::get('/penjual/home', [ProdukController::class, 'homepagePenjual'])->name('penjual.home');
+Route::get('/', [ProdukController::class, 'homepagePenjual']);
+
+Route::get('/penjual/produk/{id}', [ProdukController::class, 'show'])->name('penjual.produk.detail');
 
 
 Route::get('/penjual/create', [ProdukController::class, 'create'])->name('penjual.create');
