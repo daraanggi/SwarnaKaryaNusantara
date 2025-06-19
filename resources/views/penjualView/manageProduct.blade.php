@@ -25,7 +25,7 @@
                 <th class="px-4 py-2">Stok</th>
                 <th class="px-4 py-2">Tambah Stok</th>
             </tr>
-        </thead>
+        </thead>a
         <tbody>
             @foreach ($produk as $item)
                 <tr>

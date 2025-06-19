@@ -70,23 +70,34 @@
   <!-- Produk -->
   <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-6">
     @foreach($produk as $item)
+      @php
+        $isFromStorage = \Illuminate\Support\Str::startsWith($item->foto, 'produk/');
+        $imagePath = $isFromStorage 
+          ? asset('storage/' . $item->foto) 
+          : asset('images/' . $item->foto);
+      @endphp
+
       <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-2 flex flex-col">
         <div class="flex justify-between items-center mb-2">
           <div>
             <h3 class="text-sm font-medium">{{ $item->nama }}</h3>
             <p class="text-sm text-gray-700">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
-
           </div>
           <a href="{{ route('barang.detail', ['id' => $item->id_produk]) }}">
             <button class="bg-[#5E472C] text-white text-xs px-3 py-1 rounded-full hover:bg-[#463522]">Checkout</button>
           </a>
         </div>
-        <img src="{{ asset('images/' . $item->foto) }}" alt="{{ $item->nama }}" class="rounded-lg object-cover h-32 w-full">
+        <img 
+          src="{{ $imagePath }}" 
+          alt="{{ $item->nama }}" 
+          class="rounded-lg object-cover h-32 w-full"
+          onerror="this.src='{{ asset('images/default.png') }}'"
+        >
       </div>
     @endforeach
   </div>
 </div>
-</div>
+
 
 <!-- Script -->
 <script>

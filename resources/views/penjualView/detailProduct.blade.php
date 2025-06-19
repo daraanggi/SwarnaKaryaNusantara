@@ -8,22 +8,25 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-            <img src="{{ asset('images/' . $produk->foto) }}" alt="{{ $produk->nama }}" class="w-full h-64 object-cover rounded">
+            @php
+                $isFromStorage = \Illuminate\Support\Str::startsWith($produk->foto, 'produk/');
+                $imagePath = $isFromStorage 
+                    ? asset('storage/' . $produk->foto)
+                    : asset('images/' . $produk->foto);
+            @endphp
+
+            <img 
+                src="{{ $imagePath }}" 
+                alt="{{ $produk->nama }}" 
+                class="w-full h-64 object-cover rounded"
+                onerror="this.src='{{ asset('images/default.png') }}'">
         </div>
+
         <div>
             <p class="text-gray-700 mb-2"><strong>Kategori:</strong> {{ $produk->kategori ?? '-' }}</p>
             <p class="text-gray-700 mb-2"><strong>Harga:</strong> Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
             <p class="text-gray-700 mb-2"><strong>Stok:</strong> {{ $produk->stok }}</p>
             <p class="text-gray-700 mb-4"><strong>Deskripsi:</strong><br>{{ $produk->deskripsi }}</p>
-
-            @if ($produk->video)
-                <div class="mt-4">
-                    <video controls class="w-full rounded">
-                        <source src="{{ asset('videos/' . $produk->video) }}" type="video/mp4">
-                        Browser Anda tidak mendukung video.
-                    </video>
-                </div>
-            @endif
         </div>
     </div>
 
