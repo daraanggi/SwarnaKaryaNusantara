@@ -56,7 +56,7 @@ class ProdukController extends Controller
         }
         Produk::create($validated);
 
-        return redirect()->route('manageProduct')->with('success', 'Produk berhasil ditambahkan');
+    return redirect()->route('manageProduct')->with('success', 'Produk berhasil ditambahkan!');
     }
 
     public function tambahStok(Request $request, $id)

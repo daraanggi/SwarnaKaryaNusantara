@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <img id="logoSmall" src="{{ asset('/images/logo.png') }}" alt="Logo Kecil" class="w-10 h-10 rounded-full mt-2 hidden">
-                <div id="appName" class="text-sm mt-2">Swarna Karya</div>
+                <div id="appName" class="text-sm mt-2">Swarna Karya Nusantara</div>
             </div>
 
             <!-- Navigasi -->
