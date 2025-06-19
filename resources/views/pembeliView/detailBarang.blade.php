@@ -4,9 +4,11 @@
 
 @section('content')
 @php
-    $nama = request('nama', 'Nama Produk');
-    $harga = request('harga', 0);
-    $img = request('img', '/images/default.png');
+    use Illuminate\Support\Str;
+
+    $imagePath = Str::startsWith($produk->foto, 'produk/')
+        ? asset('storage/' . $produk->foto)
+        : asset('images/' . $produk->foto);
 @endphp
 
 <!-- Header -->
@@ -28,18 +30,15 @@
         <div class="bg-white shadow rounded-xl flex flex-col md:flex-row gap-8 p-6">
             <!-- Gambar Produk -->
             <div class="flex-1">
-                <img src="{{ $img }}" class="rounded-xl object-cover w-full max-h-[500px]" alt="{{ $nama }}">
+                <img src="{{ $imagePath }}" class="rounded-xl object-cover w-full max-h-[500px]" alt="{{ $produk->nama }}">
                 <p class="text-sm text-gray-500 font-semibold mt-2">10RB+ Terjual</p>
             </div>
 
             <!-- Detail Produk -->
             <div class="flex-1 space-y-4">
-                <h1 class="text-2xl font-bold text-gray-900">{{ $nama }}</h1>
-                <p class="text-sm text-gray-700">
-                    Nikmati keindahan budaya dalam setiap helai kerajinan kami yang elegan, berkualitas,
-                    dan dibuat dengan penuh cinta oleh tangan-tangan terampil nusantara.
-                </p>
-                <p class="text-xl font-bold text-[#6B4F3B]">Rp {{ number_format($harga, 0, ',', '.') }}</p>
+                <h1 class="text-2xl font-bold text-gray-900">{{ $produk->nama }}</h1>
+                <p class="text-sm text-gray-700">{{ $produk->deskripsi }}</p>
+                <p class="text-xl font-bold text-[#6B4F3B]">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
 
                 <div class="space-y-1">
                     <p class="font-semibold text-lg">Pengiriman</p>
@@ -61,11 +60,13 @@
                         <i class="bi bi-cart-plus"></i>
                     </button>
 
-                    <!-- FORM BELI SEKARANG -->
                     <form method="GET" action="{{ route('checkout') }}">
-                        <input type="hidden" name="img" value="{{ $img }}">
-                        <input type="hidden" name="nama" value="{{ $nama }}">
-                        <input type="hidden" name="harga" value="{{ $harga }}">
+                        <input type="hidden" name="id_produk" value="{{ $produk->id_produk }}">
+                        <input type="hidden" name="img" value="{{ \Illuminate\Support\Str::startsWith($produk->foto, 'produk/') 
+                            ? asset('storage/' . $produk->foto) 
+                            : asset('images/' . $produk->foto) }}">
+                        <input type="hidden" name="nama" value="{{ $produk->nama }}">
+                        <input type="hidden" name="harga" value="{{ $produk->harga }}">
                         <input type="hidden" name="jumlah" id="jumlahHidden" value="1">
                         <button type="submit" class="px-4 py-2 bg-[#6B4F3B] text-white font-semibold rounded shadow">
                             Beli Sekarang

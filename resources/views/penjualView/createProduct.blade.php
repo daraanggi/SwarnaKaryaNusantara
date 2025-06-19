@@ -48,8 +48,8 @@
         <!-- Lampiran -->
         <div class="mt-6 flex gap-6">
             <div>
-                <label for="gambar" class="block font-medium mb-1">Lampirkan Gambar:</label>
-                <input type="file" name="gambar" id="gambar" accept="image/*" class="text-black">
+                <label for="foto" class="block font-medium mb-1">Lampirkan Gambar:</label>
+                <input type="file" name="foto" id="foto" accept="image/*" class="text-black">
             </div>
         </div>
 
