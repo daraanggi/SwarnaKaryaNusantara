@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="bg-white p-6 rounded-lg shadow">
-    <h1 class="text-2xl font-bold mb-6 text-brown-800">Product Management</h1>
+    <h1 class="text-2xl font-bold mb-6 text-[#69553E]">Product Management</h1>
 
     <div class="flex justify-between items-center mb-6">
         <input 
