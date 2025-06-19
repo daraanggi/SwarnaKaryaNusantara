@@ -98,9 +98,43 @@
 
     <!-- Tombol Buat Pesanan -->
     <div class="text-end">
-        <button class="bg-[#69553E] hover:bg-[#4d3f2c] text-white px-6 py-2 rounded-full shadow-md text-sm font-semibold">
-            Buat Pesanan
-        </button>
+        <form action="{{ route('transaksi.store') }}" method="POST">
+            @csrf
+            <input type="hidden" name="id_produk" value="{{ request('id_produk') }}">
+            <input type="hidden" name="jumlah" value="{{ $jumlah }}">
+            <input type="hidden" name="harga" value="{{ $harga }}">
+            <input type="hidden" name="total" value="{{ $total + 16000 }}">
+
+            <button type="submit" class="bg-[#69553E] hover:bg-[#4d3f2c] text-white px-6 py-2 rounded-full shadow-md text-sm font-semibold">
+                Buat Pesanan
+            </button>
+        </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (session('success'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Pesanan Berhasil!',
+                    text: '{{ session('success') }}',
+                    confirmButtonColor: '#69553E',
+                    timer: 3000, // 3 detik
+                    showConfirmButton: false,
+                }).then(() => {
+                    window.location.href = "{{ route('home') }}";
+                });
+
+                // Jika popup tertutup otomatis karena timer
+                setTimeout(() => {
+                    window.location.href = "{{ route('home') }}";
+                }, 3000);
+            });
+        </script>
+    @endif
 @endsection
