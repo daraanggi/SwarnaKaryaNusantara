@@ -10,4 +10,12 @@ class Produk extends Model
     protected $primaryKey = 'id_produk'; // ← WAJIB kalau bukan 'id'
     public $incrementing = true;         // true jika auto increment
     protected $keyType = 'int';          // atau 'string' kalau pakai UUID
+    protected $fillable = [
+        'nama',
+        'stok',
+        'harga',
+        'deskripsi',
+        'foto',
+        // tambahkan kolom lain yang boleh mass assignment
+    ];
 }

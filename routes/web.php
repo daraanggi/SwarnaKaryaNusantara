@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('produk', ProdukController::class);
+
 });
 
     Route::resource('produk', ProdukController::class); // <-- Tambahkan route resource di sini agar dia ikut middleware auth
@@ -76,6 +77,11 @@ Route::get('/produk/detail', function () {
     return view('page.detailBarang');
 })->name('barang.detail');
 
+Route::get('/checkout', function () {
+    return view('pembeliView.checkout');
+})->name('checkout');
+
+
 // Route::get('/homepage', function () {
 //     return view('page.homepage');
 // })->name('homepage');
@@ -115,6 +121,7 @@ Route::get('/penjual/create', [ProdukController::class, 'create'])->name('penjua
 Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.stok');
 Route::get('/penjual/delete', [ProdukController::class, 'delete'])->name('penjual.delete');
 Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
+Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 
 require __DIR__.'/auth.php';
 // Route untuk halaman pesanan

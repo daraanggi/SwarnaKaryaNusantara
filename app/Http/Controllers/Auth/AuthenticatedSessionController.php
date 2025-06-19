@@ -32,9 +32,9 @@ class AuthenticatedSessionController extends Controller
 
         // Cek role setelah login
         if ($user->role === 'penjual') {
-            return redirect()->route('penjual.dashboard');
+            return redirect()->route('homePagePenjual');
         } elseif ($user->role === 'pembeli') {
-            return redirect()->route('pembeli.dashboard');
+            return redirect()->route('home');
         }
 
         // Default fallback (misal)
