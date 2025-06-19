@@ -48,11 +48,11 @@ class ProdukController extends Controller
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|max:2048',
+            'foto' => 'nullable|image|max:2048',
         ]);
 
-        if ($request->hasFile('gambar')) {
-            $validated['gambar'] = $request->file('gambar')->store('produk/gambar', 'public');
+        if ($request->hasFile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('produk/foto', 'public');
         }
         Produk::create($validated);
 
