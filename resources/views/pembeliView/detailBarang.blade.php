@@ -55,16 +55,14 @@
                 </div>
 
                 <div class="flex gap-4 mt-6">
-                    <button class="flex items-center gap-2 px-4 py-2 bg-[#6B4F3B] text-white font-semibold rounded shadow">
+                    <button id="addToCart" class="flex items-center gap-2 px-4 py-2 bg-[#6B4F3B] text-white font-semibold rounded shadow">
                         Masukan Keranjang
                         <i class="bi bi-cart-plus"></i>
                     </button>
 
                     <form method="GET" action="{{ route('checkout') }}">
                         <input type="hidden" name="id_produk" value="{{ $produk->id_produk }}">
-                        <input type="hidden" name="img" value="{{ \Illuminate\Support\Str::startsWith($produk->foto, 'produk/') 
-                            ? asset('storage/' . $produk->foto) 
-                            : asset('images/' . $produk->foto) }}">
+                        <input type="hidden" name="img" value="{{ $imagePath }}">
                         <input type="hidden" name="nama" value="{{ $produk->nama }}">
                         <input type="hidden" name="harga" value="{{ $produk->harga }}">
                         <input type="hidden" name="jumlah" id="jumlahHidden" value="1">
@@ -82,16 +80,48 @@
     document.addEventListener("DOMContentLoaded", () => {
         const qtyInput = document.getElementById('jumlah');
         const qtyHidden = document.getElementById('jumlahHidden');
+
         document.getElementById('plus').onclick = () => {
             qtyInput.value = parseInt(qtyInput.value) + 1;
             qtyHidden.value = qtyInput.value;
         };
+
         document.getElementById('minus').onclick = () => {
             if (parseInt(qtyInput.value) > 1) {
                 qtyInput.value = parseInt(qtyInput.value) - 1;
                 qtyHidden.value = qtyInput.value;
             }
         };
+
+        const addToCartBtn = document.getElementById("addToCart");
+
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener("click", () => {
+                const idProduk = "{{ $produk->id_produk }}";
+                const nama = "{{ $produk->nama }}";
+                const harga = "{{ $produk->harga }}";
+                const img = "{{ $imagePath }}";
+                const qty = parseInt(document.getElementById("jumlah").value);
+
+                let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+                const existing = cart.find(item => item.id === idProduk);
+                if (existing) {
+                    existing.qty += qty;
+                } else {
+                    cart.push({
+                        id: idProduk,
+                        nama,
+                        harga,
+                        img,
+                        qty
+                    });
+                }
+
+                localStorage.setItem('cartItems', JSON.stringify(cart));
+                alert('Produk berhasil ditambahkan ke keranjang!');
+            });
+        }
     });
 </script>
 @endsection
