@@ -19,7 +19,7 @@
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     @foreach ($produk as $item)
         <div class="bg-white border border-brown-200 rounded-lg shadow overflow-hidden relative hover:shadow-lg transition">
-            <a href="{{ route('produk.detail', $item->id_produk) }}">
+            <a href="{{ route('penjual.produk.detail', $item->id_produk) }}">
                 <img src="{{ asset('images/' . $item->foto) }}" alt="{{ $item->nama }}" class="w-full h-40 object-cover">
                 <div class="p-4">
                     <h3 class="font-semibold text-brown-800">{{ $item->nama }}</h3>

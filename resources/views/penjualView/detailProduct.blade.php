@@ -28,7 +28,7 @@
     </div>
 
     <div class="mt-6">
-        <a href="{{ route('penjual.home') }}" class="text-brown-700 hover:underline">&larr; Kembali ke Daftar Produk</a>
+        <a href="{{ route('homePagePenjual') }}" class="text-brown-700 hover:underline">&larr; Kembali ke Daftar Produk</a>
     </div>
 </div>
 @endsection

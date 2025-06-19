@@ -1,6 +1,19 @@
 @extends('layouts.penjual')
+@section('title', 'Edit Profil')
 
+@section('content')
 
+<div id="mainContentWrapper" class="flex items-center justify-center min-h-screen w-full overflow-hidden">
+    <div class="border rounded-lg p-4 sm:p-6 bg-white space-y-4 w-full max-w-md">
+
+    <!-- Avatar -->
+        <div class="flex justify-center">
+            <div class="relative">
+                <img src="/images/avatar.png" alt="User Avatar"
+                    class="w-24 h-24 rounded-full border-4 border-[#69553E] object-cover shadow">
+            </div>
+        </div>
+        
         <h2 class="text-xl font-semibold text-[#69553E] text-center">Informasi Akun Penjual</h2>
 
         <!-- Form -->
