@@ -85,6 +85,7 @@ Route::get('/homePagePenjual', [ProdukController::class, 'homePagePenjual'])->na
 // Transaksi
 Route::get('/transactionDetail', [TransaksiController::class, 'showTransactionDetail'])->name('showTransactionDetail');
 Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transactionDetail');
+Route::post('/checkout/store', [TransaksiController::class, 'store'])->name('transaksi.store');
 
 // Detail produk
 Route::get('/detail-produk/{id}', [ProdukController::class, 'showPembeli'])->name('barang.detail');
