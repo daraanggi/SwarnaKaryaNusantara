@@ -5,19 +5,25 @@
   <!-- Search & Filter -->
   <div class="flex justify-between items-center mt-4 mb-2">
 
-    <!-- Search -->
-    <form method="GET" action="{{ route('home') }}" class="flex items-center w-full max-w-md bg-gray-100 rounded-full px-4 py-2">
-      <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/>
-      </svg>
-      <input 
-        type="text" 
-        name="search" 
-        value="{{ request('search') }}" 
-        placeholder="Search" 
-        class="bg-transparent w-full px-2 focus:outline-none" 
-      />
-    </form>
+<!-- Search -->
+<form method="GET" action="{{ route('home') }}" class="w-full">
+  <div class="flex items-center bg-[#6B4F3B]/10 hover:bg-[#6B4F3B]/20 text-[#4B3621] rounded-full px-6 py-3 transition-all duration-200">
+    
+    <svg class="w-5 h-5 text-[#4B3621] opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/>
+    </svg>
+
+    <input 
+      type="text" 
+      name="search" 
+      value="{{ request('search') }}" 
+      placeholder="Cari kerajinan unik..." 
+      class="bg-transparent w-full px-4 text-sm md:text-base text-[#4B3621] placeholder-[#7B5F48] focus:outline-none" 
+    />
+  </div>
+</form>
+
 
     <!-- Filter -->
     <div class="ml-4 relative">
@@ -32,15 +38,15 @@
       <div id="filterDropdown" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
         <ul class="text-sm text-gray-700">
           <li>
-            <a href="{{ route('home', ['search' => request('search'), 'sort' => 'asc']) }}"
-               class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-              Harga Terendah
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc']) }}"
-               class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-              Harga Tertinggi
+          <a href="{{ route('home', ['search' => request('search'), 'sort' => 'asc', 'kategori' => request('kategori')]) }}"
+            class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+            Harga Terendah
+          </a>
+          <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc', 'kategori' => request('kategori')]) }}"
+            class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+            Harga Tertinggi
+          </a>
+          </li>          
             </a>
           </li>
         </ul>
