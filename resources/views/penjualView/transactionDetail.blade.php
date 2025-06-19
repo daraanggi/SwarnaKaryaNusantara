@@ -20,7 +20,7 @@
         </select>
         <button class="bg-[#69553E] text-white px-4 py-2 rounded">Apply</button>
         <button class="bg-[#69553E] text-white px-4 py-2 rounded flex items-center gap-2"><i class="bi bi-download"></i> Download</button>
-        <button class="bg-[#69553E] text-white px-4 py-2 rounded flex items-center gap-2"><i class="bi bi-filter"></i> Filter</button>
+        <!--<button class="bg-[#69553E] text-white px-4 py-2 rounded flex items-center gap-2"><i class="bi bi-filter"></i> Filter</button>-->
     </div>
 
     <div class="overflow-x-auto">
@@ -36,21 +36,27 @@
                 </tr>
             </thead>
             <tbody>
-                @for ($i = 0; $i < 5; $i++)
-                    @php
-                        $invoice = 'INV00' . ($i + 1);
-                    @endphp
+                @foreach ($dataTransaksi as $i => $transaksi)
                     <tr 
                         class="{{ $i % 2 == 0 ? 'bg-[#D2C1AE]' : 'bg-[#A38B74]' }} text-white cursor-pointer hover:bg-opacity-80"
-                        onclick="window.location.href='{{ route('orderDetail', ['invoice' => $invoice]) }}'">
-                        <td class="px-4 py-2">{{ $invoice }}</td>
-                        <td class="px-4 py-2">2024-06-{{ 10 + $i }}</td>
-                        <td class="px-4 py-2">Produk {{ $i + 1 }}</td>
-                        <td class="px-4 py-2">Transfer Bank</td>
-                        <td class="px-4 py-2">Selesai</td>
-                        <td class="px-4 py-2">Rp {{ number_format(100000 * ($i + 1), 0, ',', '.') }}</td>
+                        onclick="window.location.href='{{ route('orderDetail', ['id' => $transaksi->id_transaksi]) }}'">
+                        <td class="px-4 py-2">{{ $transaksi->id_transaksi }}</td>
+                        <td class="px-4 py-2">{{ $transaksi->tanggal_pesan }}</td>
+                        
+                        <td class="px-4 py-2">
+                            @php
+                                $produkList = $transaksi->detailTransaksi->map(function($dt) {
+                                    return $dt->produk->nama ?? '-';
+                                })->implode(', ');
+                            @endphp
+                            {{ $produkList }}
+                        </td>
+
+                        <td class="px-4 py-2">{{ $transaksi->metode_pembayaran ?? '-' }}</td>
+                        <td class="px-4 py-2">{{ $transaksi->status_pesanan }}</td>
+                        <td class="px-4 py-2">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
                     </tr>
-                @endfor
+                @endforeach
             </tbody>
         </table>
     </div>

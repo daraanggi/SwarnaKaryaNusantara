@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProdukController;  // <-- Tambahkan ini
-//use App\Http\Controllers\OrderController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -86,29 +87,22 @@ Route::get('/homepage', function () {
 Route::get('/manageProduct', [ProdukController::class, 'manageProduct'])->name('manageProduct');
 
 //penjualhomepage
-Route::get('/homePagePenjual', function () {
-    return view('penjualView.homePagePenjual');
-})->name('homePagePenjual');
+Route::get('/homePagePenjual', [ProdukController::class, 'homepagePenjual'])->name('penjual.home');
 
-//penjualtransaksidetail
-Route::get('/transactionDetail', function () {
-    return view('penjualView.transactionDetail');
-})->name('transactionDetail');
+Route::get('/transactionDetail', [TransaksiController::class, 'showTransactionDetail'])->name('transactionDetail');
 
-//penjualorderdetail
-Route::get('/orderDetail/{invoice}', function ($invoice) {
-    $data = [
-        'invoice' => $invoice,
-        'produk'  => 'Tas Rotan',
-        'status'  => 'Pesanan Dalam Pengantaran',
-        'waktu'   => '17 Agustus 2024 15:04',
-        'jumlah'  => 2,
-        'total'   => 'Rp. 411.000',
-    ];
-    return view('penjualView.orderDetail', compact('data'));
-})->name('orderDetail');
+Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
 
-//Route::get('/orderDetail/{invoice}', [OrderController::class, 'showDetail'])->name('orderDetail');
+Route::get('/orderDetail/{id}', [OrderController::class, 'showDetail'])->name('orderDetail');
+
+//penjualdetailbarang
+//Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('penjual.produk.detail');
+Route::get('/detail-produk/{id}', [ProdukController::class, 'show'])->name('produk.detail');
+
+//Route::get('/penjual/home', [ProdukController::class, 'homepagePenjual'])->name('penjual.home');
+Route::get('/', [ProdukController::class, 'homepagePenjual']);
+
+Route::get('/penjual/produk/{id}', [ProdukController::class, 'show'])->name('penjual.produk.detail');
 
 
 Route::get('/penjual/create', [ProdukController::class, 'create'])->name('penjual.create');
