@@ -20,4 +20,4 @@ class AlamatUser extends Model
     ];
 }
 
-
+} 

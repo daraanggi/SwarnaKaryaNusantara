@@ -12,5 +12,4 @@ class OrderController extends Controller
 
         return view('penjualView.orderDetail', compact('transaksi'));
     }
-    
 }

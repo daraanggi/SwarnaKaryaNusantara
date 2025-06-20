@@ -1,5 +1,5 @@
 <?php
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PembeliProfileController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProdukController;
@@ -8,6 +8,11 @@ use App\Models\Produk;
 use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\AlamatUserController;
+use App\Http\Controllers\PenjualProfileController;
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\AlamatUserController;
+use App\Http\Controllers\DetailTransaksiController;
+
 
 
 // Route utama login
@@ -25,19 +30,24 @@ Route::get('/homePage', [ProdukController::class, 'index'])->name('home');
 
 // Group middleware auth
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('produk', ProdukController::class);
 });
 
-// Halaman ulasan
-Route::get('/ulasan', function () {
-    $produk = Produk::first();
-    return view('pembeliView.ulasan', ['produk' => $produk]);
-})->name('ulasan.form');
+// // Halaman ulasan
+// Route::get('/ulasan', function () {
+//     $produk = Produk::first();
+//     return view('pembeliView.ulasan', ['produk' => $produk]);
+
+// })->name('ulasan.form');
+
+
+// Route baru khusus DetailTransaksi
+Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index'])->name('detailTransaksi.index');
+Route::get('/detail-transaksi/{id}', [DetailTransaksiController::class, 'show'])->name('detailTransaksi.show');
 
 Route::post('/ulasan', [UlasanController::class, 'store'])->name('ulasan.store');
+
+Route::get('/ulasan', [UlasanController::class, 'index'])->name('ulasan.index');
 
 // Halaman pembeli lainnya
 Route::get('/keranjang', function () {
@@ -128,8 +138,14 @@ Route::post('/alamat/update/{id}', [AlamatUserController::class, 'update'])->nam
 // Edit profile penjual
 Route::get('/editProfilePenjual', function () {
     return view('penjualView.editProfilePenjual');
-});
+    })->name('editProfilePenjual');
 
 // Checkout store
 Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
 
+
+// Untuk pembeli
+Route::patch('/pembeli/profile', [PembeliProfileController::class, 'update'])->name('pembeli.profile.update');
+
+// Untuk penjual
+Route::patch('/penjual/profile', [PenjualProfileController::class, 'update'])->name('penjual.profile.update');

@@ -20,7 +20,10 @@
             @foreach ($pesanan->detailTransaksi as $detail)
                 @php
                     $foto = $detail->produk->foto ?? null;
-                    $gambar = $foto ? 'images/' . $foto : 'images/produk.jpg';
+                    $isFromStorage = \Illuminate\Support\Str::startsWith($foto, 'produk/');
+                    $gambar = $isFromStorage 
+                        ? 'storage/' . $foto 
+                        : ($foto ? 'images/' . $foto : 'images/produk.jpg');
                 @endphp
 
                 <div class="bg-[#82634B] text-white p-4 rounded-lg shadow mt-4 max-w-3xl mx-auto">
@@ -54,6 +57,4 @@
         @endforelse
     </div>
 </div>
-
 @endsection
-

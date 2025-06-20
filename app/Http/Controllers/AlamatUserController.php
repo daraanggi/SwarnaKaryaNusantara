@@ -80,3 +80,5 @@ class AlamatUserController extends Controller
     }
 
 }
+}
+
