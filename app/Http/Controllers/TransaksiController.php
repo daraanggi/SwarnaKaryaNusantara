@@ -3,60 +3,54 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
-use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use App\Models\DetailTransaksi;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class TransaksiController extends Controller
 {
     public function store(Request $request)
     {
         $request->validate([
-            'id_produk' => 'required|exists:produk,id_produk',
-            'jumlah' => 'required|integer|min:1',
-            'harga' => 'required|numeric',
-            'total' => 'required|numeric',
+            'items' => 'required|json',
+            'total' => 'required|numeric|min:0',
         ]);
 
+        $items = json_decode($request->items, true);
+
+        // Simpan transaksi utama
         $transaksi = Transaksi::create([
-            'id_user' => Auth::id(),
+            'id_user' => Auth::id() ?? 1,
             'tanggal_pesan' => Carbon::now()->toDateString(),
             'status_pesanan' => 'Menunggu Pembayaran',
             'total_harga' => $request->total,
         ]);
 
-        DetailTransaksi::create([
-            'id_transaksi' => $transaksi->id_transaksi,
-            'id_produk' => $request->id_produk,
-            'jumlah' => $request->jumlah,
-            'subtotal' => $request->harga * $request->jumlah,
-        ]);
+        // Simpan semua detail produk
+        foreach ($items as $item) {
+            DetailTransaksi::create([
+                'id_transaksi' => $transaksi->id_transaksi,
+                'id_produk' => $item['id'],
+                'jumlah' => $item['jumlah'],
+                'subtotal' => $item['harga'] * $item['jumlah'],
+            ]);
+        }
 
-        session(['id_produk_terakhir' => $request->id_produk]);
-
-        return redirect()->route('checkout', [
-            'id_produk' => $request->id_produk,
-            'jumlah' => $request->jumlah,
-            'harga' => $request->harga,
-            'nama' => Produk::find($request->id_produk)->nama ?? 'Produk',
-            'img' => Produk::find($request->id_produk)->gambar ?? '/images/default.png'
-        ])->with('success', 'Transaksi berhasil dibuat.');
+        // Redirect langsung ke homePembeli + flash pesan
+        return redirect()->route('home')->with('pesanan_berhasil', true);
     }
-    // Tampilkan semua transaksi ke halaman transactionDetail
+
     public function showTransactionDetail()
     {
         $dataTransaksi = Transaksi::with(['detailTransaksi.produk'])->get();
-
         return view('penjualView.transactionDetail', compact('dataTransaksi'));
     }
 
-    // Tampilkan detail transaksi berdasarkan ID (misal /transaksi/1)
     public function show($id)
     {
         $transaksi = Transaksi::with(['detailTransaksi.produk'])->findOrFail($id);
-
         return view('penjualView.orderDetail', compact('transaksi'));
     }
 }

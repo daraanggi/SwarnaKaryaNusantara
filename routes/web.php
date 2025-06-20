@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Produk;
 use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\PenjualProfileController;
-
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\AlamatUserController;
+use App\Http\Controllers\DetailTransaksiController;
 
 
 // Route utama login
@@ -32,7 +34,13 @@ Route::middleware('auth')->group(function () {
 // Route::get('/ulasan', function () {
 //     $produk = Produk::first();
 //     return view('pembeliView.ulasan', ['produk' => $produk]);
+
 // })->name('ulasan.form');
+
+
+// Route baru khusus DetailTransaksi
+Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index'])->name('detailTransaksi.index');
+Route::get('/detail-transaksi/{id}', [DetailTransaksiController::class, 'show'])->name('detailTransaksi.show');
 
 Route::post('/ulasan', [UlasanController::class, 'store'])->name('ulasan.store');
 
@@ -47,9 +55,9 @@ Route::get('/editProfile', function () {
     return view('pembeliView.editProfile');
 })->name('editProfile');
 
-Route::get('/editAlamat', function () {
-    return view('pembeliView.editAlamat');
-})->name('editAlamat');
+//Route::get('/editAlamat', function () {
+  //  return view('pembeliView.editAlamat');
+//})->name('editAlamat');
 
 Route::get('/checkout', function () {
     return view('pembeliView.checkout');
@@ -112,7 +120,9 @@ require __DIR__.'/auth.php';
 //     return view('pembeliView.pesananPembeli');
 // })->name('pesananPembeli');
 
+Route::get('/pesananPembeli', [PesananController::class, 'pesananPembeli'])->middleware('auth');
 Route::get('/pesananPembeli', [PesananController::class, 'index'])->name('pesananPembeli');
+
 
 // Edit profile penjual
 Route::get('/editProfilePenjual', function () {
@@ -128,3 +138,11 @@ Route::patch('/pembeli/profile', [PembeliProfileController::class, 'update'])->n
 
 // Untuk penjual
 Route::patch('/penjual/profile', [PenjualProfileController::class, 'update'])->name('penjual.profile.update');
+
+//alamatpembeli (user)
+Route::get('/alamat', [AlamatUserController::class, 'index'])->name('alamat.index');
+Route::post('/alamat', [AlamatUserController::class, 'store'])->name('alamat.store');
+Route::get('/editAlamat', [AlamatUserController::class, 'index'])->name('editAlamat');
+Route::post('/alamat/store', [AlamatUserController::class, 'store'])->name('alamat.store');
+Route::get('/edit-alamat', [AlamatUserController::class, 'editAlamat'])->name('alamat.edit');
+Route::post('/alamat/update/{id}', [AlamatUserController::class, 'update'])->name('alamat.update');

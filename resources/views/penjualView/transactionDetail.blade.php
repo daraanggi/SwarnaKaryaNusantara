@@ -5,23 +5,23 @@
 @section('content')
     <h1 class="text-2xl font-bold mb-6 text-[#69553E]">Transaction Report</h1>
 
-    <div class="flex flex-wrap items-center gap-4 mb-6">
-        <select class="bg-[#A38B74] text-white px-4 py-2 rounded">
+    {{-- <div class="flex flex-wrap items-center gap-4 mb-6">
+        {{-- <select class="bg-[#A38B74] text-white px-4 py-2 rounded">
             <option>Bulan</option>
             <option>Januari</option>
             <option>Februari</option>
             <option>Maret</option>
             <!-- Tambahkan opsi lainnya -->
-        </select>
-        <select class="bg-[#A38B74] text-white px-4 py-2 rounded">
+        </select> --}}
+        {{-- <select class="bg-[#A38B74] text-white px-4 py-2 rounded">
             <option>Tahun</option>
             <option>2023</option>
             <option>2024</option>
         </select>
-        <button class="bg-[#69553E] text-white px-4 py-2 rounded">Apply</button>
-        <button class="bg-[#69553E] text-white px-4 py-2 rounded flex items-center gap-2"><i class="bi bi-download"></i> Download</button>
-        <!--<button class="bg-[#69553E] text-white px-4 py-2 rounded flex items-center gap-2"><i class="bi bi-filter"></i> Filter</button>-->
-    </div>
+        <button class="bg-[#69553E] text-white px-4 py-2 rounded">Apply</button> --}}
+        {{-- <button class="bg-[#69553E] text-white px-4 py-2 rounded flex items-center gap-2"><i class="bi bi-download"></i> Download</button>
+        <!--<button class="bg-[#69553E] text-white px-4 py-2 rounded flex items-center gap-2"><i class="bi bi-filter"></i> Filter</button>--> --}}
+    {{-- </div> --}}
 
     <div class="overflow-x-auto">
         <table class="w-full border-collapse">

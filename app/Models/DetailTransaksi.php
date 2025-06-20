@@ -12,7 +12,7 @@ class DetailTransaksi extends Model
         'id_transaksi',
         'id_produk',
         'jumlah',
-        'subtotal', // ✅ ganti dari 'harga' ke 'subtotal'
+        'subtotal', 
     ];
 
     public function transaksi()

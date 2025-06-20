@@ -38,7 +38,10 @@
     {{-- ✅ Loop produk yang bisa diulas --}}
     @forelse($produkList as $produk)
         @php
-            $gambar = $produk->foto ? 'images/' . $produk->foto : 'images/produk.jpg';
+            $isFromStorage = \Illuminate\Support\Str::startsWith($produk->foto, 'produk/');
+            $gambar = $isFromStorage 
+                ? 'storage/' . $produk->foto 
+                : 'images/' . $produk->foto;
         @endphp
 
         <div class="bg-white text-black p-4 rounded-lg shadow-md mb-6">
@@ -52,7 +55,7 @@
             <div class="flex gap-4">
                 <img src="{{ asset($gambar) }}" class="w-20 h-20 object-cover rounded border" alt="Produk" onerror="this.src='{{ asset('images/produk.jpg') }}'">
 
-                {{-- Tampilkan form hanya jika belum diulas --}}
+                {{-- Form hanya jika belum diulas --}}
                 @if(!$produk->sudah_diulas)
                     <form action="{{ route('ulasan.store') }}" method="POST" class="w-full">
                         @csrf
