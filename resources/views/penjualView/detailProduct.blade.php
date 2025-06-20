@@ -18,8 +18,18 @@
             <img 
                 src="{{ $imagePath }}" 
                 alt="{{ $produk->nama }}" 
-                class="w-full h-64 object-cover rounded"
+                class="w-full max-h-96 object-contain rounded-lg"
                 onerror="this.src='{{ asset('images/default.png') }}'">
+            
+            <!--<img 
+                src="{{ asset('images/foto/' . basename($produk->foto)) }}" 
+                alt="{{ $produk->nama }}" 
+                class="w-full h-64 object-cover rounded"
+                onerror="this.src='{{ asset('images/default.png') }}'">-->
+            
+            <!--<p class="text-sm text-gray-500">Path asli: {{ $produk->foto }}</p>
+            <p class="text-sm text-gray-500">Nama file: {{ basename($produk->foto) }}</p>-->
+
         </div>
 
         <div>

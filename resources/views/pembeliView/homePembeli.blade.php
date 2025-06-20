@@ -126,4 +126,19 @@
     });
   });
 </script>
+@if(session('pesanan_berhasil'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        Swal.fire({
+            icon: 'success',
+            title: 'Pesanan Berhasil!',
+            text: 'Terima kasih, pesanan kamu telah dikonfirmasi. Lanjutkan ke pembayaran!',
+            confirmButtonColor: '#6B4F3B',
+            confirmButtonText: 'Oke'
+        });
+    });
+</script>
+@endif
+
 @endsection
