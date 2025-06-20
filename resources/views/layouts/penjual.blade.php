@@ -15,6 +15,13 @@
         body {
             font-family: 'Poppins', sans-serif;
         }
+
+        .product-image {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        border-radius: 8px;
+        }
     </style>
 </head>
 

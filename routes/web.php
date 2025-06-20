@@ -6,6 +6,9 @@ use App\Http\Controllers\ProdukController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Produk;
 use App\Http\Controllers\UlasanController;
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\AlamatUserController;
+
 
 // Route utama login
 Route::get('/', function () {
@@ -45,9 +48,9 @@ Route::get('/editProfile', function () {
     return view('pembeliView.editProfile');
 })->name('editProfile');
 
-Route::get('/editAlamat', function () {
-    return view('pembeliView.editAlamat');
-})->name('editAlamat');
+//Route::get('/editAlamat', function () {
+  //  return view('pembeliView.editAlamat');
+//})->name('editAlamat');
 
 Route::get('/checkout', function () {
     return view('pembeliView.checkout');
@@ -106,9 +109,21 @@ Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produ
 require __DIR__.'/auth.php';
 
 // Halaman pesanan pembeli
-Route::get('/pesananPembeli', function () {
-    return view('pembeliView.pesananPembeli');
-})->name('pesananPembeli');
+//Route::get('/pesananPembeli', function () {
+   //return view('pembeliView.pesananPembeli');
+//})->name('pesananPembeli');
+
+Route::get('/pesananPembeli', [PesananController::class, 'pesananPembeli'])->middleware('auth');
+
+Route::get('/pesananPembeli', [PesananController::class, 'index'])->name('pesananPembeli');
+
+//alamatpembeli (user)
+Route::get('/alamat', [AlamatUserController::class, 'index'])->name('alamat.index');
+Route::post('/alamat', [AlamatUserController::class, 'store'])->name('alamat.store');
+Route::get('/editAlamat', [AlamatUserController::class, 'index'])->name('editAlamat');
+Route::post('/alamat/store', [AlamatUserController::class, 'store'])->name('alamat.store');
+Route::get('/edit-alamat', [AlamatUserController::class, 'editAlamat'])->name('alamat.edit');
+Route::post('/alamat/update/{id}', [AlamatUserController::class, 'update'])->name('alamat.update');
 
 // Edit profile penjual
 Route::get('/editProfilePenjual', function () {
@@ -117,3 +132,4 @@ Route::get('/editProfilePenjual', function () {
 
 // Checkout store
 Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
+
