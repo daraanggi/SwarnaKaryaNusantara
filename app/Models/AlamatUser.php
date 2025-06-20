@@ -19,3 +19,5 @@ class AlamatUser extends Model
         'kode_pos'
     ];
 }
+
+} 

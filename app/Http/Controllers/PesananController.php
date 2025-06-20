@@ -17,4 +17,8 @@ class PesananController extends Controller
 
     return view('pembeliView.pesananPembeli', compact('pesanans'));
 }
+
 }
+
+}
+

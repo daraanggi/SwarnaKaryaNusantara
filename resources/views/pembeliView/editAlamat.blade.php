@@ -76,6 +76,7 @@
                         <input type="text" name="provinsi" id="provinsi" required class="w-full">
                     </div>
                     <div class="md:col-span-2">
+
                         <label class="text-sm text-gray-700">Kode Pos</label>
                         <input type="text" name="kode_pos" id="kode_pos" required class="w-full">
                     </div>
@@ -123,7 +124,8 @@
         document.getElementById('formMode').innerText = 'Edit Alamat';
         document.getElementById('formAlamatContainer').classList.remove('hidden');
 
-        document.getElementById('alamatForm').action = /alamat/update/${id};
+        document.getElementById('alamatForm').action = `/alamat/update/${id}`;
+
     }
 
     function jadikanUtama(box) {
@@ -150,8 +152,8 @@
         document.getElementById('kota').value = '';
         document.getElementById('provinsi').value = '';
         document.getElementById('kode_pos').value = '';
-        document.getElementById('alamatForm').action = "{{ route('alamat.store') }}";
-        document.getElementById('formAlamatContainer').classList.remove('hidden');
+        document.getElementById('alamatForm').action = `{{ route('alamat.store') }}`;
+
     }
 
 
@@ -174,7 +176,8 @@
         const id = box.dataset.id;
 
         // Kirim ke backend lewat fetch
-        fetch(`/alamat/set-sebagai-utama/${id}`}, {
+        fetch(`/alamat/set-sebagai-utama/${id}`, {
+
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',

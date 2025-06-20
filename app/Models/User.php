@@ -52,4 +52,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(AlamatUser::class);
     }
+
+}
+
 }
