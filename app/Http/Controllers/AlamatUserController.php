@@ -78,7 +78,4 @@ class AlamatUserController extends Controller
 
         return redirect()->route('alamat.edit')->with('success', 'Alamat berhasil diperbarui.');
     }
-
 }
-}
-
