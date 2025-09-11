@@ -133,10 +133,17 @@ document.addEventListener('DOMContentLoaded', function () {
             };
         });
 
+        // Hapus item yang di-checkout dari localStorage
+        cart = cart.filter(item => {
+            return !selectedItems.some(selected => selected.id === item.id);
+        });
+        localStorage.setItem('cartItems', JSON.stringify(cart));
+
         checkoutItemsInput.value = JSON.stringify(selectedItems);
         form.submit();
     });
 
+    // Checkbox "Pilih Semua"
     selectAll.addEventListener('change', function () {
         document.querySelectorAll('.item-checkbox').forEach(cb => cb.checked = this.checked);
     });

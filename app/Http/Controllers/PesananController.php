@@ -16,9 +16,6 @@ class PesananController extends Controller
         ->get();
 
     return view('pembeliView.pesananPembeli', compact('pesanans'));
-}
-
-}
-
-}
-
+    }
+    }
+    

@@ -9,8 +9,6 @@ use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\AlamatUserController;
 use App\Http\Controllers\PenjualProfileController;
-use App\Http\Controllers\PesananController;
-use App\Http\Controllers\AlamatUserController;
 use App\Http\Controllers\DetailTransaksiController;
 
 
@@ -149,3 +147,4 @@ Route::patch('/pembeli/profile', [PembeliProfileController::class, 'update'])->n
 
 // Untuk penjual
 Route::patch('/penjual/profile', [PenjualProfileController::class, 'update'])->name('penjual.profile.update');
+Route::get('/homePagePenjual', [ProdukController::class, 'homepagePenjual'])->name('homePagePenjual');
