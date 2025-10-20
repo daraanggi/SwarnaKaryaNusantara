@@ -39,9 +39,9 @@
         <div class="w-full md:w-1/2">
             <label class="text-sm font-medium text-gray-700">Opsi Pengiriman</label>
             <select class="mt-1 w-full border-gray-300 rounded-lg shadow-sm focus:ring-[#69553E] focus:border-[#69553E]">
-                <option>Hemat Cargo</option>
-                <option>JNE</option>
-                <option>Gosend</option>
+                <option>Hemat Cargo - Estimasi 2-5 Juni 2025</option>
+                <option>JNE - Estimasi 2-5 Juni 2025</option>
+                <option>Gosend - Estimasi 2-5 Juni 2025</option>
             </select>
         </div>
         <div class="w-full md:w-1/2">
