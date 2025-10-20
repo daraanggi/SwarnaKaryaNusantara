@@ -68,11 +68,20 @@
         <span class="font-semibold text-gray-700">Pilih Semua</span>
     </label>
 
+<form id="checkoutForm" method="GET" action="{{ route('checkout') }}">
+    <input type="hidden" name="nama" id="checkoutNama">
+    <input type="hidden" name="img" id="checkoutImg">
+    <input type="hidden" name="harga" id="checkoutHarga">
+    <input type="hidden" name="jumlah" id="checkoutJumlah">
+
     <button
+        type="submit"
         id="checkoutBtn"
         class="bg-[#826141] hover:bg-[#6B4F3B] text-white font-semibold py-2 px-6 rounded shadow transition-all">
         Checkout
     </button>
+</form>
+
 </div>
 
 <!-- Script -->
@@ -119,6 +128,30 @@
         });
 
         // Checkout button
+        checkoutBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    const selectedItem = document.querySelector('.item-checkbox:checked');
+
+    if (!selectedItem) {
+        alert('Silakan pilih item terlebih dahulu');
+        return;
+    }
+
+    const item = selectedItem.closest('.item');
+    const nama = item.querySelector('p.font-medium').textContent;
+    const imgSrc = item.querySelector('img').getAttribute('src');
+    const harga = item.dataset.price;
+    const qty = item.querySelector('.qty').value;
+
+    document.getElementById('checkoutNama').value = nama;
+    document.getElementById('checkoutImg').value = imgSrc;
+    document.getElementById('checkoutHarga').value = harga;
+    document.getElementById('checkoutJumlah').value = qty;
+
+    document.getElementById('checkoutForm').submit();
+});
+
         checkoutBtn.addEventListener('click', () => {
             let total = 0;
             let count = 0;
