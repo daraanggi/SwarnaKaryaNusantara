@@ -3,85 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Swarna Karya Nusantara</title>
-    @vite('resources/css/app.css')
+    <title>Admin Dashboard - Laporan Transaksi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Definisi warna kustom untuk konsistensi */
+        .bg-primary-brown { background-color: #6B4E37; } /* Cokelat Gelap Sidebar & Kontainer Utama */
+        .bg-list-item { background-color: #7E6554; }    /* Cokelat Item Daftar */
+        .text-primary-brown { color: #6B4E37; }
+    </style>
 </head>
 <body class="bg-[#f3f3f3] font-sans">
 
     <div class="flex h-screen">
 
-        <!-- Sidebar -->
-        <aside class="w-64 bg-[#6B4E37] text-white flex flex-col items-center py-6">
-            <!-- Logo -->
-            <div class="mb-6 flex flex-col items-center">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo Swarna" class="w-24 h-24 mb-2">
-                <h1 class="text-center text-sm font-semibold">Swarna Karya Nusantara</h1>
+        <aside class="w-64 bg-primary-brown text-white flex flex-col items-center py-6 shadow-2xl">
+            <div class="mb-10 flex flex-col items-center">
+                <div class="w-32 h-32 bg-white rounded-full p-2 flex items-center justify-center shadow-xl mb-4">
+                    <img src="placeholder-logo.png" alt="Logo Swarna" class="w-full h-full object-contain rounded-full">
+                </div>
             </div>
 
-            <!-- Menu -->
-            <nav class="w-full mt-6">
-                <a href="{{ route('admin.approval') }}" class="flex items-center gap-3 py-2 px-6 hover:bg-[#8b6a52] transition">
-                    <span class="bg-white text-[#6B4E37] p-1 rounded">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            <nav class="w-full mt-6 space-y-4 px-3">
+                
+                <a href="#approval" class="flex items-center gap-3 py-3 px-4 rounded-lg bg-gray-200 text-primary-brown font-semibold shadow-lg hover:bg-gray-300 transition">
+                    <span class="p-1 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                     </span>
                     <span>Approval Product</span>
                 </a>
 
-                <a href="{{ route('admin.transaksi') }}" class="flex items-center gap-3 py-2 px-6 hover:bg-[#8b6a52] transition">
-                    <span class="bg-white text-[#6B4E37] p-1 rounded">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                <a href="#transaksi" class="flex items-center gap-3 py-3 px-4 rounded-lg bg-[#2b2b2b] text-white font-semibold shadow-xl">
+                    <span class="p-1 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                     </span>
                     <span>Laporan Transaksi</span>
                 </a>
+                
             </nav>
         </aside>
 
-        <!-- Main Content -->
-        <main class="flex-1 p-8 bg-[#fff] rounded-tl-3xl shadow-inner overflow-auto">
-            <div class="max-w-5xl mx-auto">
-                <div class="flex flex-col items-center mb-8">
-                    <div class="w-14 h-14 bg-[#6B4E37] text-white flex items-center justify-center rounded-full mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1119 12m0 0l2 2m-2-2l-2 2" />
-                        </svg>
+        <main class="flex-1 p-10 bg-[#f3f3f3] overflow-auto">
+            <div class="max-w-3xl mx-auto">
+                
+                <div class="bg-primary-brown text-white rounded-3xl shadow-xl p-8">
+                    
+                    <div class="flex flex-col items-center mb-6">
+                        <div class="w-16 h-16 bg-white flex items-center justify-center rounded-full mb-3 shadow-lg">
+                             <div class="h-10 w-10 text-white"></div>
+                        </div>
+                        <h2 class="text-3xl font-bold">Laporan Transaksi</h2>
                     </div>
-                    <h2 class="text-2xl font-bold text-[#6B4E37]">Dashboard Admin</h2>
-                </div>
 
-                <!-- Tabel Transaksi Dummy -->
-                <div class="bg-[#6B4E37] text-white rounded-2xl shadow-md p-6">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="text-left border-b border-[#8b6a52]">
-                                <th class="py-2 px-4">Nama Toko</th>
-                                <th class="py-2 px-4">Produk</th>
-                                <th class="py-2 px-4">Jumlah</th>
-                                <th class="py-2 px-4">Total</th>
-                                <th class="py-2 px-4 text-right">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-sm">
-                            @foreach ([
-                                ['toko'=>'Toko A','produk'=>'Tas Daur Ulang','jumlah'=>2,'total'=>200000],
-                                ['toko'=>'Toko B','produk'=>'Sabun Organik','jumlah'=>5,'total'=>250000],
-                                ['toko'=>'Toko C','produk'=>'Sedotan Bambu','jumlah'=>3,'total'=>90000],
-                            ] as $item)
-                                <tr class="border-t border-[#8b6a52]">
-                                    <td class="py-3 px-4">{{ $item['toko'] }}</td>
-                                    <td class="py-3 px-4">{{ $item['produk'] }}</td>
-                                    <td class="py-3 px-4">{{ $item['jumlah'] }}</td>
-                                    <td class="py-3 px-4">Rp {{ number_format($item['total'], 0, ',', '.') }}</td>
-                                    <td class="py-3 px-4 text-right">
-                                        <a href="#" class="bg-white text-[#6B4E37] px-4 py-1 rounded-full text-sm font-semibold hover:bg-[#e8e0d9] transition">Periksa</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="space-y-4 pt-4">
+                        @php
+                            $stores = ['Toko A', 'Toko B', 'Toko C', 'Toko D', 'Toko E', 'Toko F', 'Toko G'];
+                        @endphp
+                        
+                        @foreach ($stores as $toko)
+                            <div class="flex items-center justify-between bg-list-item p-4 rounded-xl shadow-md">
+                                <span class="text-lg font-medium">{{ $toko }}</span>
+                                
+                                <a href="#" class="bg-white text-primary-brown w-28 text-center px-4 py-2 rounded-full text-base font-semibold hover:bg-gray-100 transition shadow-inner">
+                                    Periksa
+                                </a>
+                                
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Laporan Transaksi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Definisi warna kustom untuk konsistensi */
+        .bg-primary-brown { background-color: #6B4E37; } /* Cokelat Gelap Sidebar & Kontainer Utama */
+        .bg-list-item { background-color: #7E6554; }    /* Cokelat Item Daftar */
+        .text-primary-brown { color: #6B4E37; }
+    </style>
+</head>
+<body class="bg-[#f3f3f3] font-sans">
+
+    <div class="flex h-screen">
+
+        <aside class="w-64 bg-primary-brown text-white flex flex-col items-center py-6 shadow-2xl">
+            <div class="mb-10 flex flex-col items-center">
+                <div class="w-32 h-32 bg-white rounded-full p-2 flex items-center justify-center shadow-xl mb-4">
+                    <img src="placeholder-logo.png" alt="Logo Swarna" class="w-full h-full object-contain rounded-full">
+                </div>
+            </div>
+
+            <nav class="w-full mt-6 space-y-4 px-3">
+                
+                <a href="#approval" class="flex items-center gap-3 py-3 px-4 rounded-lg bg-gray-200 text-primary-brown font-semibold shadow-lg hover:bg-gray-300 transition">
+                    <span class="p-1 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </span>
+                    <span>Approval Product</span>
+                </a>
+
+                <a href="#transaksi" class="flex items-center gap-3 py-3 px-4 rounded-lg bg-[#2b2b2b] text-white font-semibold shadow-xl">
+                    <span class="p-1 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </span>
+                    <span>Laporan Transaksi</span>
+                </a>
+                
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-10 bg-[#f3f3f3] overflow-auto">
+            <div class="max-w-3xl mx-auto">
+                
+                <div class="bg-primary-brown text-white rounded-3xl shadow-xl p-8">
+                    
+                    <div class="flex flex-col items-center mb-6">
+                        <div class="w-16 h-16 bg-white flex items-center justify-center rounded-full mb-3 shadow-lg">
+                             <div class="h-10 w-10 text-white"></div>
+                        </div>
+                        <h2 class="text-3xl font-bold">Laporan Transaksi</h2>
+                    </div>
+
+                    <div class="space-y-4 pt-4">
+                        @php
+                            $stores = ['Toko A', 'Toko B', 'Toko C', 'Toko D', 'Toko E', 'Toko F', 'Toko G'];
+                        @endphp
+                        
+                        @foreach ($stores as $toko)
+                            <div class="flex items-center justify-between bg-list-item p-4 rounded-xl shadow-md">
+                                <span class="text-lg font-medium">{{ $toko }}</span>
+                                
+                                <a href="#" class="bg-white text-primary-brown w-28 text-center px-4 py-2 rounded-full text-base font-semibold hover:bg-gray-100 transition shadow-inner">
+                                    Periksa
+                                </a>
+                                
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </main>
