@@ -14,12 +14,12 @@
 
 <div class="flex justify-center pt-24">
     <div class="w-full max-w-2xl bg-[#7A5C3C] rounded-lg shadow-md p-6 text-white relative">
-        <!-- Icon Lokasi - Buka Form Alamat -->
+        {{-- <!-- Icon Lokasi - Buka Form Alamat -->
         <div class="absolute top-4 right-4 cursor-pointer" onclick="toggleAlamatForm()">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
             </svg>
-        </div>
+        </div> --}}
 
         <!-- Profile Icon -->
         <div class="flex justify-center mt-0">
@@ -61,7 +61,7 @@
             </a>
 
             <!-- Fitur Ulasan -->
-             <a href="{{ route('ulasanPembeli') }}" class="text-center hover:text-gray-300">
+             <a href="{{ route('ulasan.store') }}" class="text-center hover:text-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M21 11.5a8.38 8.38 0 01-1.9.5 4.19 4.19 0 001.8-2.3 8.38 8.38 0 01-2.6 1 4.19 4.19 0 00-7.1 3.8A11.87 11.87 0 013 6s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.4 4.4 0 00-.1-.9A6.3 6.3 0 0021 11.5z"/>
                 </svg>

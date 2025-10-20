@@ -1,11 +1,17 @@
 <?php
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PembeliProfileController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProdukController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Produk;
 use App\Http\Controllers\UlasanController;
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\AlamatUserController;
+use App\Http\Controllers\PenjualProfileController;
+use App\Http\Controllers\DetailTransaksiController;
+
+
 
 // Route utama login
 Route::get('/', function () {
@@ -22,19 +28,24 @@ Route::get('/homePage', [ProdukController::class, 'index'])->name('home');
 
 // Group middleware auth
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('produk', ProdukController::class);
 });
 
-// Halaman ulasan
-Route::get('/ulasan', function () {
-    $produk = Produk::first();
-    return view('pembeliView.ulasan', ['produk' => $produk]);
-})->name('ulasan.form');
+// // Halaman ulasan
+// Route::get('/ulasan', function () {
+//     $produk = Produk::first();
+//     return view('pembeliView.ulasan', ['produk' => $produk]);
+
+// })->name('ulasan.form');
+
+
+// Route baru khusus DetailTransaksi
+Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index'])->name('detailTransaksi.index');
+Route::get('/detail-transaksi/{id}', [DetailTransaksiController::class, 'show'])->name('detailTransaksi.show');
 
 Route::post('/ulasan', [UlasanController::class, 'store'])->name('ulasan.store');
+
+Route::get('/ulasan', [UlasanController::class, 'index'])->name('ulasan.index');
 
 // Halaman pembeli lainnya
 Route::get('/keranjang', function () {
@@ -45,9 +56,9 @@ Route::get('/editProfile', function () {
     return view('pembeliView.editProfile');
 })->name('editProfile');
 
-Route::get('/editAlamat', function () {
-    return view('pembeliView.editAlamat');
-})->name('editAlamat');
+//Route::get('/editAlamat', function () {
+  //  return view('pembeliView.editAlamat');
+//})->name('editAlamat');
 
 Route::get('/checkout', function () {
     return view('pembeliView.checkout');
@@ -85,6 +96,7 @@ Route::get('/homePagePenjual', [ProdukController::class, 'homePagePenjual'])->na
 // Transaksi
 Route::get('/transactionDetail', [TransaksiController::class, 'showTransactionDetail'])->name('showTransactionDetail');
 Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transactionDetail');
+Route::post('/checkout/store', [TransaksiController::class, 'store'])->name('transaksi.store');
 
 // Detail produk
 Route::get('/detail-produk/{id}', [ProdukController::class, 'showPembeli'])->name('barang.detail');
@@ -105,22 +117,34 @@ Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produ
 require __DIR__.'/auth.php';
 
 // Halaman pesanan pembeli
-use App\Http\Controllers\PesananController;
+//Route::get('/pesananPembeli', function () {
+   //return view('pembeliView.pesananPembeli');
+//})->name('pesananPembeli');
 
-Route::post('/pesanan', [PesananController::class, 'store'])->name('pesanan.store');
-Route::resource('pesanan', PesananController::class);
+Route::get('/pesananPembeli', [PesananController::class, 'pesananPembeli'])->middleware('auth');
+
+Route::get('/pesananPembeli', [PesananController::class, 'index'])->name('pesananPembeli');
+
+//alamatpembeli (user)
+Route::get('/alamat', [AlamatUserController::class, 'index'])->name('alamat.index');
+Route::post('/alamat', [AlamatUserController::class, 'store'])->name('alamat.store');
+Route::get('/editAlamat', [AlamatUserController::class, 'index'])->name('editAlamat');
+Route::post('/alamat/store', [AlamatUserController::class, 'store'])->name('alamat.store');
+Route::get('/edit-alamat', [AlamatUserController::class, 'editAlamat'])->name('alamat.edit');
+Route::post('/alamat/update/{id}', [AlamatUserController::class, 'update'])->name('alamat.update');
 
 // Edit profile penjual
 Route::get('/editProfilePenjual', function () {
     return view('penjualView.editProfilePenjual');
-});
+    })->name('editProfilePenjual');
 
 // Checkout store
 Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
 
-Route::get('/ulasanPembeli', function () {
-    return view('pembeliView.ulasanPembeli');
-})->name('ulasanPembeli');
 
-//Transaksi store
-Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+// Untuk pembeli
+Route::patch('/pembeli/profile', [PembeliProfileController::class, 'update'])->name('pembeli.profile.update');
+
+// Untuk penjual
+Route::patch('/penjual/profile', [PenjualProfileController::class, 'update'])->name('penjual.profile.update');
+Route::get('/homePagePenjual', [ProdukController::class, 'homepagePenjual'])->name('homePagePenjual');

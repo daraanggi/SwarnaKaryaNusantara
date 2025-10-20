@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'Pesanan')
+
 @section('content')
-<div class="flex mt-10">
-    <div class="flex-1 p-6">
+<div class="mt-10 px-4">
+    <div class="max-w-3xl mx-auto">
         <!-- Header -->
         <div class="flex items-center space-x-2 mb-4">
             <div class="bg-[#82634B] text-white rounded-full p-2">
@@ -14,25 +16,45 @@
         </div>
 
         <!-- Daftar Pesanan -->
-        @foreach ($pesanans as $pesanan)
-            <div class="bg-[#82634B] text-white p-4 rounded-lg shadow mt-4">
-                <div class="flex space-x-4">
-                    <img src="{{ asset($pesanan->img) }}" class="w-20 h-20 object-cover rounded" alt="">
-                    <div>
-                        <p class="font-semibold">{{ $pesanan->nama }}</p>
-                        <p>Total {{ $pesanan->jumlah }} produk: Rp {{ number_format($pesanan->total, 0, ',', '.') }}</p>
-                        <div class="flex gap-2 mt-1 flex-wrap">
-                            <span class="bg-white text-[#82634B] px-2 py-0.5 rounded font-semibold">
-                                Status: {{ $pesanan->status_pengiriman }}
-                            </span>
-                            <span class="bg-white text-[#82634B] px-2 py-0.5 rounded font-semibold">
-                                Pembayaran: {{ $pesanan->status_pembayaran }}
-                            </span>
+        @forelse ($pesanans as $pesanan)
+            @foreach ($pesanan->detailTransaksi as $detail)
+                @php
+                    $foto = $detail->produk->foto ?? null;
+                    $isFromStorage = \Illuminate\Support\Str::startsWith($foto, 'produk/');
+                    $gambar = $isFromStorage 
+                        ? 'storage/' . $foto 
+                        : ($foto ? 'images/' . $foto : 'images/produk.jpg');
+                @endphp
+
+                <div class="bg-[#82634B] text-white p-4 rounded-lg shadow mt-4 max-w-3xl mx-auto">
+                    <div class="flex space-x-4">
+                        <img src="{{ asset($gambar) }}"
+                             class="w-20 h-20 object-cover rounded border"
+                             alt="Foto Produk"
+                             onerror="this.onerror=null; this.src='{{ asset('images/produk.jpg') }}';" />
+
+                        <div>
+                            <p class="font-semibold">
+                                {{ $detail->produk->nama ?? 'Tidak ada nama' }}
+                            </p>
+                            <p>Total {{ $detail->jumlah ?? 1 }} produk:
+                                Rp {{ number_format($detail->produk->harga * $detail->jumlah, 0, ',', '.') }}
+                            </p>
+                            <div class="flex gap-2 mt-1 flex-wrap">
+                                <span class="bg-white text-[#82634B] px-2 py-0.5 rounded font-semibold">
+                                    Status: {{ $pesanan->status_pengiriman ?? 'Menunggu' }}
+                                </span>
+                                <span class="bg-white text-[#82634B] px-2 py-0.5 rounded font-semibold">
+                                    Pembayaran: {{ $pesanan->status_pembayaran ?? 'Belum dibayar' }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        @empty
+            <p class="text-center text-gray-500 mt-8">Belum ada pesanan.</p>
+        @endforelse
     </div>
 </div>
 @endsection
