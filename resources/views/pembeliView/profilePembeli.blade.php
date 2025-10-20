@@ -14,12 +14,12 @@
 
 <div class="flex justify-center pt-24">
     <div class="w-full max-w-2xl bg-[#7A5C3C] rounded-lg shadow-md p-6 text-white relative">
-        <!-- Icon Lokasi - Buka Form Alamat -->
+        {{-- <!-- Icon Lokasi - Buka Form Alamat -->
         <div class="absolute top-4 right-4 cursor-pointer" onclick="toggleAlamatForm()">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
             </svg>
-        </div>
+        </div> --}}
 
         <!-- Profile Icon -->
         <div class="flex justify-center mt-0">

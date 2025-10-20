@@ -28,7 +28,7 @@
         </div>
         <div class="mt-2 text-sm text-gray-800 leading-relaxed">
             Dara Anggi Puspa <br>
-            +62 85634879124 <br>
+            ‪+62 85634879124‬ <br>
             Jebugan, Klaten Utara, Jawa Tengah <br>
             ID 57433
         </div>
