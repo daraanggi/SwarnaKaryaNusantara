@@ -9,7 +9,7 @@ use App\Models\DetailTransaksi;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class DetailTransaksiControllerTransaksiController extends Controller
+class DetailTransaksiController extends Controller
 {
     public function store(Request $request)
     {
