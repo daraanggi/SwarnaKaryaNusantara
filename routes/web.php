@@ -9,7 +9,6 @@ use App\Http\Controllers\PesananController;
 use App\Http\Controllers\AlamatUserController;
 use App\Http\Controllers\PenjualProfileController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\PesananController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Produk;
 use App\Http\Controllers\DetailTransaksiController;
@@ -57,8 +56,6 @@ Route::middleware('auth')->group(function () {
 // Route baru khusus DetailTransaksi
 Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index'])->name('detailTransaksi.index');
 Route::get('/detail-transaksi/{id}', [DetailTransaksiController::class, 'show'])->name('detailTransaksi.show');
-
-Route::post('/ulasan', [UlasanController::class, 'store'])->name('ulasan.store')
 
 // ------------------------
 // Ulasan
