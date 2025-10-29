@@ -56,6 +56,8 @@ Route::middleware('auth')->group(function () {
 // Route baru khusus DetailTransaksi
 Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index'])->name('detailTransaksi.index');
 Route::get('/detail-transaksi/{id}', [DetailTransaksiController::class, 'show'])->name('detailTransaksi.show');
+Route::get('/transaksi/detail', [DetailTransaksiController::class, 'showTransactionDetail'])->name('showTransactionDetail');
+
 
 // ------------------------
 // Ulasan
