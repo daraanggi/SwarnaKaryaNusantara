@@ -23,7 +23,7 @@
         <a href="{{ route('admin.approval') }}" class="text-white text-lg font-semibold flex items-center">
             <span class="text-2xl mr-2">←</span> Approve Produk
         </a>
-    </div>
+        </div>
 
         <nav class="w-full mt-6 space-y-4 px-3">
             <a href="{{ url('/admin/dashboard') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg sidebar-inactive font-semibold shadow-lg hover:bg-gray-300 transition">
@@ -69,11 +69,11 @@
                             <div class="border-b border-white/50 pb-2 flex justify-between items-end">
                                 <span class="font-medium">{{ $label }}</span>
                                 <span class="text-right font-light">{{ is_array($value) ? implode(' ', $value) : $value }}</span>
-                    </div>
+                            </div>
                         @endif
                     @endforeach
                 </div>
-
+                
                 <div class="mt-10 text-center">
                     <a href="{{ route('admin.pesanan') }}" class="btn-kembali px-8 py-3 rounded-xl text-lg font-bold shadow-lg transition">
                         Kembali
@@ -82,7 +82,7 @@
             </div>
         </div>
     </main>
-    </div>
+</div>
 
 </body>
 </html>
