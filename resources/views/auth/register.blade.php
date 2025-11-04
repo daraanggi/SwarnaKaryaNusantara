@@ -41,26 +41,32 @@
                             <x-input-error :messages="$errors->get('password')" class="mt-2 text-sm text-red-200" />
                         </div>
 
-                        <div class="mb-6">
+                        <div class="mb-4">
                             <label for="password_confirmation" class="block mb-1">Konfirmasi Password :</label>
                             <input id="password_confirmation" name="password_confirmation" type="password" required class="w-full px-4 py-3 rounded-full text-black focus:outline-none" />
                         </div>
 
-                        <div class="flex justify-between items-center mt-6">
+                        {{-- ganti bagian bawah form dari sini --}}
+                        <div class="flex justify-between items-center mt-1 text-sm">
                             <p class="text-white mt-0">
-                                Sudah punya akun? 
+                                Sudah punya akun?
                                 <a href="{{ route('login') }}" class="text-yellow-300 hover:underline">Login</a>
                             </p>
 
-                        <button type="submit" class="bg-white text-[#7B5E3C] font-bold px-6 py-3 rounded-full hover:bg-gray-200">
-                            DAFTAR
-                        </button>
-                    
-                    </div>
+                            <button type="submit" class="bg-white text-[#7B5E3C] font-bold px-6 py-3 rounded-full hover:bg-gray-200">
+                                DAFTAR
+                            </button>
                         </div>
+
+                        <div class="-mt-1 text-left text-sm leading-tight">
+                            <span class="text-white">Ingin mendaftar sebagai penjual?</span>
+                            <a href="{{ route('register.penjual') }}" class="text-yellow-300 hover:underline ml-1">
+                                Daftar sebagai Penjual
+                            </a>
+                        </div>
+                        <!-- Akhir bagian bawah -->
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
