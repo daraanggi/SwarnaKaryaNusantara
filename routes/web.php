@@ -41,10 +41,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/approval', [AdminController::class, 'approval'])->name('admin.approval');
     Route::get('/admin/transaksi', [AdminController::class, 'transaksi'])->name('admin.transaksi');
+    Route::get('/admin/periksa', [AdminController::class, 'periksa'])->name('admin.periksa');
+
+    // Admin Detail
+   // Route::get('/admin/periksa/{namaToko}', [AdminController::class, 'periksa'])->name('adminperiksa');
+   // Route::get('/admin/periksa', function () {
+   // return view('adminperiksa');
+//})->name('adminperiksa');
 
     // Halaman pesanan pembeli
     Route::get('/pesananPembeli', [PesananController::class, 'index'])->name('pesananPembeli');
 });
+
 // // Halaman ulasan
 // Route::get('/ulasan', function () {
 //     $produk = Produk::first();
@@ -57,6 +65,20 @@ Route::middleware('auth')->group(function () {
 Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index'])->name('detailTransaksi.index');
 Route::get('/detail-transaksi/{id}', [DetailTransaksiController::class, 'show'])->name('detailTransaksi.show');
 Route::get('/transaksi/detail', [DetailTransaksiController::class, 'showTransactionDetail'])->name('showTransactionDetail');
+Route::get('/detail-transaksi/{id}', [AdminController::class, 'detailTransaksi'])->name('detailTransaksi.show');
+
+// admin pesanan detail
+Route::get('/admin/pesanan', function () {
+    return view('adminView.adminpesanan');
+})->name('admin.pesanan');
+
+Route::get('/admin/pesanan/{id}', function ($id) {
+    return view('adminView.adminpesanan', compact('id'));
+})->name('admin.pesanan.detail');
+
+Route::get('/admin/periksa', function () {
+    return view('adminView.adminperiksa');
+})->name('admin.periksa');
 
 
 // ------------------------
@@ -102,7 +124,7 @@ Route::get('/profilePembeli', function () {
 // })->name('barang.detail');
 
 Route::get('/produk/detail/{id}', [ProdukController::class, 'showPembeli'])->name('barang.detail');
-
+//
 // Homepage umum
 Route::get('/homepage', fn() => view('page.homepage'))->name('homepage');
 
@@ -111,7 +133,7 @@ Route::get('/homepage', fn() => view('page.homepage'))->name('homepage');
 // ------------------------
 Route::get('/manageProduct', [ProdukController::class, 'manageProduct'])->name('manageProduct');
 Route::get('/homePagePenjual', [ProdukController::class, 'homePagePenjual'])->name('homePagePenjual');
-
+//
 // Detail order
 Route::get('/orderDetail/{id}', [OrderController::class, 'showDetail'])->name('orderDetail');
 
