@@ -106,12 +106,8 @@ class AdminController extends Controller
     {
         return view('adminview.admindashboard');
         return view('adminView.adminApproval');
-    }
-
-    // Halaman laporan transaksi (Daftar Toko)
-    public function transaksi()
-    {
         return view('adminView.adminTransaksi');
+
     }
     
     // Method untuk halaman periksa/detail produk per toko (sebelum klik pesanan)
