@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index'])->name('detailTransaksi.index');
 Route::get('/detail-transaksi/{id}', [DetailTransaksiController::class, 'show'])->name('detailTransaksi.show');
 Route::get('/transaksi/detail', [DetailTransaksiController::class, 'showTransactionDetail'])->name('showTransactionDetail');
+<<<<<<< HEAD
 Route::get('/detail-transaksi/{id}', [AdminController::class, 'detailTransaksi'])->name('detailTransaksi.show');
 
 // admin pesanan detail
@@ -88,6 +89,9 @@ Route::get('/admin/pesanan/{id}', function ($id) {
 Route::get('/admin/periksa', function () {
     return view('adminView.adminperiksa');
 })->name('admin.periksa');
+=======
+
+>>>>>>> 0ed573a (memperbaiki)
 
 // ------------------------
 // Ulasan
