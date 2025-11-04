@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 // use App\Models\Order; // Contoh impor Model jika diperlukan
 
 class AdminController extends Controller
@@ -11,7 +11,7 @@ class AdminController extends Controller
     public function index()
     {
         // Bisa diisi data transaksi nanti, sekarang view dulu
-        return view('adminview.admindashboard');
+        return view('adminView.admindashboard');
     }
 
     // Halaman approval produk
@@ -44,7 +44,7 @@ class AdminController extends Controller
             ],
         ];
 
-        return view('adminview.adminapproval', compact('produkDisetujui', 'produkBelum', 'totalAkun', 'produkList'));
+        return view('adminView.adminapproval', compact('produkDisetujui', 'produkBelum', 'totalAkun', 'produkList'));
     }
 
     // Detail produk (tampil setelah diklik dari halaman approval)
@@ -77,7 +77,7 @@ class AdminController extends Controller
         abort(404);
     }
 
-    return view('adminview.admindetail', compact('produk'));
+    return view('adminView.admindetail', compact('produk'));
 }
 
     public function approve($id)
@@ -104,8 +104,8 @@ class AdminController extends Controller
     // Halaman laporan transaksi (sementara sama dengan dashboard)
     public function transaksi()
     {
-        return view('adminview.admindashboard');
-        return view('adminView.adminApproval');
+        return view('adminView.admindashboard');
+        return view('adminView.adminapproval');
         return view('adminView.adminTransaksi');
 
     }
@@ -140,4 +140,14 @@ class AdminController extends Controller
             // 'order' => $order, // Kirim data order yang sebenarnya
         ]);
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login'); // atau '/'
+    }
+
 }

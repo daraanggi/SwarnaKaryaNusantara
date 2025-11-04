@@ -45,6 +45,14 @@
                 <span>Laporan Transaksi</span>
             </a>
         </nav>
+
+        <form method="POST" action="{{ route('admin.logout') }}" class="mt-auto px-3 w-full">
+    @csrf
+            <button type="submit"
+                class="w-full bg-red-600 text-white py-2 rounded-lg font-semibold shadow hover:bg-red-700 transition">
+                Logout
+            </button>
+        </form>
     </aside>
 
     <!-- MAIN -->
