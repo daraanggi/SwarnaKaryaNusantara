@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Swarna Karya Nusantara</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <title>Admin Dashboard - Laporan Transaksi</title>
+    <script src="https://cdn.tailwindcss.com"></script> 
     <style>
         .bg-primary-brown { background-color: #6B4E37; } /* warna utama sidebar */
         .bg-list-item { background-color: #7E6554; }     /* warna item */
@@ -64,6 +66,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                       d="M3 10h18M9 21h6M4 10l1 11h14l1-11M5 10V6a7 7 0 0114 0v4" />
                             </svg>
+
+                    
+                    <div class="flex flex-col items-center mb-6">
+                        <div class="w-16 h-16 bg-white flex items-center justify-center rounded-full mb-3 shadow-lg">
+                            <div class="h-10 w-10 text-white"></div>
                         </div>
                         <h2 class="text-3xl font-bold">Dashboard Admin</h2>
                         <p class="text-gray-200 text-sm mt-1">Kelola Approval dan Transaksi Penjual</p>
@@ -105,6 +112,21 @@
                            class="bg-white text-primary-brown px-6 py-3 rounded-full font-semibold shadow-md hover:bg-gray-100 transition">
                             Lihat Transaksi
                         </a>
+                    <div class="space-y-4 pt-4">
+                        @php
+                            $stores = ['Toko A', 'Toko B', 'Toko C', 'Toko D', 'Toko E', 'Toko F', 'Toko G'];
+                        @endphp
+                        
+                        @foreach ($stores as $toko) 
+                            <div class="flex items-center justify-between bg-list-item p-4 rounded-xl shadow-md"> 
+                                <span class="text-lg font-medium">{{ $toko }}</span> 
+                                <a href="{{ route('admin.periksa') }}" 
+                                    class="bg-white text-primary-brown w-28 text-center px-4 py-2 rounded-full text-base font-semibold hover:bg-gray-100 transition shadow-inner"> 
+                                        Periksa 
+                                    </a>
+                                
+                            </div>
+                        @endforeach
                     </div>
 
                 </div>
