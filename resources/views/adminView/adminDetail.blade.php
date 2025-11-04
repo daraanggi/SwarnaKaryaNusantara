@@ -16,16 +16,13 @@
         .sidebar-inactive { background-color: #e5e7eb; color: #6B4E37; }
     </style>
 </head>
-<body class="bg-[#f3f3f3] font-sans">
+<body class="bg-[#3a2c1b] font-sans text-white min-h-screen bg-[url('/images/motif-batik.png')] bg-cover bg-center bg-fixed">
 
-<div class="flex h-screen">
-
-    <aside class="w-64 bg-primary-brown text-white flex flex-col items-center py-6 shadow-2xl">
-        <div class="mb-10 flex flex-col items-center">
-            <div class="w-28 h-28 bg-white rounded-full p-2 flex items-center justify-center shadow-xl mb-4">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-full h-full object-contain rounded-full">
-            </div>
-            <h1 class="text-center font-semibold text-lg">Swarna Karya Nusantara</h1>
+    <!-- Tombol kembali -->
+    <div class="flex items-center p-6">
+        <a href="{{ route('admin.approval') }}" class="text-white text-lg font-semibold flex items-center">
+            <span class="text-2xl mr-2">←</span> Approve Produk
+        </a>
         </div>
 
         <nav class="w-full mt-6 space-y-4 px-3">
