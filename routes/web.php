@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\PembeliProfileController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\OrderController;
@@ -17,6 +18,12 @@ use App\Http\Controllers\DetailTransaksiController;
 // Route utama / Login
 // ------------------------
 Route::get('/', fn() => view('auth.login'));
+
+// Form daftar akun penjual
+Route::get('/register/penjual', [RegisteredUserController::class, 'createPenjual'])->name('register.penjual');
+
+// Proses daftar akun penjual
+Route::post('/register/penjual', [RegisteredUserController::class, 'storePenjual'])->name('register.penjual.store');
 
 // ------------------------
 // Halaman detail barang pembeli
