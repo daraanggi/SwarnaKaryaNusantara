@@ -93,6 +93,12 @@ Route::get('/admin/periksa', function () {
 
 >>>>>>> 0ed573a (memperbaiki)
 
+Route::post('/admin/logout', [App\Http\Controllers\AdminController::class, 'logout'])
+    ->name('admin.logout');
+
+Route::get('/admin/pesanan/{id}', [AdminController::class, 'showPesanan'])->name('admin.detailPesanan');
+
+
 // ------------------------
 // Ulasan
 // ------------------------
