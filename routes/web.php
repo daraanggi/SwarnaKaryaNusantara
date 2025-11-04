@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/approval', [AdminController::class, 'approval'])->name('admin.approval');
     Route::get('/admin/transaksi', [AdminController::class, 'transaksi'])->name('admin.transaksi');
+    Route::get('/admin/approval/{id}', [AdminController::class, 'showApprovalDetail'])->name('admin.detail');
+    Route::post('/admin/approval/{id}/approve', [AdminController::class, 'approve'])->name('admin.approve');
     Route::get('/admin/periksa', [AdminController::class, 'periksa'])->name('admin.periksa');
 
     // Admin Detail
