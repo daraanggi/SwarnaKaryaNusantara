@@ -48,36 +48,20 @@ class AdminController extends Controller
     }
 
     // Detail produk (tampil setelah diklik dari halaman approval)
-    public function showApprovalDetail($id)
-{
-    // Data dummy produk
-    $produkList = [
-        [
-            'id' => 1,
-            'nama' => 'Gelas Bambu',
-            'gambar' => 'images/gelas-bambu.png',
-            'deskripsi' => 'Gelas ramah lingkungan yang dibuat dari bambu alami.',
-            'harga' => 'Rp25.000',
-            'penjual' => 'Toko Alam Nusantara',
-        ],
-        [
-            'id' => 2,
-            'nama' => 'Anyaman Rotan',
-            'gambar' => 'images/anyaman-rotan.png',
-            'deskripsi' => 'Kerajinan tangan dari rotan asli dengan desain klasik.',
-            'harga' => 'Rp85.000',
-            'penjual' => 'Toko Rotan Indah',
-        ],
+    public function showPesanan($id)
+    {
+    // data dummy sementara
+    $detail = [
+        'Nama Toko' => 'Tekomoro',
+        'Nomor Resi' => 'SRN0953R71H253L8',
+        'Nama Produk' => 'Tas Rotan',
+        'Status' => 'Pesanan Dalam Pengantaran',
+        'Waktu Pesanan' => ['17 Agustus 2024', '15 : 04'],
+        'Jumlah Pesanan' => 2,
+        'Total Pesanan' => 'Rp 411.000',
     ];
 
-    // Cari produk berdasarkan ID
-    $produk = collect($produkList)->firstWhere('id', $id);
-
-    if (!$produk) {
-        abort(404);
-    }
-
-    return view('adminView.admindetail', compact('produk'));
+    return view('adminView.admindetaillaporan', compact('detail', 'id'));
 }
 
     public function approve($id)
@@ -135,7 +119,7 @@ class AdminController extends Controller
 
         // Contoh: $order = Order::with('product')->findOrFail($id);
         
-        return view('adminView.admindetail', [
+        return view('adminView.admindetaillaporan', [
             'orderId' => $id // Melewatkan ID pesanan ke view (opsional)
             // 'order' => $order, // Kirim data order yang sebenarnya
         ]);
