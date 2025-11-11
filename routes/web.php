@@ -13,6 +13,8 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Produk;
 use App\Http\Controllers\DetailTransaksiController;
+use App\Http\Controllers\RiwayatPencarianController;
+
 
 // ------------------------
 // Route utama / Login
@@ -164,6 +166,11 @@ Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.st
 Route::get('/penjual/delete', [ProdukController::class, 'delete'])->name('penjual.delete');
 Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
 Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
+
+// Riwayat Pencarian
+Route::get('/search/history', [RiwayatPencarianController::class, 'index'])->name('search.history');
+Route::post('/search/store', [RiwayatPencarianController::class, 'store'])->name('search.store');
+Route::delete('/search/history/{id}', [RiwayatPencarianController::class, 'destroy'])->name('search.destroy');
 
 
 // ------------------------
