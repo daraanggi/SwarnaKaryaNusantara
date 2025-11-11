@@ -6,21 +6,29 @@
   <div class="flex justify-between items-center mt-4 mb-2">
 
 <!-- Search -->
-<form method="GET" action="{{ route('home') }}" class="w-full">
+<form method="GET" action="{{ route('home') }}" class="w-full relative">
   <div class="flex items-center bg-[#6B4F3B]/10 hover:bg-[#6B4F3B]/20 text-[#4B3621] rounded-full px-6 py-3 transition-all duration-200">
     
+    <!-- Icon Search -->
     <svg class="w-5 h-5 text-[#4B3621] opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/>
     </svg>
 
+    <!-- Input -->
     <input 
+      id="searchInput"
       type="text" 
       name="search" 
       value="{{ request('search') }}" 
       placeholder="Cari kerajinan unik..." 
       class="bg-transparent w-full px-4 text-sm md:text-base text-[#4B3621] placeholder-[#7B5F48] focus:outline-none" 
     />
+
+    <!-- Tombol clear -->
+    <button type="button" id="clearSearch" class="hidden text-[#4B3621] hover:text-[#2F2414] focus:outline-none">
+      ✕
+    </button>
   </div>
 </form>
 
@@ -53,6 +61,21 @@
       </div>
     </div>
   </div>
+
+      <!-- Riwayat Pencarian -->
+    @if(!empty($histories) && count($histories) > 0)
+      <div class="mt-4 mb-4">
+        <h2 class="text-md font-semibold text-[#4B3621] mb-2">Riwayat Pencarian Terakhir</h2>
+        <div class="flex flex-wrap gap-2">
+          @foreach($histories as $history)
+            <a href="{{ route('home', ['search' => $history->keyword]) }}"
+              class="bg-[#6B4F3B]/10 text-[#4B3621] px-3 py-1 rounded-full text-sm hover:bg-[#6B4F3B]/20 transition">
+              {{ $history->keyword }}
+            </a>
+          @endforeach
+        </div>
+      </div>
+    @endif
 
   <!-- Carousel -->
   <div class="w-full overflow-hidden rounded-3xl mb-4">
@@ -110,7 +133,7 @@
   </div>
 </div>
 
-<!-- Script -->
+<!-- Script untuk filter dropdown -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const btn = document.getElementById('filterBtn');
@@ -126,6 +149,36 @@
     });
   });
 </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearSearch');
+
+    function toggleClearButton() {
+      if (searchInput.value.trim() !== '') {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+    }
+
+    // Saat diketik
+    searchInput.addEventListener('input', toggleClearButton);
+
+    // Saat tombol ✕ diklik
+    clearBtn.addEventListener('click', function () {
+      searchInput.value = '';
+      toggleClearButton();
+      searchInput.focus();
+    });
+
+    // Tampilkan/hidden saat awal
+    toggleClearButton();
+  });
+</script>
+
+
 @if(session('pesanan_berhasil'))
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -140,5 +193,4 @@
     });
 </script>
 @endif
-
 @endsection

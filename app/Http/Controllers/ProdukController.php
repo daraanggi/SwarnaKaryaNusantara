@@ -1,35 +1,81 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\RiwayatPencarian; // tambahkan di atas
 
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProdukController extends Controller
 {
     // HomePage untuk pembeli
-    public function index(Request $request)
-    {
-        $query = Produk::query();
+   public function index(Request $request)
+{
+    $query = Produk::query();
 
-        if ($request->has('search') && $request->search != '') {
-            $query->where('nama', 'like', '%' . $request->search . '%');
+    // Simpan pencarian ke history
+    if ($request->has('search') && $request->search != '') {
+        $query->where('nama', 'like', '%' . $request->search . '%');
+
+        if (Auth::check()) {
+            RiwayatPencarian::create([
+                'keyword' => $request->search,
+                'user_id' => auth()->id(),
+            ]);
         }
-
-        if ($request->filled('kategori')) {
-            $query->where('kategori', $request->kategori);
-        }
-
-        if ($request->sort === 'asc') {
-            $query->orderBy('harga', 'asc');
-        } elseif ($request->sort === 'desc') {
-            $query->orderBy('harga', 'desc');
-        }
-
-        $produk = $query->get();
-
-        return view('pembeliView.homePembeli', compact('produk'));
     }
+
+    if ($request->filled('kategori')) {
+        $query->where('kategori', $request->kategori);
+    }
+
+    if ($request->sort === 'asc') {
+        $query->orderBy('harga', 'asc');
+    } elseif ($request->sort === 'desc') {
+        $query->orderBy('harga', 'desc');
+    }
+
+    // --- Ambil rekomendasi berdasarkan riwayat pencarian ---
+    $recommendations = collect();
+
+    if (Auth::check()) {
+        $lastKeywords = RiwayatPencarian::where('user_id', Auth::id())
+            ->latest()
+            ->take(3)
+            ->pluck('keyword')
+            ->toArray();
+
+        foreach ($lastKeywords as $keyword) {
+            $recommendations = $recommendations->merge(
+                Produk::where('nama', 'like', "%{$keyword}%")
+                    ->orWhere('kategori', 'like', "%{$keyword}%")
+                    ->take(5)
+                    ->get()
+            );
+        }
+
+        $recommendations = $recommendations->unique('id_produk');
+    }
+
+    // 🔥 Tentukan produk yang ditampilkan
+    if ($request->filled('search') || $request->filled('kategori') || $request->filled('sort')) {
+        // Jika user melakukan pencarian atau filter kategori → tampilkan hasil query
+        $produk = $query->get();
+    } else {
+        // Jika tidak, tampilkan rekomendasi (atau semua produk jika belum ada riwayat)
+        $produk = $recommendations->isNotEmpty() ? $recommendations : Produk::all();
+    }
+
+    // Riwayat
+    $histories = Auth::check()
+        ? RiwayatPencarian::where('user_id', Auth::id())->latest()->take(5)->get()
+        : collect();
+
+    return view('pembeliView.homePembeli', compact('produk', 'histories', 'recommendations'));
+}
+
 
     // HomePage untuk penjual (sudah ada search)
 public function homepagePenjual(Request $request)

@@ -14,6 +14,7 @@ class AdminController extends Controller
         return view('adminView.admindashboard');
     }
 
+
     // Halaman approval produk
     public function approval()
     {
@@ -47,6 +48,40 @@ class AdminController extends Controller
         return view('adminView.adminapproval', compact('produkDisetujui', 'produkBelum', 'totalAkun', 'produkList'));
     }
 
+       // Detail produk (tampil setelah diklik dari halaman approval)
+    public function showApprovalDetail($id)
+    {
+    // Data dummy produk
+    $produkList = [
+        [
+            'id' => 1,
+            'nama' => 'Gelas Bambu',
+            'gambar' => 'images/gelas-bambu.png',
+            'deskripsi' => 'Gelas ramah lingkungan yang dibuat dari bambu alami.',
+            'harga' => 'Rp25.000',
+            'penjual' => 'Toko Alam Nusantara',
+        ],
+        [
+            'id' => 2,
+            'nama' => 'Anyaman Rotan',
+            'gambar' => 'images/anyaman-rotan.png',
+            'deskripsi' => 'Kerajinan tangan dari rotan asli dengan desain klasik.',
+            'harga' => 'Rp85.000',
+            'penjual' => 'Toko Rotan Indah',
+        ],
+    ];
+
+        // Cari produk berdasarkan ID
+    $produk = collect($produkList)->firstWhere('id', $id);
+
+    if (!$produk) {
+        abort(404);
+    }
+
+    return view('adminView.admindetail', compact('produk'));
+}
+
+
     // Detail produk (tampil setelah diklik dari halaman approval)
     public function showPesanan($id)
     {
@@ -61,7 +96,7 @@ class AdminController extends Controller
         'Total Pesanan' => 'Rp 411.000',
     ];
 
-    return view('adminView.admindetaillaporan', compact('detail', 'id'));
+    return view('adminView.admindetail', compact('detail', 'id'));
 }
 
     public function approve($id)

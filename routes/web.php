@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Produk;
 use App\Http\Controllers\DetailTransaksiController;
 use App\Http\Controllers\Penjual\MessageController;
-
+use App\Http\Controllers\RiwayatPencarianController;
 
 // ------------------------
 // Route utama / Login
@@ -176,6 +176,10 @@ Route::middleware('auth')->prefix('penjual')->name('penjual.')->group(function (
     Route::post('/penjual/messages', [PenjualMessageController::class, 'store'])->name('messages.store');
 });
 
+// Riwayat Pencarian
+Route::get('/search/history', [RiwayatPencarianController::class, 'index'])->name('search.history');
+Route::post('/search/store', [RiwayatPencarianController::class, 'store'])->name('search.store');
+Route::delete('/search/history/{id}', [RiwayatPencarianController::class, 'destroy'])->name('search.destroy');
 
 // ------------------------
 
