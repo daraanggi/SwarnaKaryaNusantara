@@ -53,4 +53,41 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::with(['detailTransaksi.produk'])->findOrFail($id);
         return view('penjualView.orderDetail', compact('transaksi'));
     }
+    public function download()
+{
+    $dataTransaksi = Transaksi::with('detailTransaksi.produk')->get();
+
+    $filename = "transaction_report_" . date('Y-m-d_H-i-s') . ".csv";
+    $handle = fopen($filename, 'w+');
+
+    // Header kolom CSV
+    fputcsv($handle, [
+        'Nomor Invoice', 
+        'Waktu Pemesanan', 
+        'Pemesanan', 
+        'Metode Pembayaran', 
+        'Status Pesanan', 
+        'Sub Total'
+    ]);
+
+    foreach ($dataTransaksi as $transaksi) {
+        $produkList = $transaksi->detailTransaksi->map(function($dt){
+            return $dt->produk->nama ?? '-';
+        })->implode(', ');
+
+        fputcsv($handle, [
+            $transaksi->id_transaksi,
+            $transaksi->tanggal_pesan,
+            $produkList,
+            $transaksi->metode_pembayaran ?? '-',
+            $transaksi->status_pesanan,
+            $transaksi->total_harga
+        ]);
+    }
+
+    fclose($handle);
+
+    return response()->download($filename)->deleteFileAfterSend(true);
+}
+
 }

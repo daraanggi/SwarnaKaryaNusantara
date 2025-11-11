@@ -3,36 +3,24 @@
 @section('title', 'Transaction Detail')
 
 @section('content')
-    <h1 class="text-2xl font-bold mb-6 text-[#69553E]">Transaction Report</h1>
+    <h1 class="text-2xl font-bold mb-6 text-[#69553E]">Laporan Detail Transaksi</h1>
 
-    {{-- <div class="flex flex-wrap items-center gap-4 mb-6">
-        {{-- <select class="bg-[#A38B74] text-white px-4 py-2 rounded">
-            <option>Bulan</option>
-            <option>Januari</option>
-            <option>Februari</option>
-            <option>Maret</option>
-            <!-- Tambahkan opsi lainnya -->
-        </select> --}}
-        {{-- <select class="bg-[#A38B74] text-white px-4 py-2 rounded">
-            <option>Tahun</option>
-            <option>2023</option>
-            <option>2024</option>
-        </select>
-        <button class="bg-[#69553E] text-white px-4 py-2 rounded">Apply</button> --}}
-        {{-- <button class="bg-[#69553E] text-white px-4 py-2 rounded flex items-center gap-2"><i class="bi bi-download"></i> Download</button>
-        <!--<button class="bg-[#69553E] text-white px-4 py-2 rounded flex items-center gap-2"><i class="bi bi-filter"></i> Filter</button>--> --}}
-    {{-- </div> --}}
+    <a href="{{ route('transaction.download') }}" 
+        class="bg-[#69553E] text-white px-4 py-2 rounded inline-flex items-center gap-2 mb-4">
+        <i class="bi bi-download"></i> Unduh Laporan
+    </a>
 
     <div class="overflow-x-auto">
         <table class="w-full border-collapse">
             <thead class="bg-[#A38B74] text-white">
                 <tr>
-                    <th class="px-4 py-2 text-left">Nomor Invoice</th>
+                    <th class="px-4 py-2 text-left">Nomor Pemesanan</th>
                     <th class="px-4 py-2 text-left">Waktu Pemesanan</th>
-                    <th class="px-4 py-2 text-left">Pemesanan</th>
+                    <th class="px-4 py-2 text-left">Nama Barang</th>
                     <th class="px-4 py-2 text-left">Metode Pembayaran</th>
                     <th class="px-4 py-2 text-left">Status Pesanan</th>
-                    <th class="px-4 py-2 text-left">Sub Total</th>
+                    <th class="px-4 py-2 text-left">Harga Barang</th>
+                    <th class="px-4 py-2 text-left">Total</th> {{-- ✅ Kolom baru --}}
                 </tr>
             </thead>
             <tbody>
@@ -55,8 +43,17 @@
                         <td class="px-4 py-2">{{ $transaksi->metode_pembayaran ?? '-' }}</td>
                         <td class="px-4 py-2">{{ $transaksi->status_pesanan }}</td>
                         <td class="px-4 py-2">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
+                        <td class="px-4 py-2">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td> {{-- ✅ Kolom total per transaksi --}}
                     </tr>
                 @endforeach
+
+                {{-- 🔽 Baris total keseluruhan --}}
+                <tr class="bg-[#69553E] text-white font-bold">
+                    <td colspan="6" class="px-4 py-2 text-right">Total Keseluruhan</td>
+                    <td class="px-4 py-2">
+                        Rp {{ number_format($dataTransaksi->sum('total_harga'), 0, ',', '.') }}
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

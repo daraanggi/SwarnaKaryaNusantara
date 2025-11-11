@@ -20,12 +20,14 @@
     {{-- Tabel produk --}}
     <table class="w-full mb-6 table-auto bg-white text-black rounded shadow">
         <thead>
-            <tr class="bg-gray-200">
-                <th class="px-4 py-2">Nama</th>
-                <th class="px-4 py-2">Stok</th>
-                <th class="px-4 py-2">Tambah Stok</th>
-            </tr>
+        <tr>
+            <th>Nama Produk</th>
+            <th>Harga</th>
+            <th>Stok</th>
+            <th>Hapus Produk</th> <!-- Tambahan ini -->
+        </tr>
         </thead>
+
         <tbody>
             @foreach ($produk as $item)
                 <tr>
@@ -36,6 +38,14 @@
                             @csrf
                             <input type="number" name="jumlah" min="1" class="w-20 px-2 py-1 rounded text-black" required>
                             <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded">+</button>
+                        </form>
+                    </td>
+                    <!-- Hapus Produk -->
+                    <td>
+                        <form action="{{ route('produk.destroy', $item->id_produk) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus produk ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">Hapus</button>
                         </form>
                     </td>
                 </tr>
