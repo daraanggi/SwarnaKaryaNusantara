@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 // use App\Models\Order; // Contoh impor Model jika diperlukan
 
 class AdminController extends Controller
@@ -11,8 +11,9 @@ class AdminController extends Controller
     public function index()
     {
         // Bisa diisi data transaksi nanti, sekarang view dulu
-        return view('adminview.admindashboard');
+        return view('adminView.admindashboard');
     }
+
 
     // Halaman approval produk
     public function approval()
@@ -44,12 +45,12 @@ class AdminController extends Controller
             ],
         ];
 
-        return view('adminview.adminapproval', compact('produkDisetujui', 'produkBelum', 'totalAkun', 'produkList'));
+        return view('adminView.adminapproval', compact('produkDisetujui', 'produkBelum', 'totalAkun', 'produkList'));
     }
 
-    // Detail produk (tampil setelah diklik dari halaman approval)
+       // Detail produk (tampil setelah diklik dari halaman approval)
     public function showApprovalDetail($id)
-{
+    {
     // Data dummy produk
     $produkList = [
         [
@@ -70,14 +71,32 @@ class AdminController extends Controller
         ],
     ];
 
-    // Cari produk berdasarkan ID
+        // Cari produk berdasarkan ID
     $produk = collect($produkList)->firstWhere('id', $id);
 
     if (!$produk) {
         abort(404);
     }
 
-    return view('adminview.admindetail', compact('produk'));
+    return view('adminView.admindetail', compact('produk'));
+}
+
+
+    // Detail produk (tampil setelah diklik dari halaman approval)
+    public function showPesanan($id)
+    {
+    // data dummy sementara
+    $detail = [
+        'Nama Toko' => 'Tekomoro',
+        'Nomor Resi' => 'SRN0953R71H253L8',
+        'Nama Produk' => 'Tas Rotan',
+        'Status' => 'Pesanan Dalam Pengantaran',
+        'Waktu Pesanan' => ['17 Agustus 2024', '15 : 04'],
+        'Jumlah Pesanan' => 2,
+        'Total Pesanan' => 'Rp 411.000',
+    ];
+
+    return view('adminView.admindetail', compact('detail', 'id'));
 }
 
     public function approve($id)
@@ -104,14 +123,10 @@ class AdminController extends Controller
     // Halaman laporan transaksi (sementara sama dengan dashboard)
     public function transaksi()
     {
-        return view('adminview.admindashboard');
-        return view('adminView.adminApproval');
-    }
-
-    // Halaman laporan transaksi (Daftar Toko)
-    public function transaksi()
-    {
+        return view('adminView.admindashboard');
+        return view('adminView.adminapproval');
         return view('adminView.adminTransaksi');
+
     }
     
     // Method untuk halaman periksa/detail produk per toko (sebelum klik pesanan)
@@ -139,9 +154,19 @@ class AdminController extends Controller
 
         // Contoh: $order = Order::with('product')->findOrFail($id);
         
-        return view('adminView.admindetail', [
+        return view('adminView.admindetaillaporan', [
             'orderId' => $id // Melewatkan ID pesanan ke view (opsional)
             // 'order' => $order, // Kirim data order yang sebenarnya
         ]);
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login'); // atau '/'
+    }
+
 }
