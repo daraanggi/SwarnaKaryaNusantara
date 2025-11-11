@@ -4,14 +4,14 @@
 
 @section('content')
 <div class="bg-white p-6 rounded-lg shadow">
-    <h1 class="text-2xl font-bold mb-6 text-[#69553E]">Product Management</h1>
+    <h1 class="text-2xl font-bold mb-6 text-[#69553E]">Beranda</h1>
 
     <!-- Form Search -->
     <form action="{{ route('homePagePenjual') }}" method="GET" class="flex justify-between items-center mb-6">
         <input 
             type="text" 
             name="search"
-            placeholder="Search product..." 
+            placeholder="Cari Produk..." 
             class="border rounded-full px-4 py-2 w-1/2 text-black" 
             value="{{ request('search') }}"
         />

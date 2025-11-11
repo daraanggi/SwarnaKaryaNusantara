@@ -13,6 +13,8 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Produk;
 use App\Http\Controllers\DetailTransaksiController;
+use App\Http\Controllers\Penjual\MessageController;
+
 
 // ------------------------
 // Route utama / Login
@@ -74,7 +76,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index'])->name('detailTransaksi.index');
 Route::get('/detail-transaksi/{id}', [DetailTransaksiController::class, 'show'])->name('detailTransaksi.show');
 Route::get('/transaksi/detail', [DetailTransaksiController::class, 'showTransactionDetail'])->name('showTransactionDetail');
-<<<<<<< HEAD
 Route::get('/detail-transaksi/{id}', [AdminController::class, 'detailTransaksi'])->name('detailTransaksi.show');
 
 // admin pesanan detail
@@ -89,9 +90,6 @@ Route::get('/admin/pesanan/{id}', function ($id) {
 Route::get('/admin/periksa', function () {
     return view('adminView.adminperiksa');
 })->name('admin.periksa');
-=======
-
->>>>>>> 0ed573a (memperbaiki)
 
 Route::post('/admin/logout', [App\Http\Controllers\AdminController::class, 'logout'])
     ->name('admin.logout');
@@ -164,6 +162,19 @@ Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.st
 Route::get('/penjual/delete', [ProdukController::class, 'delete'])->name('penjual.delete');
 Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
 Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
+
+// Penjual mendownload transaksi reportnya
+Route::get('/transaction/download', [App\Http\Controllers\TransaksiController::class, 'download'])->name('transaction.download');
+
+// Penjual hapus produk
+Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
+
+// Penjual membalas pesan
+Route::middleware('auth')->prefix('penjual')->name('penjual.')->group(function () {
+    Route::get('/messages/{id}/thread', [MessageController::class, 'thread'])->name('messages.thread');
+    Route::post('/messages/{id}/reply', [MessageController::class, 'reply'])->name('messages.reply');
+    Route::post('/penjual/messages', [PenjualMessageController::class, 'store'])->name('messages.store');
+});
 
 
 // ------------------------
