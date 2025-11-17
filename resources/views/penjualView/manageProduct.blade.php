@@ -22,8 +22,8 @@
         <thead>
         <tr>
             <th>Nama Produk</th>
-            <th>Harga</th>
             <th>Stok</th>
+            <th>Tambah Stok</th>
             <th>Hapus Produk</th> <!-- Tambahan ini -->
         </tr>
         </thead>
