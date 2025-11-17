@@ -223,4 +223,7 @@ Route::patch('/penjual/profile', [PenjualProfileController::class, 'update'])->n
 
 require __DIR__.'/auth.php';
 
-Route::get('/homePagePenjual', [ProdukController::class, 'homepagePenjual'])->name('homePagePenjual');
+//Route::get('/homePagePenjual', [ProdukController::class, 'homepagePenjual'])->name('homePagePenjual');
+
+Route::get('/homePagePenjual', [ProdukController::class, 'homepagePenjual'])
+    ->name('homePagePenjual');

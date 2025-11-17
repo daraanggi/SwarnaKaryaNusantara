@@ -17,6 +17,8 @@ class Produk extends Model
         'harga',
         'foto',
         'kategori',
+        'user_id',   // ← INI WAJIB ADA
+
     ];
     public $timestamps = true;
 

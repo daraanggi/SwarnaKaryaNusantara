@@ -12,82 +12,105 @@ class ProdukController extends Controller
 {
     // HomePage untuk pembeli
    public function index(Request $request)
-{
-    $query = Produk::query();
-
-    // Simpan pencarian ke history
-    if ($request->has('search') && $request->search != '') {
-        $query->where('nama', 'like', '%' . $request->search . '%');
-
-        if (Auth::check()) {
-            RiwayatPencarian::create([
-                'keyword' => $request->search,
-                'user_id' => auth()->id(),
-            ]);
-        }
-    }
-
-    if ($request->filled('kategori')) {
-        $query->where('kategori', $request->kategori);
-    }
-
-    if ($request->sort === 'asc') {
-        $query->orderBy('harga', 'asc');
-    } elseif ($request->sort === 'desc') {
-        $query->orderBy('harga', 'desc');
-    }
-
-    // --- Ambil rekomendasi berdasarkan riwayat pencarian ---
-    $recommendations = collect();
-
-    if (Auth::check()) {
-        $lastKeywords = RiwayatPencarian::where('user_id', Auth::id())
-            ->latest()
-            ->take(3)
-            ->pluck('keyword')
-            ->toArray();
-
-        foreach ($lastKeywords as $keyword) {
-            $recommendations = $recommendations->merge(
-                Produk::where('nama', 'like', "%{$keyword}%")
-                    ->orWhere('kategori', 'like', "%{$keyword}%")
-                    ->take(5)
-                    ->get()
-            );
-        }
-
-        $recommendations = $recommendations->unique('id_produk');
-    }
-
-    // 🔥 Tentukan produk yang ditampilkan
-    if ($request->filled('search') || $request->filled('kategori') || $request->filled('sort')) {
-        // Jika user melakukan pencarian atau filter kategori → tampilkan hasil query
-        $produk = $query->get();
-    } else {
-        // Jika tidak, tampilkan rekomendasi (atau semua produk jika belum ada riwayat)
-        $produk = $recommendations->isNotEmpty() ? $recommendations : Produk::all();
-    }
-
-    // Riwayat
-    $histories = Auth::check()
-        ? RiwayatPencarian::where('user_id', Auth::id())->latest()->take(5)->get()
-        : collect();
-
-    return view('pembeliView.homePembeli', compact('produk', 'histories', 'recommendations'));
-}
-
-
-    // HomePage untuk penjual (sudah ada search)
-public function homepagePenjual(Request $request)
     {
         $query = Produk::query();
 
-        // Kalau ada search input, filter
+        // Simpan pencarian ke history
+        if ($request->has('search') && $request->search != '') {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+
+            if (Auth::check()) {
+                RiwayatPencarian::create([
+                    'keyword' => $request->search,
+                    'user_id' => auth()->id(),
+                ]);
+            }
+        }
+
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+        if ($request->sort === 'asc') {
+            $query->orderBy('harga', 'asc');
+        } elseif ($request->sort === 'desc') {
+            $query->orderBy('harga', 'desc');
+        }
+
+        // --- Ambil rekomendasi berdasarkan riwayat pencarian ---
+        $recommendations = collect();
+
+        if (Auth::check()) {
+            $lastKeywords = RiwayatPencarian::where('user_id', Auth::id())
+                ->latest()
+                ->take(3)
+                ->pluck('keyword')
+                ->toArray();
+
+            foreach ($lastKeywords as $keyword) {
+                $recommendations = $recommendations->merge(
+                    Produk::where('nama', 'like', "%{$keyword}%")
+                        ->orWhere('kategori', 'like', "%{$keyword}%")
+                        ->take(5)
+                        ->get()
+                );
+            }
+
+            $recommendations = $recommendations->unique('id_produk');
+        }
+
+        // 🔥 Tentukan produk yang ditampilkan
+        if ($request->filled('search') || $request->filled('kategori') || $request->filled('sort')) {
+            $produk = $query->get();
+        } else {
+            $produk = $recommendations->isNotEmpty() ? $recommendations : Produk::all();
+        }
+
+        // Riwayat
+        $histories = Auth::check()
+            ? RiwayatPencarian::where('user_id', Auth::id())->latest()->take(5)->get()
+            : collect();
+
+        // ✅ Tambahan: ambil daftar kategori unik dari tabel produk
+        $kategoriList = Produk::whereNotNull('kategori')
+            ->distinct()
+            ->pluck('kategori');
+
+        // kirim ke view
+        return view('pembeliView.homePembeli', compact(
+            'produk',
+            'histories',
+            'recommendations',
+            'kategoriList'   // <- jangan lupa ini
+        ));
+    }
+
+    public function tokoPenjual(Request $request)
+    {
+        // Ambil user login
+        $userId = Auth::id();
+
+        // Query produk milik penjual tersebut
+        $query = Produk::where('user_id', $userId);
+
         if ($request->filled('search')) {
             $query->where('nama', 'like', '%' . $request->search . '%');
         }
 
-        // Jika search kosong, otomatis query akan mengambil semua produk (karena tidak ada filter)
+        $produk = $query->get();
+
+        return view('penjualView.homePagePenjual', compact('produk'));
+    }
+
+
+    // HomePage untuk penjual (sudah ada search)
+    public function homepagePenjual(Request $request)
+    {
+        $query = Produk::where('user_id', Auth::id());
+
+        if ($request->filled('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
 
         $produk = $query->get();
 
@@ -117,6 +140,7 @@ public function homepagePenjual(Request $request)
             $validated['foto'] = $request->file('foto')->store('produk/foto', 'public');
         }
 
+        $validated['user_id'] = Auth::id();
         Produk::create($validated);
 
         return redirect()->route('manageProduct')->with('success', 'Produk berhasil ditambahkan!');
@@ -139,14 +163,17 @@ public function homepagePenjual(Request $request)
     // Menampilkan halaman manage product penjual
     public function manageProduct()
     {
-        $produk = Produk::all();
+        $produk = Produk::where('user_id', Auth::id())->get();
         return view('penjualView.manageProduct', compact('produk'));
     }
 
     // Menampilkan detail produk versi penjual
     public function showPenjual($id)
     {
-        $produk = Produk::findOrFail($id);
+        $produk = Produk::where('id_produk', $id)
+            ->where('user_id', Auth::id())  // keamanan: hanya boleh lihat produk miliknya
+            ->firstOrFail();
+
         return view('penjualView.detailProduct', compact('produk'));
     }
 
@@ -166,3 +193,5 @@ public function homepagePenjual(Request $request)
         return redirect()->route('manageProduct')->with('success', 'Produk berhasil dihapus.');
     }
 }
+
+

@@ -46,15 +46,13 @@
       <div id="filterDropdown" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
         <ul class="text-sm text-gray-700">
           <li>
-          <a href="{{ route('home', ['search' => request('search'), 'sort' => 'asc', 'kategori' => request('kategori')]) }}"
-            class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-            Harga Terendah
-          </a>
-          <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc', 'kategori' => request('kategori')]) }}"
-            class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-            Harga Tertinggi
-          </a>
-          </li>          
+            <a href="{{ route('home', ['search' => request('search'), 'sort' => 'asc', 'kategori' => request('kategori')]) }}"
+              class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+              Harga Terendah
+            </a>
+            <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc', 'kategori' => request('kategori')]) }}"
+              class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+              Harga Tertinggi
             </a>
           </li>
         </ul>
@@ -88,19 +86,27 @@
   <!-- Kategori -->
   <h2 class="text-lg font-semibold text-brown-700 mb-2">Kategori</h2>
   <div class="flex space-x-4 overflow-x-auto pb-2">
+    {{-- tombol Semua, tetap bawa parameter search/sort kalau ada --}}
     <a 
-      href="{{ route('home') }}" 
+      href="{{ route('home', ['search' => request('search'), 'sort' => request('sort')]) }}" 
       class="bg-gray-300 text-black rounded-full px-5 py-2 text-sm font-medium hover:bg-gray-400 transition">
       Semua
     </a>
-    @foreach (['Batik', 'Tenun', 'Bambu', 'Rotan'] as $kategori)
+
+    @foreach ($kategoriList as $kategori)
       <a 
-        href="{{ route('home', ['kategori' => $kategori]) }}" 
-        class="bg-[#5E472C] text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-[#3e2f1d] transition">
+        href="{{ route('home', [
+            'kategori' => $kategori,
+            'search'   => request('search'),
+            'sort'     => request('sort'),
+        ]) }}" 
+        class="rounded-full px-5 py-2 text-sm font-medium transition
+              {{ request('kategori') == $kategori ? 'bg-[#3e2f1d] text-white' : 'bg-[#5E472C] text-white hover:bg-[#3e2f1d]' }}">
         {{ $kategori }}
       </a>
     @endforeach
   </div>
+
 
   <!-- Produk -->
   <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-6">
