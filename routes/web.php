@@ -11,6 +11,8 @@ use App\Http\Controllers\AlamatUserController;
 use App\Http\Controllers\PenjualProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DetailTransaksiController;
+use App\Http\Controllers\Penjual\MessageController;
+use App\Http\Controllers\RiwayatPencarianController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -70,6 +72,27 @@ Route::middleware('auth')->group(function () {
 Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index'])->name('detailTransaksi.index');
 Route::get('/detail-transaksi/{id}', [DetailTransaksiController::class, 'show'])->name('detailTransaksi.show');
 
+Route::get('/transaksi/detail', [DetailTransaksiController::class, 'showTransactionDetail'])->name('showTransactionDetail');
+Route::get('/detail-transaksi/{id}', [AdminController::class, 'detailTransaksi'])->name('detailTransaksi.show');
+
+// admin pesanan detail
+Route::get('/admin/pesanan', function () {
+    return view('adminView.adminpesanan');
+})->name('admin.pesanan');
+
+Route::get('/admin/pesanan/{id}', function ($id) {
+    return view('adminView.adminpesanan', compact('id'));
+})->name('admin.pesanan.detail');
+
+Route::get('/admin/periksa', function () {
+    return view('adminView.adminperiksa');
+})->name('admin.periksa');
+
+Route::post('/admin/logout', [App\Http\Controllers\AdminController::class, 'logout'])
+    ->name('admin.logout');
+
+Route::get('/admin/pesanan/{id}', [AdminController::class, 'showPesanan'])->name('admin.detailPesanan');
+
 // ------------------------
 // Ulasan
 // ------------------------
@@ -108,6 +131,24 @@ Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.st
 Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
 Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 
+// Penjual mendownload transaksi reportnya
+Route::get('/transaction/download', [App\Http\Controllers\TransaksiController::class, 'download'])->name('transaction.download');
+
+// Penjual hapus produk
+Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
+
+// Penjual membalas pesan
+Route::middleware('auth')->prefix('penjual')->name('penjual.')->group(function () {
+    Route::get('/messages/{id}/thread', [MessageController::class, 'thread'])->name('messages.thread');
+    Route::post('/messages/{id}/reply', [MessageController::class, 'reply'])->name('messages.reply');
+    Route::post('/penjual/messages', [PenjualMessageController::class, 'store'])->name('messages.store');
+});
+
+// Riwayat Pencarian
+Route::get('/search/history', [RiwayatPencarianController::class, 'index'])->name('search.history');
+Route::post('/search/store', [RiwayatPencarianController::class, 'store'])->name('search.store');
+Route::delete('/search/history/{id}', [RiwayatPencarianController::class, 'destroy'])->name('search.destroy');
+
 // ------------------------
 // Checkout
 // ------------------------
@@ -122,3 +163,8 @@ Route::patch('/pembeli/profile', [PembeliProfileController::class, 'update'])->n
 Route::patch('/penjual/profile', [PenjualProfileController::class, 'update'])->name('penjual.profile.update');
 
 require __DIR__.'/auth.php';
+
+//Route::get('/homePagePenjual', [ProdukController::class, 'homepagePenjual'])->name('homePagePenjual');
+
+Route::get('/homePagePenjual', [ProdukController::class, 'homepagePenjual'])
+    ->name('homePagePenjual');
