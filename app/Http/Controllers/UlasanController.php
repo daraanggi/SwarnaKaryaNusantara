@@ -20,17 +20,23 @@ class UlasanController extends Controller
     // Ambil semua produk dari detail transaksi
     $produkList = [];
     foreach ($transaksiUser as $transaksi) {
-        foreach ($transaksi->detailTransaksi as $detail) {
-            $produk = $detail->produk;
+    foreach ($transaksi->detailTransaksi as $detail) {
 
-            // Cek apakah sudah diulas oleh user
-            $produk->sudah_diulas = \App\Models\Ulasan::where('id_produk', $produk->id_produk)
-                ->where('id_user', $userId)
-                ->exists();
+        $produk = $detail->produk;
 
-            $produkList[] = $produk;
+        // Jika produk null, skip supaya tidak error
+        if (!$produk) {
+            continue;
         }
+
+        // Cek apakah sudah diulas oleh user
+        $produk->sudah_diulas = \App\Models\Ulasan::where('id_produk', $produk->id_produk)
+            ->where('id_user', $userId)
+            ->exists();
+
+        $produkList[] = $produk;
     }
+}
 
     return view('pembeliView.ulasan', compact('produkList'));
 }

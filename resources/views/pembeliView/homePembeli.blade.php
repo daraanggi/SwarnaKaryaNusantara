@@ -22,33 +22,6 @@
       </div>
     </form>
 
-<!-- Search -->
-<form method="GET" action="{{ route('home') }}" class="w-full relative">
-  <div class="flex items-center bg-[#6B4F3B]/10 hover:bg-[#6B4F3B]/20 text-[#4B3621] rounded-full px-6 py-3 transition-all duration-200">
-    
-    <!-- Icon Search -->
-    <svg class="w-5 h-5 text-[#4B3621] opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/>
-    </svg>
-
-    <!-- Input -->
-    <input 
-      id="searchInput"
-      type="text" 
-      name="search" 
-      value="{{ request('search') }}" 
-      placeholder="Cari kerajinan unik..." 
-      class="bg-transparent w-full px-4 text-sm md:text-base text-[#4B3621] placeholder-[#7B5F48] focus:outline-none" 
-    />
-
-    <!-- Tombol clear -->
-    <button type="button" id="clearSearch" class="hidden text-[#4B3621] hover:text-[#2F2414] focus:outline-none">
-      ✕
-    </button>
-  </div>
-</form>
-
 
     <!-- Filter -->
     <div class="relative">
@@ -62,14 +35,12 @@
         <ul class="text-sm text-gray-700">
           <li>
             <a href="{{ route('home', ['search' => request('search'), 'sort' => 'asc', 'kategori' => request('kategori')]) }}"
-              class="block w-full text-left px-4 py-2 hover:bg-gray-100 transition">Harga Terendah</a>
-            <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc', 'kategori' => request('kategori')]) }}"
-              class="block w-full text-left px-4 py-2 hover:bg-gray-100 transition">Harga Tertinggi</a>
-              class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+              class="block w-full text-left px-4 py-2 hover:bg-gray-100 transition">
               Harga Terendah
             </a>
+
             <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc', 'kategori' => request('kategori')]) }}"
-              class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+              class="block w-full text-left px-4 py-2 hover:bg-gray-100 transition">
               Harga Tertinggi
             </a>
           </li>
@@ -101,25 +72,19 @@
     </div>
   </div>
 
-  <!-- Kategori -->
+    <!-- Kategori -->
   <h2 class="text-lg font-semibold text-[#4B3621] mb-2">Kategori</h2>
   <div class="flex space-x-4 overflow-x-auto pb-2">
-    <a href="{{ route('home') }}" 
-       class="bg-[#C4A484] text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-[#b08b5e] transition">
-       Semua
-    </a>
-    @foreach (['Batik', 'Tenun', 'Bambu', 'Rotan'] as $kategori)
-      <a href="{{ route('home', ['kategori' => $kategori]) }}" 
-         class="bg-[#5E472C] text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-[#3e2f1d] transition">
-         {{ $kategori }}
 
-    {{-- tombol Semua, tetap bawa parameter search/sort kalau ada --}}
+    <!-- Semua -->
     <a 
-      href="{{ route('home', ['search' => request('search'), 'sort' => request('sort')]) }}" 
-      class="bg-gray-300 text-black rounded-full px-5 py-2 text-sm font-medium hover:bg-gray-400 transition">
+      href="{{ route('home', ['search' => request('search'), 'sort' => request('sort')]) }}"
+      class="rounded-full px-5 py-2 text-sm font-medium transition 
+      {{ request('kategori') ? 'bg-gray-300 text-black' : 'bg-[#C4A484] text-white' }}">
       Semua
     </a>
 
+    <!-- Loop kategori -->
     @foreach ($kategoriList as $kategori)
       <a 
         href="{{ route('home', [
@@ -132,8 +97,8 @@
         {{ $kategori }}
       </a>
     @endforeach
-  </div>
 
+  </div>
 
   <!-- Produk -->
   <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-6">

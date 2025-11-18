@@ -27,7 +27,7 @@
                 @foreach ($dataTransaksi as $i => $transaksi)
                     <tr 
                         class="{{ $i % 2 == 0 ? 'bg-[#D2C1AE]' : 'bg-[#A38B74]' }} text-white cursor-pointer hover:bg-opacity-80"
-                        onclick="window.location.href='{{ route('orderDetail', ['id' => $transaksi->id_transaksi]) }}'">
+                        onclick="window.location.href='{{ route('detailTransaksi.show', ['id' => $transaksi->id_transaksi]) }}'">
                         <td class="px-4 py-2">{{ $transaksi->id_transaksi }}</td>
                         <td class="px-4 py-2">{{ $transaksi->tanggal_pesan }}</td>
                         

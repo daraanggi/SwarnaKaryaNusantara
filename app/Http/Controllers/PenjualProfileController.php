@@ -51,7 +51,7 @@ class PenjualProfileController extends Controller
 
         $user->save();
 
-        return redirect()->route('editProfilePenjual')->with('status', 'profile-updated');
+        return redirect()->route('penjual.profile.edit')->with('status', 'profile-updated');
     }
 
     /**
