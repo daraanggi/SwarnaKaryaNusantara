@@ -16,7 +16,16 @@ class AlamatUser extends Model
         'alamat',
         'kota',
         'provinsi',
-        'kode_pos'
+        'kode_pos',
+        'is_utama',
     ];
-}
 
+    protected $casts = [
+        'is_utama' => 'boolean',
+    ];
+    
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
+    }
+}

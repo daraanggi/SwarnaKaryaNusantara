@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="p-6 bg-gray-100 min-h-screen">
-    <div class="max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow-md">
+    <div class="max-w-full mx-auto bg-white p-6 rounded-2xl shadow-xl">
         <h2 class="text-2xl font-bold text-[#6B4C3B] mb-4">Daftar Alamat</h2>
 
         @if(session('success'))
@@ -19,7 +19,6 @@
                 @foreach($alamats as $alamat)
                     <div class="border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition">
 
-                        {{-- HEADER ALAMAT --}}
                         <div class="flex justify-between items-center mb-3">
                             <div>
                                 <p class="font-semibold text-lg text-[#6B4C3B]">
@@ -27,6 +26,7 @@
                                 </p>
                                 <p class="text-gray-600 text-sm">{{ $alamat->no_hp }}</p>
                             </div>
+
                             @if($alamat->is_utama)
                                 <span class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full">
                                     Alamat Utama
@@ -34,15 +34,14 @@
                             @endif
                         </div>
 
-                        {{-- DETAIL --}}
                         <p class="text-gray-700 text-sm mb-3">
                             {{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->provinsi }} - {{ $alamat->kode_pos }}
                         </p>
 
-                        {{-- TOMBOL --}}
+                        {{-- TOMBOL-ACTION --}}
                         <div class="flex flex-wrap gap-3 mt-3">
 
-                            {{-- PAKAI ALAMAT --}}
+                            {{-- PAKAI ALAMAT --}} 
                             <form action="{{ route('alamat.pilih', $alamat->id) }}" method="POST">
                                 @csrf
                                 <button class="px-4 py-2 bg-[#6B4C3B] text-white rounded-lg hover:bg-[#5a3f32]">
@@ -66,18 +65,27 @@
                                 Edit
                             </a>
 
+                            {{-- HAPUS --}}
+                            <form action="{{ route('alamat.destroy', $alamat->id) }}" method="POST" onsubmit="return confirm('Hapus alamat?');">
+                                @csrf
+                                @method('DELETE')
+                                <button class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                                    Hapus
+                                </button>
+                            </form>
+
                         </div>
                     </div>
                 @endforeach
             </div>
         @endif
 
-        {{-- FORM TAMBAH --}}
+
+        {{-- FORM TAMBAH ALAMAT --}}
         <h3 class="text-xl font-semibold text-[#6B4C3B] mb-3">Tambah Alamat Baru</h3>
 
         <form action="{{ route('alamat.store') }}" method="POST" class="space-y-4">
             @csrf
-
             <div>
                 <label class="text-sm font-medium">Nama Penerima</label>
                 <input type="text" name="nama_penerima" class="w-full p-2 border rounded-lg" required>

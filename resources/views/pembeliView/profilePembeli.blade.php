@@ -2,14 +2,13 @@
 
 @section('content')
 <!-- Header -->
-<div id="headerProfile" class="fixed top-0 right-0 z-50 flex justify-between items-center px-4 py-3 bg-[#69553E] text-white font-bold text-lg transition-all duration-300 ml-64 w-[calc(100%-16rem)]">
-    <div class="flex items-center space-x-2">
-        <svg class="w-6 h-6 rotate-180" fill="none" stroke="currentColor" stroke-width="2"
-             viewBox="0 0 24 24">
-        </svg>
-        <span>Profile Saya</span>
+<div id="headerProfil" class="fixed top-0 left-64 right-0 z-50 flex justify-between items-center px-6 py-4 bg-[#FFFFFF] text-primary-brown font-extrabold text-xl transition-all duration-300 border-b border-gray-100 shadow-md">
+    <h1 class="font-bold text-xl">Profil</h1>
+    <div class="flex items-center gap-3">
+        <!-- text-white-700 diubah ke text-gray-700 yang valid -->
+        <span class="text-sm font-semibold text-gray-700">Swarna Karya Nusantara</span>
+        <img src="/images/logo.png" class="w-8 h-8 rounded-full object-contain" alt="Logo"/>
     </div>
-    <img src="/images/logo.png" class="w-10 h-10 rounded-full bg-white object-contain"/>
 </div>
 
 <div class="flex justify-center pt-24">
