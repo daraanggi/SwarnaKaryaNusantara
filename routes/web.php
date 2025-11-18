@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\PembeliProfileController;
 use App\Http\Controllers\TransaksiController;
-use App\Http\Controllers\OrderController;
+//use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\PesananController;
@@ -141,7 +141,7 @@ Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produ
 Route::middleware('auth')->prefix('penjual')->name('penjual.')->group(function () {
     Route::get('/messages/{id}/thread', [MessageController::class, 'thread'])->name('messages.thread');
     Route::post('/messages/{id}/reply', [MessageController::class, 'reply'])->name('messages.reply');
-    Route::post('/penjual/messages', [PenjualMessageController::class, 'store'])->name('messages.store');
+    Route::post('/penjual/messages', [MessageController::class, 'store'])->name('messages.store');
 });
 
 // Riwayat Pencarian
@@ -160,7 +160,15 @@ Route::post('/checkout/store', [TransaksiController::class, 'store'])->name('tra
 // Update profile
 // ------------------------
 Route::patch('/pembeli/profile', [PembeliProfileController::class, 'update'])->name('pembeli.profile.update');
-Route::patch('/penjual/profile', [PenjualProfileController::class, 'update'])->name('penjual.profile.update');
+
+// ------------------------
+// Update & Edit profile penjual
+// ------------------------
+Route::get('/penjual/profile', [PenjualProfileController::class, 'edit'])
+    ->name('penjual.profile.edit');
+
+Route::patch('/penjual/profile/update', [PenjualProfileController::class, 'update'])
+    ->name('penjual.profile.update');
 
 require __DIR__.'/auth.php';
 

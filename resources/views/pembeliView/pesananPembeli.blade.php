@@ -38,8 +38,10 @@
                                 {{ $detail->produk->nama ?? 'Tidak ada nama' }}
                             </p>
                             <p>Total {{ $detail->jumlah ?? 1 }} produk:
-                                Rp {{ number_format($detail->produk->harga * $detail->jumlah, 0, ',', '.') }}
+                                Rp 
+                                {{ number_format(($detail->produk->harga ?? 0) * ($detail->jumlah ?? 1), 0, ',', '.') }}
                             </p>
+
                             <div class="flex gap-2 mt-1 flex-wrap">
                                 <span class="bg-white text-[#82634B] px-2 py-0.5 rounded font-semibold">
                                     Status: {{ $pesanan->status_pengiriman ?? 'Menunggu' }}
