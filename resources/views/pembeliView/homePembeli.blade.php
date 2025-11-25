@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="px-4 py-6 bg-[#fdfbf8] min-h-screen">
+
   <!-- Search & Filter -->
   <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
 
@@ -22,7 +23,6 @@
       </div>
     </form>
 
-
     <!-- Filter -->
     <div class="relative">
       <button id="filterBtn" class="flex items-center gap-1 bg-white border border-gray-300 rounded-full px-4 py-2 text-sm shadow hover:shadow-md transition">
@@ -31,15 +31,16 @@
         </svg>
         Filter
       </button>
+
       <div id="filterDropdown" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-10">
         <ul class="text-sm text-gray-700">
           <li>
-            <a href="{{ route('home', ['search' => request('search'), 'sort' => 'asc', 'kategori' => request('kategori')]) }}"
+            <a href="{{ route('home', ['search' => request('search'), 'sort' => 'asc']) }}"
               class="block w-full text-left px-4 py-2 hover:bg-gray-100 transition">
               Harga Terendah
             </a>
 
-            <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc', 'kategori' => request('kategori')]) }}"
+            <a href="{{ route('home', ['search' => request('search'), 'sort' => 'desc']) }}"
               class="block w-full text-left px-4 py-2 hover:bg-gray-100 transition">
               Harga Tertinggi
             </a>
@@ -47,22 +48,24 @@
         </ul>
       </div>
     </div>
+
   </div>
 
-      <!-- Riwayat Pencarian -->
-    @if(!empty($histories) && count($histories) > 0)
-      <div class="mt-4 mb-4">
-        <h2 class="text-md font-semibold text-[#4B3621] mb-2">Riwayat Pencarian Terakhir</h2>
-        <div class="flex flex-wrap gap-2">
-          @foreach($histories as $history)
-            <a href="{{ route('home', ['search' => $history->keyword]) }}"
-              class="bg-[#6B4F3B]/10 text-[#4B3621] px-3 py-1 rounded-full text-sm hover:bg-[#6B4F3B]/20 transition">
+  <!-- Riwayat Pencarian -->
+  @if(!empty($histories) && count($histories) > 0)
+    <div class="mt-4 mb-4">
+      <h2 class="text-md font-semibold text-[#4B3621] mb-2">Riwayat Pencarian Terakhir</h2>
+      <div class="flex flex-wrap gap-2">
+        @foreach($histories->unique('keyword') as $history)
+          <a href="{{ route('home', ['search' => $history->keyword]) }}"
+            class="bg-[#6B4F3B]/10 text-[#4B3621] px-3 py-1 rounded-full text-sm hover:bg-[#6B4F3B]/20 transition">
               {{ $history->keyword }}
-            </a>
-          @endforeach
-        </div>
+          </a>
+        @endforeach
       </div>
-    @endif
+    </div>
+  @endif
+
 
   <!-- Carousel -->
   <div class="w-full overflow-hidden rounded-3xl mb-6 shadow-md">
@@ -72,36 +75,11 @@
     </div>
   </div>
 
-    <!-- Kategori -->
-  <h2 class="text-lg font-semibold text-[#4B3621] mb-2">Kategori</h2>
-  <div class="flex space-x-4 overflow-x-auto pb-2">
+  <div class="w-full h-6 bg-[#fdfbf8] shadow-[0_-18px_30px_-8px_rgba(107,79,59,0.35)] rounded-t-3xl mt-8 mb-4"></div>
 
-    <!-- Semua -->
-    <a 
-      href="{{ route('home', ['search' => request('search'), 'sort' => request('sort')]) }}"
-      class="rounded-full px-5 py-2 text-sm font-medium transition 
-      {{ request('kategori') ? 'bg-gray-300 text-black' : 'bg-[#C4A484] text-white' }}">
-      Semua
-    </a>
-
-    <!-- Loop kategori -->
-    @foreach ($kategoriList as $kategori)
-      <a 
-        href="{{ route('home', [
-            'kategori' => $kategori,
-            'search'   => request('search'),
-            'sort'     => request('sort'),
-        ]) }}" 
-        class="rounded-full px-5 py-2 text-sm font-medium transition
-              {{ request('kategori') == $kategori ? 'bg-[#3e2f1d] text-white' : 'bg-[#5E472C] text-white hover:bg-[#3e2f1d]' }}">
-        {{ $kategori }}
-      </a>
-    @endforeach
-
-  </div>
 
   <!-- Produk -->
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-6">
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
     @foreach($produk as $item)
       @php
         $isFromStorage = \Illuminate\Support\Str::startsWith($item->foto, 'produk/');
@@ -114,16 +92,20 @@
           <h3 class="text-sm font-semibold text-gray-800 truncate">{{ $item->nama }}</h3>
           <p class="text-sm text-[#6B4F3B] font-bold mt-1">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
         </div>
+
         <a href="{{ route('barang.detail', ['id' => $item->id_produk]) }}" class="mt-3">
-          <button class="bg-[#6B4F3B] text-white text-xs w-full py-2 rounded-full font-semibold hover:bg-[#826141] transition">Lihat Detail</button>
+          <button class="bg-[#6B4F3B] text-white text-xs w-full py-2 rounded-full font-semibold hover:bg-[#826141] transition">
+            Lihat Detail
+          </button>
         </a>
       </div>
     @endforeach
   </div>
+
 </div>
 
+
 <!-- Script Filter -->
-<!-- Script untuk filter dropdown -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const btn = document.getElementById('filterBtn');
@@ -141,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 
+<!-- Clear Search Script -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('searchInput');
@@ -154,17 +137,14 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
-    // Saat diketik
     searchInput.addEventListener('input', toggleClearButton);
 
-    // Saat tombol ✕ diklik
     clearBtn.addEventListener('click', function () {
       searchInput.value = '';
       toggleClearButton();
       searchInput.focus();
     });
 
-    // Tampilkan/hidden saat awal
     toggleClearButton();
   });
 </script>
@@ -186,4 +166,5 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 @endif
+
 @endsection

@@ -3,16 +3,14 @@
 @section('title', 'Ulasan')
 
 @section('content')
-<div id="headerUlasan" class="fixed top-0 right-0 z-50 flex justify-between items-center px-4 py-3 bg-[#69553E] text-white font-bold text-base sm:text-lg w-full">
-    <div class="flex items-center space-x-2">
-        <a href="{{ url()->previous() }}">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-        </a>
-        <span>Ulasan</span>
+<div id="headerUlasan" 
+    class="fixed top-0 left-64 right-0 z-50 flex justify-between items-center px-6 py-4 
+           bg-white text-primary-brown font-extrabold text-xl border-b shadow-sm">
+    <h1 class="font-bold text-xl">Ulasan</h1>
+    <div class="flex items-center gap-3">
+        <span class="text-sm font-semibold text-gray-700">Swarna Karya Nusantara</span>
+        <img src="/images/logo.png" class="w-8 h-8 rounded-full object-contain" alt="Logo"/>
     </div>
-    <img src="/images/logo.png" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white object-contain" />
 </div>
 
 <div class="pt-24 px-4 max-w-2xl mx-auto">
