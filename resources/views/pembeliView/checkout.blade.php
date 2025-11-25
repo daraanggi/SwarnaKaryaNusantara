@@ -6,7 +6,21 @@
 @php
     $items = json_decode(request('items'), true) ?? [];
     $totalBarang = 0;
+    
+    // Ambil alamat utama
     $alamatUtama = \App\Models\AlamatUser::where('is_utama', true)->first();
+
+    // Tentukan alamat yang dipakai (dari session atau alamat utama)
+    $alamatDipakai = session('alamat_checkout')
+        ? \App\Models\AlamatUser::find(session('alamat_checkout'))
+        : $alamatUtama;
+        
+    // Tentukan koordinat peta (gunakan koordinat alamat atau default jika tidak ada)
+    $defaultLat = -7.706113; // Contoh koordinat default
+    $defaultLng = 110.606742; // Contoh koordinat default
+    
+    $lat = $alamatDipakai && $alamatDipakai->latitude ? $alamatDipakai->latitude : $defaultLat;
+    $lng = $alamatDipakai && $alamatDipakai->longitude ? $alamatDipakai->longitude : $defaultLng;
 @endphp
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -32,19 +46,13 @@
 
 <div class="pt-24 pb-10 brown-bg min-h-screen px-5 space-y-5">
 
-    <!-- 🟫 Bagian Alamat -->
     <div class="section-card">
         <div class="flex justify-between items-center pb-2 border-b brown-border">
             <h3 class="font-semibold text-sm brown-primary">Alamat Pengiriman</h3>
             <a href="{{ route('alamat.index') }}" class="text-xs text-blue-600 hover:underline">Ubah Alamat</a>
         </div>
 
-        @php
-            $alamatDipakai = session('alamat_checkout')
-                ? \App\Models\AlamatUser::find(session('alamat_checkout'))
-                : $alamatUtama;
-        @endphp
-
+        {{-- Logika $alamatDipakai sudah ada di atas --}}
         @if($alamatDipakai)
             <div class="mt-3 text-sm text-gray-700">
                 <p class="font-semibold text-gray-900">{{ $alamatDipakai->nama_penerima }} (+62 {{ $alamatDipakai->no_hp }})</p>
@@ -58,7 +66,6 @@
         <div id="map"></div>
     </div>
 
-    <!-- 🟫 Pengiriman & Pembayaran -->
     <div class="section-card space-y-3">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -81,7 +88,6 @@
         </div>
     </div>
 
-    <!-- 🟫 Produk -->
     <div class="section-card">
         <h3 class="font-semibold text-sm brown-primary border-b brown-border pb-2 mb-3">Produk Dipesan</h3>
 
@@ -107,7 +113,6 @@
         @endforelse
     </div>
 
-    <!-- 🟫 Rincian Pembelian -->
     <div class="section-card">
         <h3 class="font-semibold text-sm brown-primary border-b brown-border pb-2 mb-3">Rincian Pembelian</h3>
         <div class="text-sm text-gray-700 space-y-2">
@@ -117,14 +122,31 @@
         </div>
     </div>
 
+{{-- **SCRIPT MAP DINAMIS DARI SINI** --}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var map = L.map('map').setView([-7.706113, 110.606742], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        L.marker([-7.706113, 110.606742]).addTo(map);
+        // Ambil nilai Lat dan Lng dari PHP ke JavaScript
+        var initialLat = @json($lat);
+        var initialLng = @json($lng);
+        var zoomLevel = 15; // Zoom level yang bagus untuk alamat
+
+        var map = L.map('map').setView([initialLat, initialLng], zoomLevel);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Tambahkan marker ke koordinat alamat yang dipilih
+        L.marker([initialLat, initialLng]).addTo(map)
+            .bindPopup("Lokasi Pengiriman")
+            .openPopup();
+
+        // Penting untuk memastikan peta me-render dengan benar setelah elemen muncul
         setTimeout(() => map.invalidateSize(), 500);
     });
 </script>
+{{-- **AKHIR DARI SCRIPT MAP DINAMIS** --}}
 
 <form id="checkoutForm" class="text-end">
     @csrf
