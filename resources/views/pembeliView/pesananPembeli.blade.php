@@ -5,58 +5,81 @@
 @section('content')
 <div class="mt-10 px-4">
     <div class="max-w-3xl mx-auto">
+
         <!-- Header -->
-        <div class="flex items-center space-x-2 mb-4">
-            <div class="bg-[#82634B] text-white rounded-full p-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M3 3h18v2H3V3zm0 4h18v13H3V7zm4 2h10v2H7V9z" />
-                </svg>
+        <div id="headerPesanan"
+            class="fixed top-0 left-64 right-0 z-50 flex justify-between items-center px-6 py-4
+                   bg-white text-primary-brown font-extrabold text-xl border-b shadow-sm">
+            <h1 class="font-bold text-xl">Pesanan</h1>
+            <div class="flex items-center gap-3">
+                <span class="text-sm font-semibold text-gray-700">Swarna Karya Nusantara</span>
+                <img src="/images/logo.png"
+                     class="w-8 h-8 rounded-full object-contain"
+                     alt="Logo" />
             </div>
-            <h2 class="text-lg font-bold text-[#82634B]">Pesanan</h2>
         </div>
+
+        <!-- Spacer untuk menghindari header overlap -->
+        <div class="h-20"></div>
 
         <!-- Daftar Pesanan -->
         @forelse ($pesanans as $pesanan)
             @foreach ($pesanan->detailTransaksi as $detail)
+
                 @php
                     $foto = $detail->produk->foto ?? null;
                     $isFromStorage = \Illuminate\Support\Str::startsWith($foto, 'produk/');
-                    $gambar = $isFromStorage 
-                        ? 'storage/' . $foto 
+                    $gambar = $isFromStorage
+                        ? 'storage/' . $foto
                         : ($foto ? 'images/' . $foto : 'images/produk.jpg');
                 @endphp
 
-                <div class="bg-[#82634B] text-white p-4 rounded-lg shadow mt-4 max-w-3xl mx-auto">
-                    <div class="flex space-x-4">
+                <div class="bg-[#82634B] text-white p-5 rounded-xl shadow-md mt-5 max-w-3xl mx-auto">
+
+                    <div class="flex items-start space-x-4">
+
+                        <!-- Gambar -->
                         <img src="{{ asset($gambar) }}"
-                             class="w-20 h-20 object-cover rounded border"
+                             class="w-24 h-24 object-cover rounded-lg border border-white/40 shadow"
                              alt="Foto Produk"
                              onerror="this.onerror=null; this.src='{{ asset('images/produk.jpg') }}';" />
 
-                        <div>
-                            <p class="font-semibold">
+                        <div class="flex-1">
+
+                            <!-- Nama Produk -->
+                            <p class="font-semibold text-lg leading-tight">
                                 {{ $detail->produk->nama ?? 'Tidak ada nama' }}
                             </p>
-                            <p>Total {{ $detail->jumlah ?? 1 }} produk:
-                                Rp 
-                                {{ number_format(($detail->produk->harga ?? 0) * ($detail->jumlah ?? 1), 0, ',', '.') }}
+
+                            <!-- Jumlah & Total -->
+                            <p class="text-sm mt-1">
+                                Total {{ $detail->jumlah ?? 1 }} produk:
+                                <span class="font-semibold">
+                                    Rp {{ number_format(($detail->produk->harga ?? 0) * ($detail->jumlah ?? 1), 0, ',', '.') }}
+                                </span>
                             </p>
 
-                            <div class="flex gap-2 mt-1 flex-wrap">
-                                <span class="bg-white text-[#82634B] px-2 py-0.5 rounded font-semibold">
+                            <!-- Status -->
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="bg-white text-[#82634B] px-3 py-1 rounded-lg text-sm font-semibold shadow">
                                     Status: {{ $pesanan->status_pengiriman ?? 'Menunggu' }}
                                 </span>
-                                <span class="bg-white text-[#82634B] px-2 py-0.5 rounded font-semibold">
+
+                                <span class="bg-white text-[#82634B] px-3 py-1 rounded-lg text-sm font-semibold shadow">
                                     Pembayaran: {{ $pesanan->status_pembayaran ?? 'Belum dibayar' }}
                                 </span>
                             </div>
+
                         </div>
                     </div>
+
                 </div>
             @endforeach
+
         @empty
-            <p class="text-center text-gray-500 mt-8">Belum ada pesanan.</p>
+            <p class="text-center text-gray-500 mt-10 text-lg">Belum ada pesanan.</p>
         @endforelse
+
     </div>
 </div>
 @endsection

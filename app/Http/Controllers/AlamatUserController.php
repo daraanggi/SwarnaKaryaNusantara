@@ -98,4 +98,5 @@ class AlamatUserController extends Controller
         session(['alamat_checkout' => $alamat->id]);
         return redirect()->route('checkout')->with('success', 'Alamat pengiriman telah dipilih.');
     }
+    
 }
