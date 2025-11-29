@@ -35,6 +35,9 @@ Route::get('/detail', fn() => view('pembeliView.detailBarang'));
 // ------------------------
 Route::get('/homePage', [ProdukController::class, 'index'])->name('home');
 
+ // Halaman pesanan pembeli
+    Route::get('/pesananPembeli', [PesananController::class, 'index'])->name('pesananPembeli');
+
 // ------------------------
 // Group middleware auth
 // ------------------------
@@ -44,60 +47,42 @@ Route::middleware('auth')->group(function () {
     Route::resource('produk', ProdukController::class);
 
 
-    // Admin Dashboard
+    // dashboard
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    // APPROVAL PRODUK
     Route::get('/admin/approval', [AdminController::class, 'approval'])->name('admin.approval');
-    Route::get('/admin/transaksi', [AdminController::class, 'transaksi'])->name('admin.transaksi');
+
+    // detail 1 produk
     Route::get('/admin/approval/{id}', [AdminController::class, 'showApprovalDetail'])->name('admin.detail');
+
+    // SETUJU produk  (INI YANG DIPAKAI route('admin.approve', $id))
     Route::post('/admin/approval/{id}/approve', [AdminController::class, 'approve'])->name('admin.approve');
+
+    // TOLAK produk  (route('admin.reject', $id))
+    Route::post('/admin/approval/{id}/reject', [AdminController::class, 'reject'])->name('admin.reject');
+
+
+    // LAPORAN TRANSAKSI / PERIKSA
+    Route::get('/admin/transaksi', [AdminController::class, 'transaksi'])->name('admin.transaksi');
+   
+    // Laporan transaksi -> list produk
     Route::get('/admin/periksa', [AdminController::class, 'periksa'])->name('admin.periksa');
 
-    // Admin Detail
-   // Route::get('/admin/periksa/{namaToko}', [AdminController::class, 'periksa'])->name('adminperiksa');
-   // Route::get('/admin/periksa', function () {
-   // return view('adminperiksa');
-//})->name('adminperiksa');
+    // Detail 1 produk (stok, terjual, daftar pesanan)
+    Route::get('/admin/pesanan/{id}', [AdminController::class, 'pesanan'])->name('admin.pesanan');
 
-    // Halaman pesanan pembeli
-    Route::get('/pesananPembeli', [PesananController::class, 'index'])->name('pesananPembeli');
+    // Halaman DETAIL satu PESANAN
+    // Route::get('/admin/pesanan/{pesanan}/detail', [AdminController::class, 'detailPesanan'])
+    //     ->name('admin.pesanan.detail');
+    // Halaman detail SATU pesanan (BARU)
+    Route::get('/admin/pesanan/{produk_id}/detail/{order_id}', [AdminController::class, 'pesananDetail'])
+        ->name('admin.pesanan.detail');
+    
+    Route::post('/admin/logout', [App\Http\Controllers\AdminController::class, 'logout'])
+        ->name('admin.logout');
+
 });
-
-// // Halaman ulasan
-// Route::get('/ulasan', function () {
-//     $produk = Produk::first();
-//     return view('pembeliView.ulasan', ['produk' => $produk]);
-
-// })->name('ulasan.form');
-
-
-// Route baru khusus DetailTransaksi
-Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index'])->name('detailTransaksi.index');
-Route::get('/detail-transaksi/{id}', [DetailTransaksiController::class, 'show'])->name('detailTransaksi.show');
-Route::get('/transaksi/detail', [DetailTransaksiController::class, 'showTransactionDetail'])->name('showTransactionDetail');
-<<<<<<< HEAD
-Route::get('/detail-transaksi/{id}', [AdminController::class, 'detailTransaksi'])->name('detailTransaksi.show');
-
-// admin pesanan detail
-Route::get('/admin/pesanan', function () {
-    return view('adminView.adminpesanan');
-})->name('admin.pesanan');
-
-Route::get('/admin/pesanan/{id}', function ($id) {
-    return view('adminView.adminpesanan', compact('id'));
-})->name('admin.pesanan.detail');
-
-Route::get('/admin/periksa', function () {
-    return view('adminView.adminperiksa');
-})->name('admin.periksa');
-=======
-
->>>>>>> 0ed573a (memperbaiki)
-
-Route::post('/admin/logout', [App\Http\Controllers\AdminController::class, 'logout'])
-    ->name('admin.logout');
-
-Route::get('/admin/pesanan/{id}', [AdminController::class, 'showPesanan'])->name('admin.detailPesanan');
-
 
 // ------------------------
 // Ulasan

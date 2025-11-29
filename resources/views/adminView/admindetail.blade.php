@@ -1,71 +1,141 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Approve Produk - {{ $produk['nama'] }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Persetujuan Produk – {{ $produk->nama ?? 'Produk' }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[#3a2c1b] font-sans text-white min-h-screen bg-[url('/images/motif-batik.png')] bg-cover bg-center bg-fixed">
 
-    <!-- Tombol kembali -->
-    <div class="flex items-center p-6">
-        <a href="{{ route('admin.approval') }}" class="text-white text-lg font-semibold flex items-center">
-            <span class="text-2xl mr-2">←</span> Approve Produk
-        </a>
+<body class="min-h-screen font-sans text-white bg-[#3a2c1b]">
+
+  {{-- Strip batik kiri --}}
+  <div class="fixed left-0 top-0 h-screen w-[140px] bg-no-repeat bg-cover bg-center"
+       style="background-image:url('{{ asset('images/background.jpg') }}')"></div>
+
+  {{-- Konten digeser karena strip batik --}}
+  <div class="relative ml-[140px]">
+
+    {{-- Tombol back ke daftar approval --}}
+    <div class="px-6 pt-6">
+      <a href="{{ route('admin.approval') }}"
+         class="inline-flex items-center gap-2 text-white/90 hover:text-white text-[18px] font-semibold">
+        <span class="text-2xl leading-none">←</span>
+        Kembali ke Daftar Produk
+      </a>
     </div>
 
-    <!-- Konten utama -->
-    <div class="flex flex-col items-center px-6">
-        <div class="bg-[#7a5a3a]/90 p-8 rounded-3xl shadow-lg max-w-4xl w-full text-white backdrop-blur-sm">
-            <div class="flex flex-col md:flex-row gap-6">
-                <!-- Gambar produk -->
-                <div class="flex flex-col items-center">
-                    <img src="{{ asset($produk['gambar']) }}" alt="{{ $produk['nama'] }}" class="w-36 h-36 object-cover rounded-xl mb-3 bg-white p-1 shadow-md">
-                    <div class="flex gap-3">
-                        <button class="bg-[#d4c3ac] text-[#4a3a2a] font-semibold text-sm px-4 py-1 rounded-full">Gambar Produk</button>
-                        <button class="bg-[#d4c3ac] text-[#4a3a2a] font-semibold text-sm px-4 py-1 rounded-full">Video Produk</button>
-                    </div>
-                </div>
+    {{-- Card utama --}}
+    <main class="flex justify-center px-4 pb-10">
+      <section class="w-full max-w-[880px] bg-[#6b543f] rounded-[24px] shadow-2xl mt-6 p-6">
 
-                <!-- Informasi produk -->
-                <div class="flex-1">
-                    <div class="mb-2">
-                        <p><strong>Kategori</strong><br>Alat Makan/Minum</p>
-                    </div>
-                    <div class="mb-2">
-                        <p><strong>Stok produk</strong><br>14</p>
-                    </div>
+        {{-- Judul --}}
+        <h1 class="text-[20px] font-semibold mb-5">Persetujuan Produk</h1>
 
-                    <h2 class="text-2xl font-bold mt-4">{{ $produk['nama'] }}</h2>
-                    <p class="text-lg font-semibold text-[#ffefcc]">{{ $produk['harga'] }}</p>
+        {{-- Gambar + meta --}}
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
 
-                    <p class="mt-3 text-sm leading-relaxed">
-                        {{ $produk['deskripsi'] }}
-                    </p>
+          {{-- Gambar produk --}}
+          <div>
+            @php
+              $foto = $produk->foto ?? 'gelas.png';  // fallback aman
+            @endphp
 
-                    <div class="flex mt-6 gap-4 items-start">
-                        <textarea placeholder="Keterangan" name="keterangan" class="w-1/2 h-24 text-gray-800 rounded-lg p-2"></textarea>
-                        
-                        <div class="flex gap-3 mt-auto">
-                            <!-- Form Approve -->
-                            <form action="{{ route('admin.approve', $produk['id']) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="bg-white text-[#4a3a2a] font-bold py-2 px-6 rounded-full shadow-md hover:scale-105 transition">
-                                    Approve
-                                </button>
-                            </form>
+            <img
+              src="{{ asset('images/' . $foto) }}"
+              onerror="this.onerror=null;this.src='{{ asset('images/gelas.png') }}';"
+              alt="{{ $produk->nama ?? 'Produk' }}"
+              class="w-[170px] h-[170px] object-cover rounded-[12px] bg-white p-2 shadow mb-3"/>
 
-                            <!-- Tombol tolak (belum pakai route, nanti bisa ditambah) -->
-                            <button class="bg-white text-[#4a3a2a] font-bold py-2 px-6 rounded-full shadow-md hover:scale-105 transition">
-                                Tolak
-                            </button>
-                        </div>
-                    </div>
-                </div>
+          </div>
+
+          {{-- Informasi kategori & stok --}}
+          <div class="space-y-3">
+            <div>
+              <p class="text-[15px] font-semibold">Kategori</p>
+              <p class="text-[15px]">{{ $produk->kategori ?? 'Alat Makan/Minum' }}</p>
             </div>
+            <div>
+              <p class="text-[15px] font-semibold">Stok Produk</p>
+              <p class="text-[15px]">{{ $produk->stok ?? 0 }}</p>
+            </div>
+          </div>
         </div>
-    </div>
+
+        {{-- Nama + harga --}}
+        <div class="mt-6">
+          <h2 class="text-[22px] font-bold">{{ $produk->nama ?? 'Nama Produk' }}</h2>
+          @php
+            $harga = isset($produk->harga) && (int)$produk->harga > 0
+              ? (int)$produk->harga
+              : 20000; // fallback 20k
+          @endphp
+          <p class="text-[18px] font-semibold text-[#ffefcc]">
+            Rp {{ number_format($harga, 0, ',', '.') }}
+          </p>
+        </div>
+
+        {{-- Deskripsi + textarea keterangan --}}
+        <div class="mt-4 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 items-start">
+          <p class="text-[15px] leading-relaxed">
+            {{ $produk->deskripsi ?? 'Gelas bambu adalah wadah minum yang terbuat dari bambu alami. Ramah lingkungan dan estetis.' }}
+          </p>
+
+          <textarea
+            id="keterangan-admin"
+            placeholder="Keterangan (opsional)"
+            class="w-full h-[110px] rounded-[10px] bg-white/90 text-[#333] p-3 outline-none focus:ring-2 focus:ring-[#d4c3ac]"></textarea>
+        </div>
+
+        {{-- Tombol Setuju / Tolak --}}
+        <div class="mt-6 flex gap-3 justify-end">
+
+          {{-- Form SETUJU --}}
+          <form
+            action="{{ route('admin.approve', $produk->id_produk) }}"
+            method="POST"
+            onsubmit="salinKeterangan(this)">
+            @csrf
+            {{-- hidden yang diisi dari textarea --}}
+            <input type="hidden" name="keterangan" value="">
+
+            <button
+              type="submit"
+              class="px-7 py-2.5 rounded-[12px] bg-white text-[#3f2f1f] font-bold shadow hover:brightness-95">
+              Setuju
+            </button>
+          </form>
+
+          {{-- Form TOLAK --}}
+          <form
+            action="{{ route('admin.reject', $produk->id_produk) }}"
+            method="POST"
+            onsubmit="salinKeterangan(this)">
+            @csrf
+            <input type="hidden" name="keterangan" value="">
+
+            <button
+              type="submit"
+              class="px-7 py-2.5 rounded-[12px] bg-[#ef7d7a] text-white font-bold shadow hover:bg-[#dc5f5c]">
+              Tolak
+            </button>
+          </form>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  {{-- JS: salin isi textarea ke hidden input sebelum submit --}}
+  <script>
+    function salinKeterangan(form) {
+      const teks   = document.getElementById('keterangan-admin').value;
+      const hidden = form.querySelector('input[name="keterangan"]');
+      if (hidden) {
+        hidden.value = teks;
+      }
+    }
+  </script>
 
 </body>
 </html>
