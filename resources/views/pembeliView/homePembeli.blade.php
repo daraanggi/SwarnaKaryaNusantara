@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 
-<!-- Clear Search Script -->
+<!-- Clear di pencarian -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('searchInput');
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 
-@if(session('pesanan_berhasil'))
+@if(session('checkout_success'))
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
         confirmButtonColor: '#6B4F3B',
         confirmButtonText: 'Kembali ke Beranda'
     }).then(() => {
-        window.location.href = "{{ route('home') }}";
+        window.location.href = "{{ route('home') }}"; 
     });
 });
 </script>

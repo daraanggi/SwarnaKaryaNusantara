@@ -10,10 +10,10 @@
         ? asset('storage/' . $produk->foto)
         : asset('images/' . $produk->foto);
 @endphp
+
 <div id="headerDetail" class="fixed top-0 left-64 right-0 z-50 flex justify-between items-center px-6 py-4 bg-[#FFFFFF] text-primary-brown font-extrabold text-xl transition-all duration-300 border-b border-gray-100 shadow-md">
     <h1 class="font-bold text-xl">Detail Barang</h1>
     <div class="flex items-center gap-3">
-        <!-- text-white-700 diubah ke text-gray-700 yang valid -->
         <span class="text-sm font-semibold text-gray-700">Swarna Karya Nusantara</span>
         <img src="/images/logo.png" class="w-8 h-8 rounded-full object-contain" alt="Logo"/>
     </div>
@@ -21,10 +21,11 @@
 
 <div class="px-8 pt-20 pb-20 bg-gradient-to-b from-[#F7F3EF] to-[#FFF9F0] min-h-screen">
     <div class="bg-white shadow-2xl rounded-3xl flex flex-col md:flex-row gap-10 p-8 hover:shadow-3xl transition-shadow duration-300">
-        
+
         <!-- Gambar Produk -->
         <div class="flex-1 flex justify-center items-center relative group overflow-hidden rounded-3xl">
-            <img src="{{ $imagePath }}" alt="{{ $produk->nama }}" class="rounded-3xl object-cover w-full max-h-[500px] transform transition-transform duration-300 group-hover:scale-105 shadow-lg">
+            <img src="{{ $imagePath }}" alt="{{ $produk->nama }}"
+                 class="rounded-3xl object-cover w-full max-h-[500px] transform transition-transform duration-300 group-hover:scale-105 shadow-lg">
             <span class="absolute top-4 left-4 bg-[#6B4F3B] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">10RB+ Terjual</span>
         </div>
 
@@ -44,24 +45,37 @@
             </div>
 
             <div class="flex flex-col gap-5 mt-4">
+
                 <!-- Jumlah Produk -->
                 <div class="flex items-center gap-4">
                     <span class="font-medium text-lg">Jumlah</span>
                     <div class="flex border rounded-full overflow-hidden shadow-sm">
-                        <button id="minus" class="bg-[#6B4F3B] text-white w-12 h-12 flex items-center justify-center text-lg hover:bg-[#5A4230] transition-transform duration-200 hover:scale-110">−</button>
-                        <input type="text" id="jumlah" name="jumlah" value="1" readonly class="w-16 text-center border-x bg-white font-semibold text-gray-700">
-                        <button id="plus" class="bg-[#6B4F3B] text-white w-12 h-12 flex items-center justify-center text-lg hover:bg-[#5A4230] transition-transform duration-200 hover:scale-110">+</button>
+                        <button id="minus"
+                                class="bg-[#6B4F3B] text-white w-12 h-12 flex items-center justify-center text-lg hover:bg-[#5A4230] transition-transform duration-200 hover:scale-110">
+                            −
+                        </button>
+                        <input type="text" id="jumlah" value="1" readonly
+                               class="w-16 text-center bg-white font-semibold text-gray-700">
+                        <button id="plus"
+                                class="bg-[#6B4F3B] text-white w-12 h-12 flex items-center justify-center text-lg hover:bg-[#5A4230] transition-transform duration-200 hover:scale-110">
+                            +
+                        </button>
                     </div>
                 </div>
 
                 <!-- Tombol -->
                 <div class="flex gap-4 flex-wrap">
-                    <button id="addToCart" class="flex items-center gap-2 px-6 py-3 bg-[#6B4F3B] text-white font-semibold rounded-2xl shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300">
+
+                    <!-- Tambah ke Keranjang -->
+                    <button id="addToCart"
+                            class="flex items-center gap-2 px-6 py-3 bg-[#6B4F3B] text-white font-semibold rounded-2xl shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300">
                         Masukan Keranjang
                         <i class="bi bi-cart-plus"></i>
                     </button>
 
-                    <form id="beliSekarangForm" method="GET" action="{{ route('checkout') }}">
+                    <!-- BELI SEKARANG -->
+                    <form id="beliSekarangForm" method="POST" action="{{ route('checkout.start') }}">
+                        @csrf
                         @php
                             $produkItem = [
                                 'id' => $produk->id_produk,
@@ -71,11 +85,15 @@
                                 'jumlah' => 1
                             ];
                         @endphp
+
                         <input type="hidden" id="itemsInput" name="items" value='@json([$produkItem])'>
-                        <button type="submit" class="px-6 py-3 bg-[#6B4F3B] text-white font-semibold rounded-2xl shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300">
+
+                        <button type="submit"
+                                class="px-6 py-3 bg-[#6B4F3B] text-white font-semibold rounded-2xl shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300">
                             Beli Sekarang
                         </button>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -87,50 +105,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const qtyInput = document.getElementById('jumlah');
     const qtyHiddenInput = document.getElementById('itemsInput');
 
-    document.getElementById('plus').onclick = () => {
-        qtyInput.value = parseInt(qtyInput.value) + 1;
-        updateItem();
-    };
+    // Update Qty
+    document.getElementById('plus').onclick = () => updateQty(1);
+    document.getElementById('minus').onclick = () => updateQty(-1);
 
-    document.getElementById('minus').onclick = () => {
-        if (parseInt(qtyInput.value) > 1) {
-            qtyInput.value = parseInt(qtyInput.value) - 1;
-            updateItem();
-        }
-    };
+    function updateQty(change) {
+        let qty = parseInt(qtyInput.value);
+        qty = Math.max(1, qty + change);
+        qtyInput.value = qty;
 
-    function updateItem() {
-        const newQty = parseInt(qtyInput.value);
-        const item = {
+        qtyHiddenInput.value = JSON.stringify([{
             id: "{{ $produk->id_produk }}",
             nama: "{{ $produk->nama }}",
             img: "{{ $imagePath }}",
             harga: {{ $produk->harga }},
-            jumlah: newQty
-        };
-        qtyHiddenInput.value = JSON.stringify([item]);
+            jumlah: qty
+        }]);
     }
 
-    const addToCartBtn = document.getElementById("addToCart");
-    if (addToCartBtn) {
-        addToCartBtn.addEventListener("click", () => {
-            const idProduk = "{{ $produk->id_produk }}";
-            const nama = "{{ $produk->nama }}";
-            const harga = "{{ $produk->harga }}";
-            const img = "{{ $imagePath }}";
-            const qty = parseInt(qtyInput.value);
+    // Tambah ke Keranjang
+    document.getElementById("addToCart").addEventListener("click", () => {
+        const idProduk = "{{ $produk->id_produk }}";
+        const nama = "{{ $produk->nama }}";
+        const harga = "{{ $produk->harga }}";
+        const img = "{{ $imagePath }}";
+        const qty = parseInt(qtyInput.value);
 
-            let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
-            const existing = cart.find(item => item.id === idProduk);
-            if (existing) {
-                existing.qty += qty;
-            } else {
-                cart.push({ id: idProduk, nama, harga, img, qty });
-            }
-            localStorage.setItem('cartItems', JSON.stringify(cart));
-            alert('Produk berhasil ditambahkan ke keranjang!');
-        });
-    }
+        let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+        const existing = cart.find(item => item.id === idProduk);
+
+        if (existing) {
+            existing.qty += qty;
+        } else {
+            cart.push({ id: idProduk, nama, harga, img, qty });
+        }
+        localStorage.setItem('cartItems', JSON.stringify(cart));
+
+        alert('Produk berhasil ditambahkan ke keranjang!');
+    });
 });
 </script>
+
 @endsection

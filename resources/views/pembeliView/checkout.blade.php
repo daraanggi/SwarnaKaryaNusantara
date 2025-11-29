@@ -14,7 +14,7 @@
 </div>
 
 @php
-    $items = json_decode(request('items'), true) ?? [];
+    $items = $items ?? [];
     $totalBarang = 0;
 
     $alamatUtama = \App\Models\AlamatUser::where('is_utama', true)->first();
@@ -44,7 +44,6 @@
         box-shadow: 0 4px 10px rgba(0,0,0,0.04);
     }
 
-    /* FIX UTAMA: wrapper map tidak nabrak */
     #mapWrapper {
         width: 100%;
         height: 260px;
@@ -63,6 +62,14 @@
 </style>
 
 <div class="pt-24 pb-10 brown-bg min-h-screen px-5 space-y-5">
+    
+    {{-- ALERT MESSAGE UNTUK MENAMPILKAN ERROR DARI CONTROLLER --}}
+    @if (session('error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Error!</strong>
+            <span class="block sm:inline">{{ session('error') }}</span>
+        </div>
+    @endif
 
     {{-- ALAMAT --}}
     <div class="section-card">
@@ -83,7 +90,6 @@
             <p class="text-gray-500 text-sm italic mt-3">Belum ada alamat yang dipilih.</p>
         @endif
 
-        {{-- MAP WRAPPER FIX --}}
         <div id="mapWrapper">
             <div id="map"></div>
         </div>
@@ -155,10 +161,13 @@
     </div>
 
     {{-- BUTTON --}}
-    <form id="checkoutForm">
+    <form id="checkoutForm" method="POST" action="{{ route('transaksi.store') }}">
         @csrf
+        @php
+            $totalAkhir = $totalBarang + 16000;
+        @endphp
         <input type="hidden" name="items" value='@json($items)'>
-        <input type="hidden" name="total" value="{{ $totalBarang + 16000 }}">
+        <input type="hidden" name="total" value="{{ $totalAkhir }}">
         <button type="submit" class="w-full bg-[#6B4F3B] hover:bg-[#5A4230] text-white py-3 rounded-lg font-semibold shadow-md">
             Buat Pesanan
         </button>
@@ -180,6 +189,50 @@ document.addEventListener('DOMContentLoaded', function () {
         .openPopup();
 
     setTimeout(() => map.invalidateSize(), 500);
+});
+</script>
+
+{{-- AXIOS & SWEETALERT SCRIPT UNTUK SUBMIT FORM --}}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.getElementById('checkoutForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+
+    axios.post("{{ route('transaksi.store') }}", formData)
+        .then(response => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Pesanan Berhasil!',
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                // Hapus data yang disimpan lokal (jika menggunakan Local Storage)
+                localStorage.removeItem('cartItems');
+                localStorage.removeItem('checkoutItems');
+                // Redirect ke halaman home
+                window.location.href = "{{ route('home') }}";
+            });
+        })
+        .catch(error => {
+            let errorMessage = 'Terjadi kesalahan saat memproses pesanan.';
+
+            if (error.response) {
+                // Cek pesan error 
+                if (error.response.data && error.response.data.message) {
+                    errorMessage = error.response.data.message;
+                } 
+                else if (error.response.status === 422) {
+                    const errors = error.response.data.errors;
+                    const firstErrorKey = Object.keys(errors)[0];
+                    errorMessage = errors[firstErrorKey][0];
+                }
+            }
+            
+            Swal.fire('Error', errorMessage, 'error');
+        });
 });
 </script>
 
