@@ -18,6 +18,13 @@ class PembeliProfileController extends Controller
             'user' => $request->user(),
         ]);
     }
+    public function show(Request $request)
+{
+    return view('pembeliView.profilePembeli', [
+        'user' => $request->user(),
+    ]);
+}
+
 
     /**
      * Update profil pengguna (tanpa FormRequest).
@@ -51,7 +58,8 @@ class PembeliProfileController extends Controller
 
         $user->save();
 
-        return redirect()->route('editProfile')->with('status', 'profile-updated');
+        return redirect()->route('pembeli.profile')
+                 ->with('status', 'profile-updated');
     }
 
     /**

@@ -26,6 +26,7 @@ class Produk extends Model
         'kategori',
         'foto',
         'status',
-        'user_id',
+        'user_id',   // ← INI WAJIB ADA
+
     ];
 }

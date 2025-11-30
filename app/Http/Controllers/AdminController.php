@@ -38,7 +38,9 @@ class AdminController extends Controller
         return view('adminView.admindashboard', compact('stores', 'labels', 'values'));
 }
 
-    // HALAMAN APPROVAL
+
+
+    // Halaman approval produk
     public function approval()
     {
         $produkDisetujui = Produk::where('status', 'disetujui')->count();
@@ -64,13 +66,27 @@ class AdminController extends Controller
         ));
     }
 
+
     // DETAIL PRODUK APPROVAL
     public function showApprovalDetail($id)
     {
+        // Cari produk berdasarkan ID
+    $produk = collect($produkList)->firstWhere('id', $id);
+
+    if (!$produk) {
+        abort(404);
+    }
+
+    return view('adminView.admindetail', compact('produk'));
+    }
+
+
+    // Detail produk (tampil setelah diklik dari halaman approval)
+    public function showPesanan($id)
+    {
 
         $produk = Produk::findOrFail($id);
-
-        return view('adminView.admindetail', compact('produk'));
+    return view('adminView.admindetail', compact('detail', 'id'));
     }
 
     // SETUJU

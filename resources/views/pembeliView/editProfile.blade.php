@@ -2,65 +2,114 @@
 
 @section('title', 'Edit Profil')
 
-@section('content')
-<div id="mainContentWrapper" class="absolute inset-0 flex items-center justify-center px-4">
-    <div class="border rounded-lg p-4 sm:p-6 bg-white space-y-4 w-full max-w-md">
 
-        <!-- Avatar -->
-        <div class="flex justify-center">
-            <div class="relative">
-                <img src="/images/avatar.png" alt="User Avatar"
-                    class="w-24 h-24 rounded-full border-4 border-[#69553E] object-cover shadow">
+@section('content')
+<div id="mainContentWrapper" 
+    class="min-h-screen flex justify-center items-start pt-32 pb-20 px-6 bg-gradient-to-br from-[#F3ECE6] to-[#E8DCCF] transition-all duration-300">
+
+    <div class="w-full max-w-3xl bg-white rounded-3xl shadow-xl p-10 border border-[#E4D7CA]">
+
+
+         <!-- Header -->
+<div id="headerEditProfil" 
+    class="fixed top-0 left-64 right-0 z-50 flex justify-between items-center px-6 py-4 
+           bg-white text-primary-brown font-extrabold text-xl border-b shadow-sm">
+    <h1 class="font-bold text-xl"> Edit Profil</h1>
+    <div class="flex items-center gap-3">
+        <span class="text-sm font-semibold text-gray-700">Swarna Karya Nusantara</span>
+        <img src="/images/logo.png" class="w-8 h-8 rounded-full object-contain" alt="Logo"/>
+    </div>
+</div>
+        <div class="text-center mb-10">
+            <div class="rounded-full bg-gradient-to-b from-[#FFFFF] to-[#FFFFF] p-1 shadow-xl w-32 h-32 mx-auto flex items-center justify-center">
+                <div class="bg-white rounded-full overflow-hidden w-full h-full">
+                    <img src="/images/profill.jpg"
+                         class="w-full h-full object-cover"
+                         onerror="this.src='{{ asset('images/default-profile.png') }}'">
+                </div>
             </div>
+
+            <h2 class="text-3xl font-extrabold text-[#6B4F3B] mt-6 tracking-wide">
+                Edit Profil
+            </h2>
+
+            <p class="text-sm text-gray-500 mt-1">
+                Perbarui informasi akun anda
+            </p>
         </div>
 
-        <h2 class="text-xl font-semibold text-[#69553E] text-center">Informasi Akun Pengguna</h2>
-
         @if (session('status') === 'profile-updated')
-            <div class="text-green-600 text-sm font-semibold">Profil berhasil diperbarui.</div>
+            <div class="text-green-600 text-sm font-semibold text-center mb-6">
+                Profil berhasil diperbarui.
+            </div>
         @endif
 
-        <!-- Form Edit Profil -->
-        <form id="formProfil" method="POST" action="{{ route('pembeli.profile.update') }}" class="space-y-4">
+        <!-- FORM -->
+        <form id="formProfil" method="POST" action="{{ route('pembeli.profile.update') }}" class="space-y-8">
             @csrf
             @method('PATCH')
 
-            <div>
-                <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                <input id="name" name="name" type="text" value="{{ auth()->user()->name }}"
-                    class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
+            @php
+                $classInput = "w-full bg-gray-100 border border-gray-300 rounded-xl px-4 py-3 text-gray-700
+                               shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-[#8B5E3C]
+                               transition-all duration-200 focus:bg-white";
+            @endphp
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 mb-1 block">Nama Lengkap</label>
+                    <input id="name" name="name" type="text"
+                        value="{{ auth()->user()->name }}" class="{{ $classInput }}" disabled>
+                </div>
+
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 mb-1 block">Email</label>
+                    <input id="email" name="email" type="email"
+                        value="{{ auth()->user()->email }}" class="{{ $classInput }}" disabled>
+                </div>
+
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 mb-1 block">No. Telepon</label>
+                    <input id="no_telepon" name="no_telepon" type="text"
+                        value="{{ auth()->user()->no_telepon }}" class="{{ $classInput }}" disabled>
+                </div>
+
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 mb-1 block">Password</label>
+                    <input id="password" name="password" type="password"
+                        placeholder="Biarkan kosong jika tidak diubah" class="{{ $classInput }}" disabled>
+                </div>
             </div>
 
-            <div>
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input id="email" name="email" type="email" value="{{ auth()->user()->email }}"
-                    class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
-            </div>
-
-            <div>
-                <label for="no_telepon" class="block text-sm font-medium text-gray-700">No. Telepon</label>
-                <input id="no_telepon" name="no_telepon" type="text" value="{{ auth()->user()->no_telepon }}"
-                    class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
-            </div>
-
-            <div>
-                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input id="password" name="password" type="password" placeholder="Biarkan kosong jika tidak diubah"
-                    class="mt-1 w-full text-sm bg-gray-100 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]" disabled>
-            </div>
-
-            <div class="flex justify-end gap-2 pt-4">
+            <!-- BUTTONS -->
+            <div class="flex justify-end gap-4 pt-6">
+                
                 <button type="button" id="btnBatal"
-                    class="hidden text-gray-600 px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 text-sm">Batal</button>
+                    class="hidden px-6 py-2.5 rounded-xl border border-gray-300 text-gray-600
+                           hover:bg-gray-100 transition duration-200 text-sm font-medium">
+                    Batal
+                </button>
+                
                 <button type="button" id="btnEdit"
-                    class="bg-[#69553E] hover:bg-[#4d3f2c] text-white px-4 py-2 rounded-md text-sm">Edit</button>
+                    class="px-6 py-2.5 rounded-xl bg-[#8B5E3C] text-white text-sm font-semibold
+                           hover:bg-[#6B4F3B] shadow-md transition duration-200">
+                    Edit Profil
+                </button>
+
                 <button type="submit" id="btnSubmit"
-                    class="hidden bg-[#69553E] hover:bg-[#4d3f2c] text-white px-4 py-2 rounded-md text-sm">Simpan</button>
+                    class="hidden px-6 py-2.5 rounded-xl bg-[#8B5E3C] text-white text-sm font-semibold
+                           hover:bg-[#6B4F3B] shadow-md transition duration-200">
+                    Simpan Perubahan
+                </button>
             </div>
+
         </form>
+
     </div>
 </div>
 
+<!-- SCRIPT EDIT / BATAL -->
 <script>
     const btnEdit = document.getElementById('btnEdit');
     const btnBatal = document.getElementById('btnBatal');
@@ -77,6 +126,7 @@
             input.classList.remove('bg-gray-100');
             input.classList.add('bg-white');
         });
+
         btnEdit.classList.add('hidden');
         btnSubmit.classList.remove('hidden');
         btnBatal.classList.remove('hidden');
@@ -89,48 +139,10 @@
             input.classList.remove('bg-white');
             input.classList.add('bg-gray-100');
         });
+
         btnEdit.classList.remove('hidden');
         btnSubmit.classList.add('hidden');
         btnBatal.classList.add('hidden');
-    });
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const header = document.getElementById('headerProfil');
-        const mainWrapper = document.getElementById('mainContentWrapper');
-        const toggleBtn = document.getElementById('toggleSidebar');
-        const sidebar = document.getElementById('sidebar');
-
-        function updateLayout() {
-            const collapsed = document.body.classList.contains('sidebar-collapsed');
-            if (collapsed) {
-                sidebar?.classList.remove('w-64');
-                sidebar?.classList.add('w-16');
-                if (header) {
-                    header.style.marginLeft = '4rem';
-                    header.style.width = 'calc(100% - 4rem)';
-                }
-                mainWrapper.style.marginLeft = '4rem';
-            } else {
-                sidebar?.classList.remove('w-16');
-                sidebar?.classList.add('w-64');
-                if (header) {
-                    header.style.marginLeft = '16rem';
-                    header.style.width = 'calc(100% - 16rem)';
-                }
-                mainWrapper.style.marginLeft = '16rem';
-            }
-        }
-
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
-                document.body.classList.toggle('sidebar-collapsed');
-                setTimeout(updateLayout, 100);
-            });
-        }
-
-        updateLayout();
     });
 </script>
 @endsection

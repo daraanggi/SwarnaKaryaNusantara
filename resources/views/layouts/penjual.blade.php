@@ -48,19 +48,25 @@
 
             <!-- Navigasi -->
             <nav class="mt-4 space-y-2">
+                <!-- Menu Home Page -->
+                <a href="{{ route('homePagePenjual') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
+                    <i class="bi bi-house-door text-xl"></i>
+                    <span class="sidebar-text">Beranda</span>
+                </a>
+                
                 <a href="{{ route('manageProduct') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
                     <i class="bi bi-box-seam text-xl"></i>
-                    <span class="sidebar-text">Manage Product</span>
+                    <span class="sidebar-text">Kelola Produk</span>
                 </a>
                <a href="{{ route('showTransactionDetail') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
                     <i class="bi bi-receipt text-xl"></i>
-                    <span class="sidebar-text">Transaction Detail</span>
+                    <span class="sidebar-text">Laporan Transaksi</span>
                 </a>
 
                 <!-- Menu Profile -->
-                <a href="{{ url('/editProfilePenjual') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
+                <a href="{{ route('penjual.profile.edit') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-[#5a3e32]">
                     <i class="bi bi-person-circle text-xl"></i>
-                    <span class="sidebar-text">Profile</span>
+                    <span class="sidebar-text">Profil</span>
                 </a>
             </nav>
         </aside>
