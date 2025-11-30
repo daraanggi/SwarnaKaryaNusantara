@@ -24,22 +24,9 @@ Route::get('/register/penjual', [RegisteredUserController::class, 'createPenjual
 Route::post('/register/penjual', [RegisteredUserController::class, 'storePenjual'])->name('register.penjual.store');
 
 // ------------------------
-// Halaman detail barang pembeli
-// ------------------------
-Route::get('/detail', fn() => view('pembeliView.detailBarang'));
-
-// ------------------------
-// Homepage pembeli
-// ------------------------
-Route::get('/homePage', [ProdukController::class, 'index'])->name('home');
-
-// ------------------------
 // Group middleware auth
 // ------------------------
 Route::middleware('auth')->group(function () {
-
-    // Produk CRUD resource
-    Route::resource('produk', ProdukController::class);
 
     // ---------------- Admin ----------------
     Route::prefix('admin')->group(function () {

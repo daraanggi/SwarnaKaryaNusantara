@@ -2,28 +2,31 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Produk extends Model
 {
+    use HasFactory;
+
+    // nama tabel di SQLite
     protected $table = 'produk';
+
     protected $primaryKey = 'id_produk';
-    public $incrementing = true;
-    protected $keyType = 'int';
+
+    // kalau pakai created_at & updated_at
+    public $timestamps = true;
+
+    // kolom yang boleh diisi mass assignment
     protected $fillable = [
         'nama',
         'deskripsi',
         'stok',
         'harga',
-        'foto',
         'kategori',
+        'foto',
+        'status',
         'user_id',   // ← INI WAJIB ADA
 
     ];
-    public $timestamps = true;
-
-    public function detailTransaksi()
-    {
-        return $this->hasMany(DetailTransaksi::class, 'id_produk', 'id_produk');
-    }
 }

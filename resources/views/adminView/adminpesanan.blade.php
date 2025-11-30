@@ -19,44 +19,63 @@
     <aside class="w-64 bg-primary-brown text-white flex flex-col items-center py-6 shadow-2xl">
         <div class="mb-10 flex flex-col items-center">
             <div class="w-28 h-28 bg-white rounded-full p-2 flex items-center justify-center shadow-xl mb-4">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-full h-full object-contain rounded-full">
+                <img src="{{ asset('images\logo.png') }}" alt="Logo" class="w-full h-full object-contain rounded-full">
             </div>
             <h1 class="text-center font-semibold text-lg">Swarna Karya Nusantara</h1>
         </div>
 
-        <nav class="w-full mt-6 space-y-4 px-3">
-            <a href="{{ url('/admin/dashboard') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg bg-gray-200 text-primary-brown font-semibold shadow-lg hover:bg-gray-300 transition">
-                <span>Approval Product</span>
-            </a>
-            <a href="{{ route('admin.pesanan') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg bg-[#2b2b2b] text-white font-semibold shadow-xl">
-                <span>Laporan Transaksi</span>
-            </a>
+        {{-- Menu --}}
+        <nav class="w-full mt-4 space-y-4 px-3">
+        {{-- Persetujuan Produk (non-aktif) --}}
+        <a href="{{ route('admin.approval') }}"
+            class="flex items-center gap-3 py-3 px-4 rounded-r-full bg-[#8B6F55] text-white font-semibold shadow-lg hover:bg-[#9a7b5e] transition">
+            {{-- ikon centang --}}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M2.25 12a9.75 9.75 0 1119.5 0 9.75 9.75 0 01-19.5 0zm13.36-2.59a.75.75 0 10-1.22-.86l-3.54 5.02-2.07-2.07a.75.75 0 10-1.06 1.06l2.75 2.75c.3.3.78.27 1.05-.06l3.99-5.84z" clip-rule="evenodd"/>
+            </svg>
+            <span>Persetujuan Produk</span>
+        </a>
+
+        {{-- Laporan Transaksi (aktif) --}}
+        <div class="flex items-center gap-3 py-3 px-4 rounded-r-full bg-black text-white font-semibold shadow-lg">
+            {{-- ikon user --}}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/>
+            <path d="M4.5 20.25a7.5 7.5 0 1 1 15 0v.75H4.5v-.75Z"/>
+            </svg>
+            <span>Laporan Transaksi</span>
+        </div>
         </nav>
     </aside>
 
     <main class="flex-1 p-10 bg-[#f3f3f3] overflow-auto">
         <div class="max-w-3xl mx-auto">
 
-            <div class="flex items-center mb-6">
-                <a href="{{ route('admin.pesanan') }}" class="mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary-brown hover:text-[#4b3621] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </a>
-                <h2 class="text-2xl font-bold text-primary-brown">Laporan Transaksi</h2>
-            </div>
+        <div class="flex items-center mb-6">
+            <!-- KEMBALI KE HALAMAN PERIKSA -->
+            <a href="{{ route('admin.periksa') }}" class="mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                    class="h-8 w-8 text-primary-brown hover:text-[#4b3621] transition"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+
+            <h2 class="text-2xl font-bold text-primary-brown">Laporan Transaksi</h2>
+        </div>
 
             <div class="bg-primary-brown text-white rounded-3xl shadow-xl p-6">
-                <h3 class="text-xl font-semibold mb-4">Kendi Tanah Liat</h3>
+                <h3 class="text-xl font-semibold mb-4">{{ $produk->nama }}</h3>
 
                 <div class="space-y-3 mb-5">
                     <div class="flex justify-between bg-white text-black rounded-full py-2 px-4">
                         <span>Jumlah Stok</span>
-                        <span class="font-semibold">150</span>
+                        <span class="font-semibold">{{ $produk->stok }}</span>
                     </div>
                     <div class="flex justify-between bg-white text-black rounded-full py-2 px-4">
                         <span>Jumlah Terjual</span>
-                        <span class="font-semibold">35</span>
+                        <span class="font-semibold">{{ $orders->sum('jumlah') }}</span>
                     </div>
                 </div>
 
@@ -67,26 +86,23 @@
                     </div>
 
                     <div class="space-y-1">
-                        @php
-                            // Dalam aplikasi nyata, variabel $orders ini harus dilewatkan dari controller
-                            // Contoh data dummy untuk simulasi loop
-                            $orders = [
-                                ['id' => 101, 'telp' => '0987654321'],
-                                ['id' => 102, 'telp' => '0987654321'],
-                                ['id' => 103, 'telp' => '0987654321'],
-                                // Jika ada pesanan baru, tinggal tambahkan data di sini.
-                            ];
-                        @endphp
-                        
-                        @foreach ($orders as $order)
-                            <div class="flex justify-between">
-                                <a href="{{ route('detailTransaksi.show', $order['id']) }}" class="order-link">
-                                    Pesanan {{ $loop->iteration }} 
-                                </a>
-                                <span>{{ $order['telp'] }}</span>
+                        @if ($orders->isEmpty())
+                            <div class="py-2 text-center text-gray-500">
+                                Belum ada pesanan untuk produk ini.
                             </div>
-                        @endforeach
+                        @else
+                            @foreach ($orders as $order)
+                                <div class="flex justify-between">
+                                    {{-- Link ke halaman DETAIL pesanan --}}
+                                    <a href="{{ route('admin.pesanan.detail', [$produk->id_produk, $order->id]) }}" class="order-link">
+                                        Pesanan {{ $loop->iteration }}
+                                    </a>
+                                    <span>{{ $order->no_telp }}</span>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
+
                 </div>
             </div>
         </div>
