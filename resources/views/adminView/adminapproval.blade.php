@@ -145,11 +145,11 @@
                           shadow-md hover:bg-white/20 transition border border-white/20">
                 <div class="flex items-center gap-4">
                   <img
-                    src="{{ asset('images/' . ($produk['foto'] ?? '')) }}"
-                    alt="{{ $produk['nama'] }}"
+                    src="{{ $produk->foto ? asset('storage/' . $produk->foto) : asset('images/gelas.png') }}"
+                    alt="{{ $produk->nama }}"
                     class="w-16 h-16 rounded-lg object-cover bg-white p-1 shadow"
-                    onerror="this.onerror=null;this.src='{{ asset('images/gelas.png') }}';"
                   />
+
                   <p class="text-lg font-semibold text-white">{{ $produk['nama'] }}</p>
                 </div>
 

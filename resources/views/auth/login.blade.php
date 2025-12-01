@@ -79,8 +79,35 @@
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
+        
+    <!-- ===================== SCRIPT REMEMBER EMAIL ===================== -->
+    <script>
+        const emailInput = document.querySelector('#email');
+        const rememberCheckbox = document.querySelector('#remember_me');
+
+        // Load email kalau sebelumnya disimpan
+        if (localStorage.getItem('savedEmail')) {
+            emailInput.value = localStorage.getItem('savedEmail');
+            rememberCheckbox.checked = true;
+        }
+
+        // Simpan email ketika checkbox dicentang
+        rememberCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                localStorage.setItem('savedEmail', emailInput.value);
+            } else {
+                localStorage.removeItem('savedEmail');
+            }
+        });
+
+        // Update email kalau user edit
+        emailInput.addEventListener('input', function () {
+            if (rememberCheckbox.checked) {
+                localStorage.setItem('savedEmail', this.value);
+            }
+        });
+    </script>
     </div>
 </x-guest-layout>

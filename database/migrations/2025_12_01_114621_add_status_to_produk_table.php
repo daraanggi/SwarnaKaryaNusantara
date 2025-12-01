@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('user');
+        Schema::table('produk', function (Blueprint $table) {
+            $table->string('status')->nullable()->after('stok');
+            // status bisa 'pending', 'disetujui', 'ditolak'
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
-   public function down(): void
+    public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
+        Schema::table('produk', function (Blueprint $table) {
+            $table->dropColumn('status');
         });
     }
 };

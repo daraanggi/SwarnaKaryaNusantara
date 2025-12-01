@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Produk extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes; // tambahkan SoftDeletes
 
-    // nama tabel di SQLite
     protected $table = 'produk';
-
     protected $primaryKey = 'id_produk';
-
-    // kalau pakai created_at & updated_at
     public $timestamps = true;
 
-    // kolom yang boleh diisi mass assignment
     protected $fillable = [
         'nama',
         'deskripsi',
@@ -26,7 +23,8 @@ class Produk extends Model
         'kategori',
         'foto',
         'status',
-        'user_id',   // ← INI WAJIB ADA
-
+        'user_id',
     ];
+
+    protected $dates = ['deleted_at']; // wajib untuk SoftDeletes
 }
