@@ -6,6 +6,7 @@ use App\Models\RiwayatPencarian; // tambahkan di atas
 use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class ProdukController extends Controller
@@ -13,9 +14,8 @@ class ProdukController extends Controller
     // HomePage untuk pembeli
    public function index(Request $request)
     {
-        $query = Produk::query();
+        $query = Produk::where('status', 'disetujui'); // filter produk disetujui
 
-        // Simpan pencarian ke history
         if ($request->has('search') && $request->search != '') {
             $query->where('nama', 'like', '%' . $request->search . '%');
 
@@ -26,7 +26,6 @@ class ProdukController extends Controller
                 ]);
             }
         }
-
         if ($request->filled('kategori')) {
             $query->where('kategori', $request->kategori);
         }
@@ -112,7 +111,7 @@ class ProdukController extends Controller
             $query->where('nama', 'like', '%' . $request->search . '%');
         }
 
-        $produk = $query->get();
+        $produk = $query->orderBy('updated_at', 'desc')->get(); // urut berdasarkan waktu update
 
         return view('penjualView.homePagePenjual', compact('produk'));
     }
@@ -141,6 +140,7 @@ class ProdukController extends Controller
         }
 
         $validated['user_id'] = Auth::id();
+        $validated['status'] = 'pending'; // produk baru harus menunggu approval
         Produk::create($validated);
 
         return redirect()->route('manageProduct')->with('success', 'Produk berhasil ditambahkan!');
@@ -163,7 +163,10 @@ class ProdukController extends Controller
     // Menampilkan halaman manage product penjual
     public function manageProduct()
     {
-        $produk = Produk::where('user_id', Auth::id())->get();
+        $produk = Produk::where('user_id', Auth::id())
+                        ->orderBy('updated_at', 'desc') // terbaru muncul paling atas
+                        ->get();
+
         return view('penjualView.manageProduct', compact('produk'));
     }
 
@@ -180,7 +183,9 @@ class ProdukController extends Controller
     // Menampilkan detail produk versi pembeli
     public function showPembeli($id)
     {
-        $produk = Produk::where('id_produk', $id)->firstOrFail();
+        $produk = Produk::where('id_produk', $id)
+            ->where('status', 'disetujui') // hanya yang disetujui
+            ->firstOrFail();
         return view('pembeliView.detailBarang', compact('produk'));
     }
 
@@ -188,6 +193,11 @@ class ProdukController extends Controller
     public function destroy($id)
     {
         $produk = Produk::where('id_produk', $id)->firstOrFail();
+
+        // Hapus pesanan terkait
+        DB::table('pesanan')->where('produk_id', $produk->id_produk)->delete();
+
+        // Baru hapus produk
         $produk->delete();
 
         return redirect()->route('manageProduct')->with('success', 'Produk berhasil dihapus.');

@@ -23,8 +23,9 @@
         <tr>
             <th>Nama Produk</th>
             <th>Stok</th>
+            <th>Status</th> {{-- Tambahan kolom Status --}}
             <th>Tambah Stok</th>
-            <th>Hapus Produk</th> <!-- Tambahan ini -->
+            <th>Hapus Produk</th>
         </tr>
         </thead>
 
@@ -33,6 +34,18 @@
                 <tr>
                     <td class="border px-4 py-2">{{ $item->nama }}</td>
                     <td class="border px-4 py-2">{{ $item->stok }}</td>
+                    
+                    {{-- Status produk --}}
+                    <td class="border px-4 py-2">
+                        @if($item->status === 'disetujui')
+                            <span class="px-2 py-1 rounded-full bg-green-200 text-green-800 font-semibold">Disetujui</span>
+                        @elseif($item->status === 'pending' || is_null($item->status))
+                            <span class="px-2 py-1 rounded-full bg-yellow-200 text-yellow-800 font-semibold">Proses</span>
+                        @elseif($item->status === 'ditolak')
+                            <span class="px-2 py-1 rounded-full bg-red-200 text-red-800 font-semibold">Ditolak</span>
+                        @endif
+                    </td>
+
                     <td class="border px-4 py-2">
                         <form method="POST" action="{{ route('produk.tambahStok', ['id' => $item->id_produk]) }}">
                             @csrf
@@ -40,7 +53,7 @@
                             <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded">+</button>
                         </form>
                     </td>
-                    <!-- Hapus Produk -->
+
                     <td>
                         <form action="{{ route('produk.destroy', $item->id_produk) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus produk ini?');">
                             @csrf

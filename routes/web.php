@@ -24,9 +24,17 @@ Route::get('/register/penjual', [RegisteredUserController::class, 'createPenjual
 Route::post('/register/penjual', [RegisteredUserController::class, 'storePenjual'])->name('register.penjual.store');
 
 // ------------------------
+// Homepage pembeli
+// ------------------------
+Route::get('/homePage', [ProdukController::class, 'index'])->name('home');
+
+// ------------------------
 // Group middleware auth
 // ------------------------
 Route::middleware('auth')->group(function () {
+
+    // Produk CRUD resource
+    Route::resource('produk', ProdukController::class);
 
     // ---------------- Admin ----------------
     Route::prefix('admin')->group(function () {
@@ -35,6 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/transaksi', [AdminController::class, 'transaksi'])->name('admin.transaksi');
         Route::get('/approval/{id}', [AdminController::class, 'showApprovalDetail'])->name('admin.detail');
         Route::post('/approval/{id}/approve', [AdminController::class, 'approve'])->name('admin.approve');
+        Route::post('/produk/{id}/reject', [AdminController::class, 'reject'])->name('admin.reject'); // <--- tambahkan ini
         Route::get('/periksa', [AdminController::class, 'periksa'])->name('admin.periksa');
         Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
         Route::get('/pesanan/{id}', [AdminController::class, 'showPesanan'])->name('admin.detailPesanan');
@@ -89,6 +98,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/penjual/produk/{id}', [ProdukController::class, 'showPenjual'])->name('penjual.produk.detail');
     Route::get('/penjual/create', [ProdukController::class, 'create'])->name('penjual.create');
     Route::get('/penjual/stok', [ProdukController::class, 'stok'])->name('penjual.stok');
+    Route::get('/transaction/download', [App\Http\Controllers\TransaksiController::class, 'download'])->name('transaction.download');
     Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
     Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 
