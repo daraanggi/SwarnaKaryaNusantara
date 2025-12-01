@@ -59,11 +59,14 @@ Route::middleware('auth')->group(function () {
         Route::put('{id}', [AlamatUserController::class, 'update'])->name('alamat.update');
         Route::delete('{id}', [AlamatUserController::class, 'destroy'])->name('alamat.destroy');
         Route::post('set-utama/{id}', [AlamatUserController::class, 'setUtama'])->name('alamat.setUtama');
-        Route::post('pilih/{id}', [AlamatUserController::class, 'pilih'])->name('alamat.pilih');
+        //Route::post('pilih/{id}', [AlamatUserController::class, 'pilih'])->name('alamat.pilih');
+        Route::get('pilih/{id}', [AlamatUserController::class, 'pilih'])->name('alamat.pilih');
+
     });
 
     // ---------------- Pesanan Pembeli ----------------
     Route::get('/pesananPembeli', [PesananController::class, 'index'])->name('pesananPembeli');
+    Route::get('/pesanan', [TransaksiController::class, 'pesananUser'])->name('pesanan.user');
     
 
     // ---------------- Detail Transaksi ----------------

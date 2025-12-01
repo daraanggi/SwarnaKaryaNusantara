@@ -17,6 +17,7 @@ class Transaksi extends Model
         'tanggal_pembayaran',
         'status_pesanan',
         'total_harga',
+        'id_alamat', // WAJIB
     ];
 
     public function detailTransaksi()
