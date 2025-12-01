@@ -68,22 +68,20 @@ class AdminController extends Controller
 
 
     // DETAIL PRODUK APPROVAL
+    // Sebelumnya kamu pakai filter status → bisa bikin 404
     public function showApprovalDetail($id)
     {
-        // Cari produk yang pending atau belum disetujui
-        $produk = Produk::whereNull('status')
-            ->orWhere('status', 'pending')
-            ->findOrFail($id);
-
+        $produk = Produk::findOrFail($id); // ambil produk berdasarkan ID tanpa filter status
         return view('adminView.admindetail', compact('produk'));
     }
+
+
 
     // Detail produk (tampil setelah diklik dari halaman approval)
     public function showPesanan($id)
     {
-
         $produk = Produk::findOrFail($id);
-    return view('adminView.admindetail', compact('detail', 'id'));
+        return view('adminView.admindetail', compact('produk'));
     }
 
     // SETUJU

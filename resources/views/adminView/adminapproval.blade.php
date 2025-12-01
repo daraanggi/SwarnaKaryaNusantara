@@ -153,8 +153,7 @@
                   <p class="text-lg font-semibold text-white">{{ $produk['nama'] }}</p>
                 </div>
 
-                <a href="{{ route('admin.detail', ['id' => $produk['id'] ?? $produk['id_produk'] ?? null]) }}"
-                  class="text-white underline hover:text-gray-200 text-base font-medium">
+                <a href="{{ route('admin.detail', ['id' => $produk->id_produk]) }}">
                   Detail
                 </a>
               </div>
