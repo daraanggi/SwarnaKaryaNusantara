@@ -13,6 +13,7 @@ use App\Http\Controllers\DetailTransaksiController;
 use App\Http\Controllers\Penjual\MessageController;
 use App\Http\Controllers\RiwayatPencarianController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CheckoutController;
 
 // ------------------------
 // Route utama / Login
@@ -27,6 +28,7 @@ Route::post('/register/penjual', [RegisteredUserController::class, 'storePenjual
 // Homepage pembeli
 // ------------------------
 Route::get('/homePage', [ProdukController::class, 'index'])->name('home');
+
 
 // ------------------------
 // Group middleware auth
@@ -62,6 +64,7 @@ Route::middleware('auth')->group(function () {
 
     // ---------------- Pesanan Pembeli ----------------
     Route::get('/pesananPembeli', [PesananController::class, 'index'])->name('pesananPembeli');
+    
 
     // ---------------- Detail Transaksi ----------------
     Route::get('/detail-transaksi', [DetailTransaksiController::class, 'index'])->name('detailTransaksi.index');
@@ -81,8 +84,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/produk/detail/{id}', [ProdukController::class, 'showPembeli'])->name('barang.detail');
 
     // ---------------- Checkout ----------------
-    Route::get('/checkout', [TransaksiController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout/start', [TransaksiController::class, 'startCheckout'])->name('checkout.start');
+    Route::get('/checkout', [TransaksiController::class, 'showCheckout'])->name('checkout.show');
     Route::post('/checkout/store', [TransaksiController::class, 'store'])->name('transaksi.store');
+   
+    // ---------------- Redirect setelah checkout ----------------
+    Route::get('/homePembeli', [App\Http\Controllers\HomeController::class, 'index'])->name('homePembeli');
 
     // ---------------- Update profile pembeli ----------------
     Route::patch('/pembeli/profile', [PembeliProfileController::class, 'update'])->name('pembeli.profile.update');
@@ -113,7 +120,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/history', [RiwayatPencarianController::class, 'index'])->name('search.history');
     Route::post('/search/store', [RiwayatPencarianController::class, 'store'])->name('search.store');
     Route::delete('/search/history/{id}', [RiwayatPencarianController::class, 'destroy'])->name('search.destroy');
-
 });
 
 require __DIR__.'/auth.php';

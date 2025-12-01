@@ -96,7 +96,7 @@ class AlamatUserController extends Controller
     {
         $alamat = AlamatUser::where('user_id', Auth::id())->findOrFail($id);
         session(['alamat_checkout' => $alamat->id]);
-        return redirect()->route('checkout')->with('success', 'Alamat pengiriman telah dipilih.');
+        return redirect()->route('checkout.show')->with('success', 'Alamat pengiriman telah dipilih.');
     }
     
 }
