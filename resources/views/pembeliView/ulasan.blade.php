@@ -3,6 +3,8 @@
 @section('title', 'Ulasan')
 
 @section('content')
+
+{{-- ================= HEADER ================= --}}
 <div id="headerUlasan" 
     class="fixed top-0 left-64 right-0 z-50 flex justify-between items-center px-6 py-4 
            bg-white text-primary-brown font-extrabold text-xl border-b shadow-sm">
@@ -15,14 +17,13 @@
 
 <div class="pt-24 px-4 max-w-2xl mx-auto">
 
-    {{-- ✅ Flash message sukses --}}
+    {{-- ================= FLASH MESSAGE ================= --}}
     @if(session('success'))
         <div class="bg-green-100 text-green-800 p-3 rounded mb-4 text-sm">
             {{ session('success') }}
         </div>
     @endif
 
-    {{-- ❌ Error validasi --}}
     @if($errors->any())
         <div class="bg-red-100 text-red-800 p-3 rounded mb-4 text-sm">
             <ul class="list-disc list-inside">
@@ -33,7 +34,7 @@
         </div>
     @endif
 
-    {{-- ✅ Loop produk yang bisa diulas --}}
+    {{-- ================= LIST PRODUK YANG BISA DIULAS ================= --}}
     @forelse($produkList as $produk)
         @php
             $isFromStorage = \Illuminate\Support\Str::startsWith($produk->foto, 'produk/');
@@ -42,47 +43,75 @@
                 : 'images/' . $produk->foto;
         @endphp
 
-        <div class="bg-white text-black p-4 rounded-lg shadow-md mb-6">
-            <h2 class="text-[#69553E] font-bold text-sm mb-3 border-b pb-2 flex justify-between">
-                <span>Produk: {{ $produk->nama }}</span>
+        <div class="bg-white text-black p-4 rounded-lg shadow mb-6">
+
+            {{-- Header Produk --}}
+            <div class="flex justify-between items-center border-b pb-2 mb-3">
+                <h2 class="text-[#69553E] font-bold text-sm">
+                    Produk: {{ $produk->nama }}
+                </h2>
+
+                {{-- TANDA SUDAH DIULAS --}}
                 @if($produk->sudah_diulas)
-                    <span class="text-green-600 text-xs">✅ Sudah diulas</span>
-                @endif
-            </h2>
-
-            <div class="flex gap-4">
-                <img src="{{ asset($gambar) }}" class="w-20 h-20 object-cover rounded border" alt="Produk" onerror="this.src='{{ asset('images/produk.jpg') }}'">
-
-                {{-- Form hanya jika belum diulas --}}
-                @if(!$produk->sudah_diulas)
-                    <form action="{{ route('ulasan.store') }}" method="POST" class="w-full">
-                        @csrf
-                        <input type="hidden" name="id_produk" value="{{ $produk->id_produk }}">
-
-                        <div class="mb-3">
-                            <label for="komentar_{{ $produk->id_produk }}" class="text-sm font-semibold text-[#69553E]">Tulis Ulasan:</label>
-                            <textarea id="komentar_{{ $produk->id_produk }}" name="komentar" rows="3"
-                                      class="w-full mt-1 text-sm bg-gray-100 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]"
-                                      placeholder="Berikan ulasanmu di sini...">{{ old('komentar') }}</textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="rating_{{ $produk->id_produk }}" class="text-sm font-semibold text-[#69553E]">Rating (1–5):</label>
-                            <input type="number" id="rating_{{ $produk->id_produk }}" name="rating" min="1" max="5"
-                                   value="{{ old('rating') }}"
-                                   class="w-full mt-1 text-sm bg-gray-100 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]">
-                        </div>
-
-                        <div class="flex justify-end">
-                            <button type="submit"
-                                    class="bg-[#69553E] hover:bg-[#4d3f2c] text-white px-4 py-2 rounded text-sm">
-                                Kirim Ulasan
-                            </button>
-                        </div>
-                    </form>
+                    <span class="text-green-600 text-xs font-semibold">
+                        ✔ Sudah diulas
+                    </span>
                 @endif
             </div>
+
+            <div class="flex gap-4">
+
+                {{-- FOTO PRODUK --}}
+                <img src="{{ asset($gambar) }}"
+                     class="w-20 h-20 object-cover rounded border"
+                     alt="Produk"
+                     onerror="this.src='{{ asset('images/produk.jpg') }}';">
+
+                {{-- FORM ULASAN --}}
+                <div class="flex-1">
+                    @if(!$produk->sudah_diulas)
+                        <form action="{{ route('ulasan.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="id_produk" value="{{ $produk->id_produk }}">
+
+                            {{-- Komentar --}}
+                            <label class="text-sm font-semibold text-[#69553E]">
+                                Tulis Ulasan:
+                            </label>
+                            <textarea name="komentar" rows="3"
+                                class="w-full mt-1 text-sm bg-gray-100 border border-gray-300 rounded px-3 py-2
+                                       focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]"
+                                required></textarea>
+
+                            {{-- Rating --}}
+                            <div class="mt-3">
+                                <label class="text-sm font-semibold text-[#69553E]">
+                                    Rating (1–5):
+                                </label>
+                                <input type="number" name="rating" min="1" max="5"
+                                    class="w-full mt-1 text-sm bg-gray-100 border border-gray-300 rounded px-3 py-2
+                                           focus:outline-none focus:ring-[#69553E] focus:border-[#69553E]"
+                                    required>
+                            </div>
+
+                            {{-- Submit --}}
+                            <div class="flex justify-end mt-3">
+                                <button type="submit"
+                                    class="bg-[#69553E] hover:bg-[#4d3f2c] text-white px-4 py-2 rounded text-sm">
+                                    Kirim Ulasan
+                                </button>
+                            </div>
+                        </form>
+                    @else
+                        <p class="text-sm text-gray-600 italic mt-2">
+                            Kamu sudah memberi ulasan untuk produk ini.
+                        </p>
+                    @endif
+                </div>
+
+            </div>
         </div>
+
     @empty
         <div class="bg-yellow-100 text-yellow-800 p-3 rounded text-sm text-center">
             Belum ada produk yang bisa diulas.

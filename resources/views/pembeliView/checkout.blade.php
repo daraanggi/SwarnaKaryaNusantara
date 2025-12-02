@@ -115,16 +115,20 @@
             <div>
                 <label class="text-sm font-semibold text-gray-700">Opsi Pengiriman</label>
                 <select class="w-full border-gray-300 rounded-lg py-2 mt-1 shadow-sm text-sm focus:ring-brown-primary">
-                    <option>Hemat Cargo - Est. 2–5 Juni 2025</option>
+                    <option>Hemat Cargo</option>
+                    <option>JNT</option>
+                    <option>JNE</option>
                 </select>
             </div>
 
             <div>
                 <label class="text-sm font-semibold text-gray-700">Metode Pembayaran</label>
-                <select class="w-full border-gray-300 rounded-lg py-2 mt-1 shadow-sm text-sm focus:ring-brown-primary">
-                    <option>Transfer Bank</option>
-                </select>
-            </div>
+                <div class="w-full border border-gray-300 rounded-lg py-2 px-3 mt-1 shadow-sm text-sm bg-gray-50">
+                 Transfer ke Rekening <span class="font-semibold">Swarna Karya Nusantara</span> 
+                (1234567890)
+    </div>
+</div>
+
         </div>
     </div>
 

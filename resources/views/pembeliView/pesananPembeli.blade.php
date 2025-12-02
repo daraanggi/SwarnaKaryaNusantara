@@ -19,7 +19,6 @@
             </div>
         </div>
 
-        <!-- Spacer untuk menghindari header overlap -->
         <div class="h-20"></div>
 
         <!-- Daftar Pesanan -->
@@ -28,9 +27,7 @@
 
                 <!-- Info Transaksi -->
                 <div class="flex justify-between items-center mb-3">
-                    <p class="font-semibold text-lg">
-                        Invoice: {{ $pesanan->id_transaksi }}
-                    </p>
+                    <p class="font-semibold text-lg">Invoice: {{ $pesanan->id_transaksi }}</p>
                     <p class="text-sm">
                         Tanggal: {{ \Carbon\Carbon::parse($pesanan->tanggal_pesan)->format('d M Y') }}
                     </p>
@@ -56,23 +53,42 @@
                             <p class="font-semibold">{{ $detail->produk->nama ?? 'Produk tidak ada' }}</p>
                             <p class="text-sm">Jumlah: {{ $detail->jumlah }}</p>
                             <p class="text-sm font-semibold">
-                                Subtotal: Rp {{ number_format($detail->subtotal ?? ($detail->produk->harga * $detail->jumlah), 0, ',', '.') }}
+                                Subtotal: Rp {{ number_format(
+                                    $detail->subtotal ?? ($detail->produk->harga * $detail->jumlah),
+                                    0, ',', '.'
+                                ) }}
                             </p>
                         </div>
                     </div>
                 @endforeach
 
                 @php
-                    // Status otomatis berdasarkan tanggal_pembayaran
-                    $statusPesanan = $pesanan->tanggal_pembayaran ? 'Selesai' : 'Menunggu Pembayaran';
-                    $statusPembayaran = $pesanan->tanggal_pembayaran ? 'Sudah dibayar' : 'Belum dibayar';
-                @endphp
+    // SAMAKAN TEKS STATUS SESUAI DATABASE
+    $dbStatus = $pesanan->status_pesanan;
+
+    // STATUS PESANAN UNTUK DITAMPILKAN
+    $statusPesanan = match($dbStatus) {
+        'Menunggu Pembayaran' => 'Menunggu Pembayaran',
+        'dibayar'             => 'Pesanan Diproses',
+        'Dikirim'             => 'Pesanan Dikirim',
+        'Selesai'             => 'Pesanan Selesai',
+        default               => 'Menunggu Pembayaran'
+    };
+
+    // STATUS PEMBAYARAN
+    $statusPembayaran = match($dbStatus) {
+        'dibayar', 'Dikirim', 'Selesai' => 'Sudah dibayar',
+        default => 'Belum dibayar'
+    };
+@endphp
+
 
                 <!-- Total & Status -->
                 <div class="flex justify-between items-center mt-3">
                     <p class="font-semibold text-lg">
                         Total: Rp {{ number_format($pesanan->total_harga, 0, ',', '.') }}
                     </p>
+
                     <div class="flex gap-2">
                         <span class="bg-white text-[#82634B] px-3 py-1 rounded-lg text-sm font-semibold shadow">
                             Status: {{ $statusPesanan }}

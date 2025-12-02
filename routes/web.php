@@ -14,6 +14,7 @@ use App\Http\Controllers\Penjual\MessageController;
 use App\Http\Controllers\RiwayatPencarianController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 
 // ------------------------
 // Route utama / Login
@@ -125,5 +126,31 @@ Route::middleware('auth')->group(function () {
     Route::post('/search/store', [RiwayatPencarianController::class, 'store'])->name('search.store');
     Route::delete('/search/history/{id}', [RiwayatPencarianController::class, 'destroy'])->name('search.destroy');
 });
+
+
+// LIST pesanan menunggu pembayaran
+Route::get('/admin/konfirmasi', [AdminController::class, 'konfirmasiList'])
+    ->name('admin.transaksi.konfirmasiList');
+
+// DETAIL transaksi (HALAMAN PERIKSA)
+Route::get('/admin/konfirmasi/show/{id}', [AdminController::class, 'showKonfirmasi'])
+    ->name('admin.transaksi.konfirmasi.show');
+
+// KONFIRMASI (POST)
+Route::post('/admin/konfirmasi/{id}', [AdminController::class, 'konfirmasiPembayaran'])
+    ->name('admin.transaksi.konfirmasi.submit');
+
+// Penjual ubah status pesanan
+Route::post('/penjual/pesanan/{id}/kirim', [OrderController::class, 'pesananDikirim'])
+    ->name('penjual.pesanan.kirim');
+
+Route::post('/penjual/pesanan/{id}/selesai', [OrderController::class, 'pesananSelesai'])
+    ->name('penjual.pesanan.selesai');
+    // HALAMAN PESANAN PEMBELI
+Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan');
+
+// HALAMAN ULASAN PEMBELI
+Route::get('/ulasan', [PesananController::class, 'ulasan'])->name('ulasan');
+
 
 require __DIR__.'/auth.php';

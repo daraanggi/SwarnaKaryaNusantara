@@ -26,7 +26,6 @@
         <div class="flex-1 flex justify-center items-center relative group overflow-hidden rounded-3xl">
             <img src="{{ $imagePath }}" alt="{{ $produk->nama }}"
                  class="rounded-3xl object-cover w-full max-h-[500px] transform transition-transform duration-300 group-hover:scale-105 shadow-lg">
-            <span class="absolute top-4 left-4 bg-[#6B4F3B] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">10RB+ Terjual</span>
         </div>
 
         <!-- Detail Produk -->
@@ -37,14 +36,9 @@
                 <p class="text-3xl font-extrabold text-[#8B5E3C] bg-clip-text text-transparent bg-gradient-to-r from-[#6B4F3B] to-[#A67C52]">
                     Rp {{ number_format($produk->harga, 0, ',', '.') }}
                 </p>
-
-                <div class="space-y-1">
-                    <p class="font-semibold text-lg">Pengiriman</p>
-                    <p class="text-sm text-gray-600">Tiba Pada 31 Mei - 2 Juni 2025</p>
-                </div>
             </div>
 
-            <div class="flex flex-col gap-5 mt-4">
+            <div class="flex flex-col gap-3 mt-4">
 
                 <!-- Jumlah Produk -->
                 <div class="flex items-center gap-4">
