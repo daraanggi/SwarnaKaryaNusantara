@@ -6,17 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+    /**
+     * Run the migrations.
+     */
+    public function up()
     {
         Schema::table('produk', function (Blueprint $table) {
-            $table->softDeletes(); // ini otomatis buat kolom deleted_at
+            $table->softDeletes(); // membuat kolom deleted_at
         });
     }
 
-    public function down(): void
+    public function down()
     {
         Schema::table('produk', function (Blueprint $table) {
-            $table->dropSoftDeletes();
+            $table->dropColumn('deleted_at');
         });
     }
+
 };
