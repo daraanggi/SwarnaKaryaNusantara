@@ -50,9 +50,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/periksa', [AdminController::class, 'periksa'])->name('admin.periksa');
         Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
         Route::get('/pesanan/{id}', [AdminController::class, 'showPesanan'])->name('admin.detailPesanan');
-        Route::get('/pesanan/{id}', [AdminController::class, 'pesanan'])
-        ->name('admin.pesanan');
-
+        Route::get('/admin/pesanan/{id}', [AdminController::class, 'pesanan'])->name('admin.pesanan');
     });
 
     // ---------------- Alamat Pengguna ----------------
@@ -63,7 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::put('{id}', [AlamatUserController::class, 'update'])->name('alamat.update');
         Route::delete('{id}', [AlamatUserController::class, 'destroy'])->name('alamat.destroy');
         Route::post('set-utama/{id}', [AlamatUserController::class, 'setUtama'])->name('alamat.setUtama');
-        //Route::post('pilih/{id}', [AlamatUserController::class, 'pilih'])->name('alamat.pilih');
+        Route::post('pilih/{id}', [AlamatUserController::class, 'pilih'])->name('alamat.pilih');
         Route::get('pilih/{id}', [AlamatUserController::class, 'pilih'])->name('alamat.pilih');
 
     });
