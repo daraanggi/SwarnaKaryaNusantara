@@ -1,4 +1,6 @@
 <?php
+use App\Models\User; // <-- wajib ditambahkan
+use App\Models\Penjual; // <-- wajib ditambahkan
 
 return [
 
@@ -40,6 +42,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'penjual' => [          // <-- ini yang baru ditambah
+            'driver' => 'session',
+            'provider' => 'penjual', // hubungkan dengan provider penjual
+        ],
     ],
 
     /*
@@ -65,10 +72,10 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'penjual' => [          // <-- ini yang baru ditambah
+            'driver' => 'eloquent',
+            'model' => App\Models\Penjual::class, // sesuaikan dengan model Penjual kamu
+        ],
     ],
 
     /*

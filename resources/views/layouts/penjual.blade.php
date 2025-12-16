@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Aplikasi')</title>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- CSS Build (untuk ngrok & hosting) -->
     <link rel="stylesheet" href="/build/assets/app-DrJG-IPP.css"> 
 
@@ -17,7 +19,6 @@
         body {
             font-family: 'Poppins', sans-serif;
         }
-
         .product-image {
         width: 100%;
         height: auto;
