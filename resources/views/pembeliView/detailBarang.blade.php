@@ -59,7 +59,6 @@
 
                 <!-- Tombol -->
                 <div class="flex gap-4 flex-wrap">
-
                     <!-- Tambah ke Keranjang -->
                     <button id="addToCart"
                             class="flex items-center gap-2 px-6 py-3 bg-[#6B4F3B] text-white font-semibold rounded-2xl shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300">
@@ -79,15 +78,18 @@
                                 'jumlah' => 1
                             ];
                         @endphp
-
                         <input type="hidden" id="itemsInput" name="items" value='@json([$produkItem])'>
-
                         <button type="submit"
                                 class="px-6 py-3 bg-[#6B4F3B] text-white font-semibold rounded-2xl shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300">
                             Beli Sekarang
                         </button>
                     </form>
 
+                    <!-- Tanya Penjual -->
+                    <a href="{{ route('chat.show', $produk->id_produk) }}"
+                    class="px-6 py-3 bg-[#6B4F3B] text-white font-semibold rounded-2xl shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 flex items-center gap-2 justify-center">
+                    <i class="bi bi-chat-dots"></i> Tanya Penjual
+                    </a>
                 </div>
             </div>
         </div>

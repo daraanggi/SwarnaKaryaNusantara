@@ -33,7 +33,9 @@
                                 autofocus
                                 autocomplete="username"
                             />
-                            <x-input-error :messages="$errors->get('email')" class="mt-2 text-sm text-red-200" />
+                            <x-input-error
+                                :messages="$errors->get('email')"
+                                class="mt-2 text-sm"/>                        
                         </div>
 
                         <!-- Password -->

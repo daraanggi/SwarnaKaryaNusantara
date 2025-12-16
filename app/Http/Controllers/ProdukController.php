@@ -14,10 +14,13 @@ class ProdukController extends Controller
     // HomePage untuk pembeli
    public function index(Request $request)
     {
-        $query = Produk::where('status', 'disetujui'); // filter produk disetujui
+        $query = Produk::where('status', 'disetujui');
 
         if ($request->has('search') && $request->search != '') {
-            $query->where('nama', 'like', '%' . $request->search . '%');
+            $query->where(function($q) use ($request) {
+                $q->where('nama', 'like', '%' . $request->search . '%')
+                ->orWhere('kategori', 'like', '%' . $request->search . '%');
+            });
 
             if (Auth::check()) {
                 RiwayatPencarian::create([

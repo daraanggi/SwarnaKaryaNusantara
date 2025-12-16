@@ -15,6 +15,7 @@ use App\Http\Controllers\RiwayatPencarianController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ChatController;
 
 // ------------------------
 // Route utama / Login
@@ -114,18 +115,24 @@ Route::middleware('auth')->group(function () {
     Route::post('/produk/{id}/tambah-stok', [ProdukController::class, 'tambahStok'])->name('produk.tambahStok');
     Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 
-    // ---------------- Pesan penjual ----------------
-    Route::prefix('penjual')->name('penjual.')->group(function () {
-        Route::get('/messages/{id}/thread', [MessageController::class, 'thread'])->name('messages.thread');
-        Route::post('/messages/{id}/reply', [MessageController::class, 'reply'])->name('messages.reply');
-        Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
-    });
-
     // ---------------- Riwayat Pencarian ----------------
     Route::get('/search/history', [RiwayatPencarianController::class, 'index'])->name('search.history');
     Route::post('/search/store', [RiwayatPencarianController::class, 'store'])->name('search.store');
     Route::delete('/search/history/{id}', [RiwayatPencarianController::class, 'destroy'])->name('search.destroy');
-});
+    });
+
+    // ---------------- Pesan Pembeli ----------------
+    Route::middleware('auth')->group(function() {
+    Route::get('/chat/{produkId}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/send', [ChatController::class, 'send'])->name('chat.send');
+    });
+
+
+    // ---------------- Pesan Penjual ----------------
+    Route::prefix('penjual')->name('penjual.')->middleware('auth:penjual')->group(function() {
+    Route::get('/messages/thread/{id}', [ChatController::class, 'thread'])->name('messages.thread');
+    Route::post('/messages/reply/{id}', [ChatController::class, 'reply'])->name('messages.reply');
+    });
 
 
 // LIST pesanan menunggu pembayaran

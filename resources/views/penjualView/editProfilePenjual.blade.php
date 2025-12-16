@@ -127,41 +127,26 @@
                 <!-- Left: list pesan (scrollable jika banyak) -->
                 <div class="md:w-1/2">
                     <div id="messagesList" class="space-y-3 max-h-96 overflow-auto pr-2">
-                        @php
-                            $dummyMessages = [
-                                (object)['id' => 1, 'sender_name' => 'Anomali', 'excerpt' => 'Apakah pesanan untuk luar kota aman? dan bagaimana packingnya? Saya ingin memastikan barang aman sampai.', 'time' => '18:37', 'avatar_url' => null],
-                                (object)['id' => 2, 'sender_name' => 'Budi', 'excerpt' => 'Saya ingin menanyakan produk ukuran lebih besar tersedia atau tidak. Mohon info stok.', 'time' => '15:09', 'avatar_url' => null],
-                                (object)['id' => null, 'sender_name' => 'Susi', 'excerpt' => 'halo, apakah saya bisa bertanya?', 'time' => '15:07', 'avatar_url' => null],
-                            ];
-                            $msgs = $messages ?? $dummyMessages;
-                        @endphp
 
-                        @foreach($msgs as $msg)
-                        <div class="message-item" data-message-id="{{ $msg->id ?? '' }}" data-fulltext="{{ htmlspecialchars($msg->body ?? $msg->excerpt, ENT_QUOTES) }}">
+                        @foreach($messages as $msg)
+                        <div class="message-item" data-message-id="{{ $msg->id }}" data-fulltext="{{ htmlspecialchars($msg->message, ENT_QUOTES) }}">
                             <div class="flex items-start gap-3">
                                 <div class="w-12 h-12 rounded-full bg-white border flex items-center justify-center overflow-hidden flex-shrink-0">
-                                    @if(!empty($msg->avatar_url))
-                                        <img src="{{ $msg->avatar_url }}" alt="avatar" class="w-full h-full object-cover">
-                                    @else
-                                        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 14c1.657 0 3-1.343 3-3S17.657 8 16 8s-3 1.343-3 3 1.343 3 3 3zM6 20v-1a4 4 0 014-4h4a4 4 0 014 4v1" />
-                                        </svg>
-                                    @endif
+                                    <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 14c1.657 0 3-1.343 3-3S17.657 8 16 8s-3 1.343-3 3 1.343 3 3 3zM6 20v-1a4 4 0 014-4h4a4 4 0 014 4v1" />
+                                    </svg>
                                 </div>
                                 <div class="flex-1">
-                                    <div class="flex items-center justify-between">
-                                        <div class="font-semibold text-[#69553E]">{{ $msg->sender_name ?? 'Pengguna' }}</div>
-                                        <div class="text-xs text-gray-500">{{ $msg->time ?? '' }}</div>
-                                    </div>
-                                    <!-- full message (tidak truncate) -->
-                                    <div class="text-sm text-gray-600 mt-1">{{ $msg->excerpt }}</div>
+                                <div class="flex items-center justify-between">
+                                    <div class="font-semibold text-[#69553E]">{{ $msg->sender_name }}</div>
+                                    <div class="text-xs text-gray-500">{{ $msg->time }}</div>
                                 </div>
+                                <div class="text-sm text-gray-600 mt-1">{{ Str::limit($msg->message, 60) }}</div>
+                            </div>
                             </div>
                         </div>
-                        @endforeach
-                    </div>
-                </div>
-
+                    @endforeach
+                    
                 <!-- Right: panel percakapan (awalnya kosong/hint) -->
                 <div class="md:w-1/2 mt-4 md:mt-0">
                     <div id="threadPanel" class="border rounded-lg p-3 bg-white min-h-[200px] hidden">
@@ -174,7 +159,8 @@
                             <!-- messages akan diisi via JS -->
                         </div>
 
-                        <!-<div id="replyBox" class="mt-2">
+                        <!-- Reply box -->
+                        <div id="replyBox" class="mt-2">
                             <textarea id="replyText" rows="4" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Tulis balasan..."></textarea>
                             <div class="flex justify-end gap-2 mt-2">
                                 <button id="replyCancel" type="button" class="inline-block text-sm px-3 py-1 border rounded">Batal</button>
@@ -322,50 +308,65 @@
     });
 
     replySend?.addEventListener('click', async () => {
-        const text = replyText.value.trim();
-        if (!text) {
-            replyStatus.textContent = 'Pesan kosong.';
-            replyStatus.classList.remove('hidden');
-            return;
-        }
-        if (!activeMessageId) {
-            // dummy message: no id -> attempt but warn user
-            replyStatus.textContent = 'Tidak dapat mengirim: pesan tidak terdaftar di server.';
-            replyStatus.classList.remove('hidden');
-            return;
-        }
-
-        replyStatus.textContent = 'Mengirim...';
+    const text = replyText.value.trim();
+    if (!text) {
+        replyStatus.textContent = 'Pesan kosong.';
         replyStatus.classList.remove('hidden');
+        return;
+    }
+    if (!activeMessageId) {
+        replyStatus.textContent = 'Tidak dapat mengirim: pesan tidak terdaftar.';
+        replyStatus.classList.remove('hidden');
+        return;
+    }
 
-        try {
-            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}';
-            const replyUrl = "{{ route('penjual.messages.reply', ['id' => '__ID__']) }}".replace('__ID__', activeMessageId);
-            const res = await fetch(replyUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': token,
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({ reply: text })
-            });
-            if (!res.ok) throw new Error('response not ok');
-            const data = await res.json();
-            // tampilkan balasan pada panel
-            const el = document.createElement('div');
-            el.className = 'p-3 bg-[#69553E] text-white rounded text-sm';
-            el.innerHTML = `<div class="text-xs text-gray-200 mb-1">${escapeHtml(data.time || 'Baru saja')}</div><div>${escapeHtml(text)}</div>`;
-            threadMessages.appendChild(el);
-            threadMessages.scrollTop = threadMessages.scrollHeight;
-            replyText.value = '';
-            replyStatus.textContent = data.message || 'Berhasil dikirim.';
-            setTimeout(() => replyStatus.classList.add('hidden'), 2500);
-        } catch (err) {
-            console.error(err);
-            replyStatus.textContent = 'Gagal mengirim. Coba lagi.';
+    replyStatus.textContent = 'Mengirim...';
+    replyStatus.classList.
+    remove('hidden');
+
+    try {
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const replyUrl = "{{ route('penjual.messages.reply', ['id' => '__ID__']) }}".replace('__ID__', activeMessageId);
+
+        const res = await fetch(replyUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ 
+            reply: text,
+            produk_id: {{ $messages->first()->produk_id ?? 'null' }}
+            })     
+        });
+
+        if (!res.ok) {
+            const errorText = await res.text();
+            console.error(errorText);
+            replyStatus.textContent = 'Gagal mengirim. Cek console.';
             replyStatus.classList.remove('hidden');
+            return;
         }
-    });
+
+        const data = await res.json();
+
+        // Tambahkan ke thread panel
+        const el = document.createElement('div');
+        el.className = 'p-3 bg-[#69553E] text-white rounded text-sm';
+        el.innerHTML = `<div class="text-xs text-gray-200 mb-1">${data.time}</div><div>${text}</div>`;
+        threadMessages.appendChild(el);
+        threadMessages.scrollTop = threadMessages.scrollHeight;
+
+        replyText.value = '';
+        replyStatus.textContent = data.message;
+        setTimeout(() => replyStatus.classList.add('hidden'), 2000);
+
+    } catch (err) {
+        console.error(err);
+        replyStatus.textContent = 'Gagal mengirim. Coba lagi.';
+        replyStatus.classList.remove('hidden');
+    }
+});
 </script>
 @endsection

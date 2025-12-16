@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
+
 
 class PenjualProfileController extends Controller
 {
@@ -14,9 +16,23 @@ class PenjualProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('penjualView.editProfilePenjual', [
-            'user' => $request->user(),
-        ]);
+        $user = $request->user();
+        $messages = Chat::with('sender')
+                ->where('sender_id', $user->id)
+                ->orWhere('receiver_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->map(function ($chat) {
+                    $chat->sender_name = $chat->sender_id == auth()->id() 
+                        ? 'Anda' 
+                        : ($chat->sender->name ?? 'Pengguna');
+                    $chat->excerpt = substr($chat->message, 0, 50);
+                    $chat->time = $chat->created_at->format('H:i');
+                    $chat->avatar_url = null;
+                    return $chat;
+                });
+
+        return view('penjualView.editProfilePenjual', compact('user', 'messages'));
     }
 
     /**

@@ -17,9 +17,14 @@
     $items = $items ?? [];
     $totalBarang = 0;
 
-    $alamatUtama = \App\Models\AlamatUser::where('is_utama', true)->first();
+    $userId = auth()->id(); // Ambil ID user yang sedang login
+
+    $alamatUtama = \App\Models\AlamatUser::where('user_id', $userId)
+                    ->where('is_utama', true)
+                    ->first();
+
     $alamatDipakai = session('alamat_checkout')
-        ? \App\Models\AlamatUser::find(session('alamat_checkout'))
+        ? \App\Models\AlamatUser::where('user_id', $userId)->find(session('alamat_checkout'))
         : $alamatUtama;
 
     $defaultLat = -7.706113;
@@ -178,17 +183,22 @@
     </div>
 
     {{-- BUTTON --}}
-    <form id="checkoutForm" method="POST" action="{{ route('transaksi.store') }}">
-        @csrf
-
-        <input type="hidden" name="items" value='@json($items)'>
-        <input type="hidden" name="total" value="{{ $totalAkhir }}">
-        <input type="hidden" name="id_alamat" value="{{ $alamatDipakai->id }}">
-
-        <button type="submit" class="w-full bg-[#6B4F3B] hover:bg-[#5A4230] text-white py-3 rounded-lg font-semibold shadow-md">
-            Buat Pesanan
-        </button>
-    </form>
+    @if($alamatDipakai)
+        <form id="checkoutForm" method="POST" action="{{ route('transaksi.store') }}">
+            @csrf
+            <input type="hidden" name="items" value='@json($items)'>
+            <input type="hidden" name="total" value="{{ $totalAkhir }}">
+            <input type="hidden" name="id_alamat" value="{{ $alamatDipakai->id }}">
+            <button type="submit" class="w-full bg-[#6B4F3B] hover:bg-[#5A4230] text-white py-3 rounded-lg font-semibold shadow-md">
+                Buat Pesanan
+            </button>
+        </form>
+    @else
+        <a href="{{ route('alamat.index') }}"
+        class="w-full block text-center bg-yellow-500 text-white py-3 rounded-lg font-semibold shadow-md">
+        Tambah Alamat Terlebih Dahulu
+        </a>
+    @endif
 </div>
 
 {{-- MAP SCRIPT --}}
